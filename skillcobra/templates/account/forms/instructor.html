@@ -1,0 +1,40 @@
+{% load static widget_tweaks %}
+<!--  -->
+
+
+<form id="instructorForm" action="{% url 'users:register' %}" method="post">
+  <p class="error_field"></p>
+  {% csrf_token %}
+  {{ form.role|attr:"value:instructor" }}
+  <div class="ui search focus mt-15">
+    <div class="ui left icon input swdh11 swdh19">{{form.email}}</div>
+  </div>
+  <div class="ui search focus mt-15">
+    <div class="ui left icon input swdh11 swdh19">{{form.password1}}</div>
+  </div>
+  <div class="ui search focus mt-15">
+    <div class="ui left icon input swdh11 swdh19">{{form.password2}}</div>
+  </div>
+  <div class="ui form mt-30 checkbox_sign">
+    <div class="inline field">
+      <div class="ui checkbox mncheck">
+        <input
+          title="agree"
+          name="agree"
+          type="checkbox"
+          tabindex="0"
+          class="hidden"
+        />
+        <label
+          >I’m in for emails with exciting discounts and personalized
+          recommendations</label
+        >
+      </div>
+    </div>
+  </div>
+  <!-- Submit Button with Spinner -->
+  <button class="login-btn" type="submit">
+    <span class="spinner" style="display: none;"></span>  <!-- Spinner initially hidden -->
+    Instructor Sign Up Now
+  </button>
+</form>

@@ -1,0 +1,107 @@
+{% extends 'account/base.html' %} {% load static %}
+<!--  -->
+
+{% block form %}
+
+<div class="sign_form" style="margin-top: 8rem;">
+  <h2>Welcome Back</h2>
+  <p>Log In to Your skillcobra Account!</p>
+
+  <form id="loginForm" method="post" action="{% url 'users:login' %}">
+    <p class="error_field"></p>
+    {% csrf_token %}
+    <div class="ui search focus mt-15">
+      <div class="ui left icon input swdh95">
+       {{form.email}}
+        <i class="uil uil-envelope icon icon2"></i>
+      </div>
+    </div>
+    <div class="ui search focus mt-15">
+      <div class="ui left icon input swdh95">
+       {{form.password}}
+        <i class="uil uil-key-skeleton-alt icon icon2"></i>
+      </div>
+    </div>
+    <div class="ui form mt-30 checkbox_sign">
+      <div
+        class="inline field d-flex align-items-center justify-content-between"
+      >
+        <div class="ui checkbox mncheck">
+          <input title="name" type="checkbox" tabindex="0" class="hidden" />
+          <label>Remember Me</label>
+        </div>
+        <div class="ui">
+          <p class="">
+            <a href="{% url 'users:req_password_reset_view' %}">Forgot Password</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+      <button class="login-btn" type="submit">
+    <span class="spinner" style="display: none;"></span>  <!-- Spinner initially hidden -->
+    Student Sign Up Now
+  </button>
+  </form>
+  <p class="mb-0 mt-30 hvsng145">
+    <hr />
+    Don't have an account? <a href="{% url 'users:register' %}">Sign Up</a>
+  </p>
+</div>
+
+{% endblock form %}
+
+
+<!--  -->
+
+{% block scripts %}
+
+<script>
+  $(document).ready(function(){
+    $("#loginForm").submit(function(event){
+      event.preventDefault();
+
+      var form = $(this);
+      
+      var email = $("#id_email").val();
+      var password = $("#id_password").val();
+
+
+        // Show the spinner and disable the button
+        let submitButton = form.find("button[type='submit']");
+        let spinner = submitButton.find(".spinner");
+        submitButton.prop("disabled", true); // Disable the button to prevent multiple submissions
+        spinner.show(); // Show the spinner
+
+        let errorField = form.find(".error_field");
+
+      $.ajax({
+        url: $(this).attr("action"),
+        type: 'POST',
+        data: {
+          'email': email,
+          'password': password
+        },
+        success: function(response){
+          submitButton.html("success. Redirecting ...")
+          setTimeout(()=>{
+            window.location.href = response.url;
+          }, 2000)
+        },
+        error: function(xhr, status, error){
+          try {
+            let response = JSON.parse(xhr.responseText);
+            errorField.html(response.detail);
+          } catch (e) {
+            errorField.html("An unknown error occurred. Please try again.");
+          }
+        },
+        complete: function(){
+          submitButton.prop("disabled", false); // Enable the button after the request completes
+          spinner.hide(); // Hide the spinner
+        }
+      })
+    })
+  })
+</script>
+
+{% endblock scripts %}

@@ -1,0 +1,126 @@
+{% extends 'account/base.html' %} {% load static %}
+<!--  -->
+
+{% block form %}
+
+<div class="sign_form basic_form" style="margin-top: 8rem;">
+  <div class="main-tabs">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a
+          href="#instructor-signup-tab"
+          id="instructor-tab"
+          class="nav-link active"
+          data-bs-toggle="tab"
+          >Instructor Sign Up</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="#student-signup-tab"
+          id="student-tab"
+          class="nav-link"
+          data-bs-toggle="tab"
+          >Student Sign Up</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content" id="myTabContent">
+    <!--  -->
+    <div
+      class="tab-pane fade show active"
+      id="instructor-signup-tab"
+      role="tabpanel"
+      aria-labelledby="instructor-tab"
+    >
+      {% include 'account/forms/instructor.html' %}
+    </div>
+    <!--  -->
+    <div
+      class="tab-pane fade"
+      id="student-signup-tab"
+      role="tabpanel"
+      aria-labelledby="student-tab"
+    >
+
+      {% include 'account/forms/students.html' %}
+    </div>
+    {% include 'account/forms/notify.html' %}
+  </div>
+  <p class="mb-0 mt-30">
+    Already have an account? <a href="{% url 'users:login' %}">Log In</a>
+  </p>
+</div>
+{% endblock form %} {% block scripts %}
+
+<script>
+  $(document).ready(function () {
+    // Iterate over each form
+    $("#instructorForm, #studentForm").each(function () {
+      $(this).submit(function (event) {
+        event.preventDefault(); // Prevent form from submitting normally
+        let form = $(this); // Current form element
+
+        let errorField = form.find(".error_field");
+
+        // Get the values of password1 and password2 fields
+        let password1 = form.find("input[name='password1']").val();
+        let password2 = form.find("input[name='password2']").val();
+
+        // Validate password length and equality
+        if (password1.length < 8) {
+          errorField.html("Password must be at least 8 characters long.");
+          return; // Stop the form submission
+        }
+
+        if (password1 !== password2) {
+          errorField.html("Passwords do not match.");
+          return; // Stop the form submission
+        }
+
+        let data = form.serialize(); // Serialize form data
+
+        // Show the spinner and disable the button
+        let submitButton = form.find("button[type='submit']");
+        let spinner = submitButton.find(".spinner");
+        submitButton.prop("disabled", true); // Disable the button to prevent multiple submissions
+        spinner.show(); // Show the spinner
+
+        errorField.html();
+
+        $.ajax({
+          url: form.attr("action"), // Form action URL
+          type: "POST", // Request type
+          data: data, // Serialized form data
+          headers: {
+            "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(), // CSRF token
+          },
+          success: function (response) {
+            submitButton.html("success. Redirecting ...");
+            setTimeout(() => {
+              window.location.href = response.url;
+            }, 2000);
+          },
+          error: function (xhr, status, error) {
+            try {
+              let response = JSON.parse(xhr.responseText);
+              errorField.html("Error: " + response.detail);
+            } catch (e) {
+              errorField.html("An unknown error occurred. Please try again.");
+            }
+          },
+          complete: function () {
+            // Handle completion (whether success or error)
+            console.log("Request Complete");
+            // Show the spinner and disable the button
+            submitButton.prop("disabled", false); // Disable the button to prevent multiple submissions
+            spinner.hide(); // Show the spinner
+          },
+        });
+      });
+    });
+  });
+</script>
+
+{% endblock scripts %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+<!-- Signup Start -->
+{% load static %}
+
+<!--  -->
+
+{% block styles %}
+<style>
+  /* Button Styles */
+.login-btn {
+  position: relative;  /* Position relative for absolute positioning of spinner */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.login-btn:disabled {
+  background-color: #ccc;  /* Disable color */
+  cursor: not-allowed;
+}
+
+/* Spinner Styles */
+.spinner {
+  border: 3px solid #f3f3f3;  /* Light gray color */
+  border-top: 3px solid #3498db;  /* Blue color */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -10px;  /* Center the spinner */
+  margin-top: -10px;
+}
+
+/* Animation for spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+  
+{% endblock styles %}
+  
+<!-- load static -->
+
+<!--  -->
+
+{% block body %}
+<div class="sign_in_up_bg">
+  <div class="container">
+    <div class="row justify-content-lg-center justify-content-md-center">
+      <div class="col-lg-6 col-md-8">
+        {% block form %} {% endblock form %}
+        <div class="sign_footer">
+          <img src="{% static 'images/sign_logo.png' %}" alt="" />© 2024
+          <strong>skillcobra</strong>. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
+
+<!--  -->
+
+
