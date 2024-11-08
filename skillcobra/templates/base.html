@@ -18,10 +18,7 @@
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
 
-    <!-- Stylesheets -->
-
     {% block cssBlock %}
-
     <link
       href="{% static 'css/css' %}?family=Roboto:400,700,500"
       rel="stylesheet"
@@ -36,6 +33,7 @@
       rel="stylesheet"
     />
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
     <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
     <link href="{% static 'css/night-mode.css' %}" rel="stylesheet" />
 
@@ -138,5 +136,20 @@
     <!-- block scripts -->
 
     {% block scripts %} {% endblock scripts %}
+
+<script>
+  $(document).ready(function(){
+    $(".signout-btn").each(function(){
+      $(this).on("click", () => {
+        if (confirm("Are you sure you want to sign out?")) {
+          window.location.href = "/accounts/logout/";
+        }
+      });
+    })
+  })
+
+</script>
+
+
   </body>
 </html>

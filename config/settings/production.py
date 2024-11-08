@@ -14,6 +14,7 @@ from .base import SPECTACULAR_SETTINGS
 from .base import env
 from .logs import PROD_LOGGING
 
+DEBUG=True
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key

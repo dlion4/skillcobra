@@ -1,0 +1,86 @@
+{% extends "students/base.html" %}
+<!--  -->
+
+{% block title %} {{ block.super }} Certification {% endblock title %}
+
+<!--  -->
+{% load static %}
+<!--  -->
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="mt-10">
+      <div class="card_dash1">
+        <div class="card_dash_left1">
+          <i class="uil uil-award" style="transform: translateY(-10px);"></i>
+          <h1>Jump Into New Certificate</h1>
+        </div>
+        <div class="card_dash_right1">
+          <button title="certificate" class="create_btn_dash"></button>
+        </div>
+      </div>
+      <div class="table-cerificate">
+        <div class="table-responsive">
+          <table class="table ucp-table" id="content-table">
+            <thead class="thead-s">
+              <tr>
+                <th scope="col">Item No.</th>
+                <th scope="col">Title</th>
+                <th scope="col">Marks</th>
+                <th scope="col">Out Of</th>
+                <th scope="col">Upload Date</th>
+                <th scope="col">Certificate</th>
+                <th scope="col">Controls</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1</td>
+                <td class="cell-ta">WordPress Certificate</td>
+                <td class="text-center">15</td>
+                <td class="text-center">20</td>
+                <td class="text-center">6 April 2019</td>
+                <td class="text-center">
+                  <a role="button" target="_blank">View</a>
+                </td>
+                <td class="text-center">
+                  <a href="#" title="Delete" class="gray-s"
+                    ><i class="uil uil-trash-alt"></i
+                  ></a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">2</td>
+                <td class="cell-ta">WordPress Pro Certificate</td>
+                <td class="text-center">14</td>
+                <td class="text-center">20</td>
+                <td class="text-center">4 April 2019</td>
+                <td class="text-center"><a role="button">View</a></td>
+                <td class="text-center">
+                  <a href="#" title="Delete" class="gray-s"
+                    ><i class="uil uil-trash-alt"></i
+                  ></a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-center">3</td>
+                <td class="cell-ta">HTML CSS Certificate</td>
+                <td class="text-center">18</td>
+                <td class="text-center">20</td>
+                <td class="text-center">3 April 2019</td>
+                <td class="text-center"><a role="button">View</a></td>
+                <td class="text-center">
+                  <a href="#" title="Delete" class="gray-s"
+                    ><i class="uil uil-trash-alt"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+<!--  -->

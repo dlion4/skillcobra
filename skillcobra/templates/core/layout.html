@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+<!--  -->
+{% block title %} {{ block.super }} {% endblock title %}
+
+<!--  -->
+
+{% block body %}
+
+<!-- header -->
+{% block header %}
+<!--  -->
+{% include 'core/components/header.html' %}
+<!--  -->
+{% endblock header %}
+
+<!-- /header -->
+
+<!-- main content -->
+
+{% block wrapper %}
+<div
+  class="wrapper {% block wrapperCss %} _bg4586 _new89 {% endblock wrapperCss %}"
+>
+  {% block main %} {% block nav %}
+  <div class="_215cd2">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="course_tabs">
+            <nav>
+              <div class="nav nav-tabs tab_crse justify-content-center">
+                <a
+                  class="nav-item nav-link {% if request.resolver_match.view_name == 'about' %}active{% endif %}"
+                  href="{% url 'about' %}"
+                  >About</a
+                >
+                <a class="nav-item nav-link" href="#">Blog</a>
+                <a class="nav-item nav-link {% if request.resolver_match.view_name == 'company' %}active{% endif %}" href="{% url 'company' %}">Company</a>
+                <a
+                  class="nav-item nav-link {% if request.resolver_match.view_name == 'career' %}active{% endif %}"
+                  href="{% url 'career' %}"
+                  >Careers</a
+                >
+                <a
+                  class="nav-item nav-link {% if request.resolver_match.view_name == 'press' %}active{% endif %}"
+                  href="{% url 'press' %}"
+                  >Press</a
+                >
+              </div>
+            </nav>
+          </div>
+          <div class="title129 mt-35 mb-35">
+            <h2>
+              {% block slogan %}
+              <!--  -->
+              Improving Lives Through Learning
+              <!--  -->
+              {% endblock slogan %}
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock nav %}
+  <!--  -->
+  {% block content %} {% endblock content %}
+  <!--  -->
+  {% endblock main %}
+
+  <!-- footer -->
+  {% block footer %}
+  <!--  -->
+  {% include 'components/footer/main.html' %}
+  <!--  -->
+  {% endblock footer %}
+
+  <!-- /footer -->
+</div>
+{% endblock wrapper %}
+
+<!-- /main content -->
+
+{% endblock body %}

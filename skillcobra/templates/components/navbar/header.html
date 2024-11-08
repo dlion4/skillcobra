@@ -9,7 +9,9 @@
     <span class="collapse_menu--label"></span>
   </button>
   <div class="main_logo" id="logo">
-    <a href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="" /></a>
+    <a href="{% url 'home' %}"
+      ><img src="{% static 'images/logo.svg' %}" alt=""
+    /></a>
     <a href="{% url 'home' %}"
       ><img class="logo-inverse" src="{% static 'images/ct_logo.svg' %}" alt=""
     /></a>
@@ -29,17 +31,9 @@
   <div class="header_right">
     <ul>
       <li>
-        <a
-          href="create_new_course.html"
-          class="upload_btn"
-          title="Create New Course"
-          >Create New Course</a
-        >
-      </li>
-      <li>
         <a href="shopping_cart.html" class="option_links" title="cart"
           ><i class="uil uil-shopping-cart-alt"></i
-          ><span class="noti_count">2</span></a
+          ><span class="noti_count">0</span></a
         >
       </li>
       <li class="dropdown-msg">
@@ -159,7 +153,7 @@
               <img src="{% static 'images/hd_dp.jpg' %}" alt="" />
               <div class="pd_content">
                 <div class="rhte85">
-                  <h6>Joginder Singh</h6>
+                  <h6>John Singh</h6>
                   <div class="mef78" title="Verify">
                     <i class="uil uil-check-circle"></i>
                   </div>
@@ -167,9 +161,6 @@
                 <span>{{request.user.email}}</span>
               </div>
             </div>
-            <a href="my_instructor_profile_view.html" class="dp_link_12"
-              >View Instructor Profile</a
-            >
           </div>
           <div class="night_mode_switch__btn">
             <a href="#" id="night-mode" class="btn-night-mode">
@@ -179,18 +170,22 @@
               </span>
             </a>
           </div>
-          <a href="instructor_dashboard.html" class="item channel_item"
-            >SkillCobra dashboard</a
+          <a
+            href="{% if request.user.role == 'student' %}{% url 'students:dashboard' %}{% else %}#{% endif %}"
+            class="item channel_item"
           >
-          <a href="membership.html" class="item channel_item"
-            >Paid Memberships</a
-          >
+            Dashboard
+          </a>
+          <a href="membership.html" class="item channel_item">Memberships</a>
           <a href="setting.html" class="item channel_item">Setting</a>
-          <a href="help.html" class="item channel_item">Help</a>
-          <a href="feedback.html" class="item channel_item">Send Feedback</a>
-          <a href="sign_in.html" class="item channel_item">Sign Out</a>
+          <a href="{% url 'help' %}" class="item channel_item">Help</a>
+          <a href="{% url 'feedback' %}" class="item channel_item"
+            >Send Feedback</a
+          >
+          <a role="button" class="item channel_item signout-btn">Sign Out</a>
         </div>
       </li>
     </ul>
   </div>
 </header>
+

@@ -13,6 +13,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path("", include("skillcobra.core.urls")),
+    path("student/", include("roles.students.urls", namespace="students")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

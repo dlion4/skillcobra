@@ -1,0 +1,112 @@
+{% extends "core/layout.html" %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block title %} {{ block.super }} About {% endblock title %}
+<!--  -->
+
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+
+<!--  -->
+{% block content %}
+
+<!--  -->
+{% block nav %}{% endblock nav %}
+<!--  -->
+
+<div class="contact1256">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'help' %}" class="contact_link_step">
+          <img src="{% static 'images/help_icon.svg' %}" alt="" />
+          <h4>Help Center</h4>
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <a href="#" class="contact_link_step">
+          <img src="{% static 'images/blog_icon.svg' %}" alt="" />
+          <h4>Blog</h4>
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <a href="{% url 'career' %}" class="contact_link_step">
+          <img src="{% static 'images/career_icon.svg' %}" alt="" />
+          <h4>Careers</h4>
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <a href="coming_soon.html" class="contact_link_step">
+          <img src="{% static 'images/developer_icon.svg' %}" alt="" />
+          <h4>Developer Area</h4>
+        </a>
+      </div>
+      <div class="col-lg-8">
+        <div class="contact_map">
+          <div id="map"></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="contact_info">
+          <div class="checkout_title">
+            <h4>Contact Information</h4>
+            <img src="{% static 'images/line.svg' %}" alt="" />
+          </div>
+          <ul class="contact_list_info">
+            <li>
+              <div class="txt_cntct">
+                <span class="cntct_895"
+                  ><i class="uil uil-location-point"></i>Main Address :</span
+                >
+                <p>
+                  #1235 Sks Nagar St No. 8 Phase 3, Pakhowal Road, 141001, LDH,
+                  Punjab, India
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="txt_cntct">
+                <span class="cntct_895"
+                  ><i class="uil uil-envelope"></i>Email Address :</span
+                >
+                <p>info@skillcobra.tech</p>
+              </div>
+            </li>
+            <li>
+              <div class="txt_cntct">
+                <span class="cntct_895"
+                  ><i class="uil uil-mobile-android-alt"></i>Phone Number
+                  :</span
+                >
+                <p>+911234567890, 01610000000</p>
+              </div>
+            </li>
+          </ul>
+          <div class="edututs_links_social">
+            <ul class="tutor_social_links">
+              <li>
+                <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
+              </li>
+              <li>
+                <a href="#" class="tw"><i class="fab fa-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a>
+              </li>
+              <li>
+                <a href="#" class="yu"><i class="fab fa-youtube"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+<!--  -->

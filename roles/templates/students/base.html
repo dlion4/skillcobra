@@ -1,0 +1,45 @@
+{% extends "roles/layout.html" %}
+<!--  -->
+{% block title %} {{ block.super }} ~ Student Dashboard {% endblock title %}
+<!-- css -->
+{% load static %}
+<!--  -->
+
+{% block css %}
+<link href="{% static 'css/student_dashboard.css' %}" rel="stylesheet" />
+<link href="{% static 'css/student_responsive.css' %}" rel="stylesheet" />
+{{ block.super }}
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block sidebar %} {% include 'students/components/sidebar.html' %}
+<!--  -->
+{% endblock sidebar %}
+
+<!--  -->
+
+
+    
+<!--  -->
+{% block wrapper %}
+<div class="wrapper">
+  {% block main %}
+  <div class="sa4d25">
+    <div class="container-fluid">
+      {% block content %} {% endblock content %}
+    </div>
+  </div>
+  {% endblock main %}
+
+  <!--  -->
+  {% block footer %}
+  <!--  -->
+  {% include 'students/components/footer.html' %}
+  <!--  -->
+  {% endblock footer %}
+</div>
+<!--  -->
+
+
+
+{% endblock wrapper %}

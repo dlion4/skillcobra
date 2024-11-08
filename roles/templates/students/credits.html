@@ -1,0 +1,188 @@
+{% extends "students/base.html" %}
+<!--  -->
+
+{% block title %} {{ block.super }} Credits {% endblock title %}
+
+<!--  -->
+{% load static %}
+<!--  -->
+{% block content %}
+<div class="row">
+  <div class="col-lg-4 col-md-5">
+    <div class="top_countries mt-30">
+      <div class="top_countries_title">
+        <h2>Added Credits</h2>
+      </div>
+      <div class="payout_content">
+        <span><strong>$100</strong></span>
+        <div class="payout__via">
+          <strong>via Mastercard</strong>
+        </div>
+        <p>
+          <small class="payout__small-notification"
+            >Your credits will be using on
+            <strong>purchase courses</strong></small
+          >
+        </p>
+      </div>
+    </div>
+    <div class="top_countries mt-30">
+      <div class="top_countries_title">
+        <h2>Saved Cards</h2>
+      </div>
+      <div class="payout_content">
+        <img src="{% static 'images/Mastercard.svg' %}" alt="" />
+        <div class="payout__added">
+          <strong>Added:</strong>
+          25 Mar 2020
+        </div>
+        <p><a href="#" class="payout__btn">Change Card</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-8 col-md-7">
+    <div class="top_countries mt-30">
+      <div class="top_countries_title">
+        <h2>Add Credit Balance</h2>
+      </div>
+      <div class="credits_content">
+        <form>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="ui search focus mt-30 lbel25">
+                <label>Add Blalance</label>
+                <div class="ui left icon input swdh11 swdh19">
+                  <input
+                    class="prompt srch_explore"
+                    type="text"
+                    name="balance[add]"
+                    value=""
+                    id="id_balance"
+                    required=""
+                    maxlength="4"
+                    placeholder="0"
+                  />
+                  <i class="uil uil-dollar-alt icon icon8"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="ui search focus mt-30 lbel25">
+                <label>Holder Name</label>
+                <div class="ui left icon input swdh19">
+                  <input
+                    class="prompt srch_explore"
+                    type="text"
+                    name="holder[name]"
+                    value=""
+                    id="id_holdername"
+                    required=""
+                    maxlength="64"
+                    placeholder="Enter Holder Name"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="ui search focus mt-30 lbel25">
+                <label>Card Number</label>
+                <div class="ui left icon input swdh19">
+                  <input
+                    class="prompt srch_explore"
+                    type="text"
+                    name="card[number]"
+                    maxlength="16"
+                    placeholder="Card #"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="lbel25 mt-30">
+                <label>Expiration Month</label>
+                <select
+                  class="ui hj145 dropdown cntry152 prompt srch_explore"
+                  name="card[expire-month]"
+                >
+                  <option value="">Month</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="ui search focus mt-30 lbel25">
+                <label>Expiration Year</label>
+                <div class="ui left icon input swdh19">
+                  <input
+                    class="prompt srch_explore"
+                    type="text"
+                    name="card[expire-year]"
+                    maxlength="4"
+                    placeholder="Year"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="ui search focus mt-30 lbel25">
+                <label>Expiration Year</label>
+                <div class="ui left icon input swdh19">
+                  <input
+                    class="prompt srch_explore"
+                    type="text"
+                    name="card[cvc]"
+                    maxlength="3"
+                    placeholder="CVC"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button class="add_crdit_btn mt-50" type="submit">
+                Add Credit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="table-credits">
+      <div class="table-responsive mt-30">
+        <table class="table ucp-table earning__table" id="content-table">
+          <thead class="thead-s">
+            <tr>
+              <th scope="col">Amount</th>
+              <th scope="col">Credit Method</th>
+              <th scope="col">Date Processed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$50.00</td>
+              <td>Mastercard</td>
+              <td>15 Mar 2020</td>
+            </tr>
+            <tr>
+              <td>$50.00</td>
+              <td>Mastercard</td>
+              <td>10 Feb 2020</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+<!--  -->

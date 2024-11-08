@@ -1,0 +1,294 @@
+{% load static %}
+<style>
+  /* Custom Modal Styling */
+  .modal-content {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 85% !important; /* Make modal take 85% of the screen width */
+    margin: auto;
+  }
+
+  .modal-header {
+    background-color: #ea2758;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .modal-header h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .modal-body {
+    padding: 20px;
+    overflow-y: hidden; /* No scrolling in the modal body */
+  }
+
+  /* Video container with a larger size */
+  .video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Chatbox and additional content styling */
+  .chat-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    height: 350px;
+    overflow-y: auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .chat-message {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-message .username {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .chat-message .text {
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  .chat-box input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+  }
+
+  /* Video description section */
+  .video-description {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 15px;
+    height: 150px !important;
+    overflow-y: scroll !important;
+  }
+
+  /* Collapsible description */
+  .collapse-content {
+    margin-top: 15px;
+  }
+
+  /* Enable scrolling for the description when content overflows */
+  .collapse-content {
+    max-height: 200px; /* Set a max height for the description area */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds this height */
+  }
+
+  /* Buttons styling */
+  .modal-footer .btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .btn-primary {
+    background-color: #0056b3;
+    border: none;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+  }
+
+  /* Responsive styling for smaller screens */
+  @media (max-width: 767px) {
+    .modal-dialog {
+      max-width: 100%;
+      margin: 20px;
+    }
+
+    .modal-body {
+      padding: 10px;
+    }
+
+    .video-container {
+      height: auto;
+      padding-bottom: 75%; /* Adjust for smaller screens */
+    }
+
+    .chat-box {
+      height: auto;
+      margin-top: 10px;
+    }
+
+    .modal-header h5 {
+      font-size: 1.2rem;
+    }
+  }
+ .lesson,
+ .modal-dialog{
+    width: 912px !important;
+    margin: auto !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+ }
+</style>
+<!-- Modal Structure -->
+
+<div
+  class="modal fade lesson"
+  id="videoModal"
+  tabindex="-1"
+  aria-labelledby="videoModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="videoModalLabel">
+          Advanced Web Development Lesson
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <!-- Video Section (8 Col) -->
+          <div class="col-md-8">
+            <div class="video-container">
+              <!-- Video player with controls -->
+              <video id="videoPlayer" controls width="600px">
+                <source
+                  src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  type="video/mp4"
+                />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="video-description mt-3">
+              <button
+                class="btn btn-link"
+                data-bs-toggle="collapse"
+                data-bs-target="#descriptionContent"
+              >
+                Introduction
+              </button>
+              <div id="descriptionContent" class="collapse collapse-content">
+                <p>
+                  <strong
+                    >In this lesson, you'll learn about advanced web development
+                    topics, including responsive design, JavaScript frameworks,
+                    and APIs.</strong
+                  >
+                </p>
+                <p>
+                  This video is part of our Advanced Web Development course. It
+                  includes practical examples and detailed explanations.
+                </p>
+              </div>
+              <div id="descriptionContent" class="collapse collapse-content">
+                <p>
+                  <strong
+                    >In this lesson, you'll learn about advanced web development
+                    topics, including responsive design, JavaScript frameworks,
+                    and APIs.</strong
+                  >
+                </p>
+                <p>
+                  This video is part of our Advanced Web Development course. It
+                  includes practical examples and detailed explanations.
+                </p>
+              </div>
+              <div id="descriptionContent" class="collapse collapse-content">
+                <p>
+                  <strong
+                    >In this lesson, you'll learn about advanced web development
+                    topics, including responsive design, JavaScript frameworks,
+                    and APIs.</strong
+                  >
+                </p>
+                <p>
+                  This video is part of our Advanced Web Development course. It
+                  includes practical examples and detailed explanations.
+                </p>
+              </div>
+              <div id="descriptionContent" class="collapse collapse-content">
+                <p>
+                  <strong
+                    >In this lesson, you'll learn about advanced web development
+                    topics, including responsive design, JavaScript frameworks,
+                    and APIs.</strong
+                  >
+                </p>
+                <p>
+                  This video is part of our Advanced Web Development course. It
+                  includes practical examples and detailed explanations.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Section (4 Col) -->
+          <div class="col-md-4">
+            <div class="chat-box">
+              <!-- Chat Messages -->
+              <div class="chat-message">
+                <span class="username">Instructor:</span>
+                <span class="text"
+                  >Welcome to the lesson! Feel free to ask any questions during
+                  the video.</span
+                >
+              </div>
+              <div class="chat-message">
+                <span class="username">Student1:</span>
+                <span class="text"
+                  >How do I implement the API in JavaScript?</span
+                >
+              </div>
+
+              <!-- Chat Input -->
+              <input
+                type="text"
+                id="chatInput"
+                placeholder="Type a message..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Send Chat</button>
+      </div>
+    </div>
+  </div>
+</div>

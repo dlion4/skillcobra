@@ -1,13 +1,15 @@
-{% extends "base.html" %}
-
-{% block title %}Page not found{% endblock title %}
-{% block content %}
-  <h1>Page not found</h1>
-  <p>
-    {% if exception %}
-      {{ exception }}
-    {% else %}
-      This is not the page you were looking for.
-    {% endif %}
-  </p>
+{% extends "base.html" %} {% block title %}Page not found{% endblock title %} {%
+block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="p-5">
+      <h1>Page not found</h1>
+      <p>
+        {% if exception %} {{ exception }} {% else %} This is not the page you
+        were looking for. {% endif %}
+      </p>
+      <small>The page you were looking for in the URL could not be found.</small>
+    </div>
+  </div>
+</div>
 {% endblock content %}

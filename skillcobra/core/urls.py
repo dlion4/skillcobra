@@ -28,4 +28,39 @@ urlpatterns = [
         views.HomeFeedbackView.as_view(),
         name="feedback",
     ),
+    path(
+        "about/",
+        views.HomeAboutUsView.as_view(),
+        name="about",
+    ),
+    path(
+        "press/",
+        views.HomePressView.as_view(),
+        name="press",
+    ),
+    path(
+        "career/",
+        views.HomeCareerView.as_view(),
+        name="career",
+    ),
+    path(
+        "company/",
+        views.HomeCompanyView.as_view(),
+        name="company",
+    ),
+    path(
+        "contact-us/",
+        views.HomeContactView.as_view(),
+        name="contact",
+    ),
+    path(
+        "coming-soon/",
+        views.HomeComingSoonView.as_view(),
+        name="soon",
+    ),
+    path(
+        "terms-of-use/",
+        views.HomeTermsOfUseView.as_view(),
+        name="terms",
+    ),
 ]
