@@ -1,16 +1,13 @@
 {% extends "students/base.html" %}
 <!--  -->
-
 {% block title %} {{ block.super }} Reviews {% endblock title %}
-
-<!--  -->
-{% load static %}
-<!--  -->
+<!--  -->{% load static %}<!--  -->
 {% block content %}
 <div class="row">
   <div class="col-12">
     <div class="student_reviews">
       <div class="row">
+
         <div class="col-lg-5">
           <div class="reviews_left">
             <h3>My All Feedback</h3>
@@ -34,6 +31,7 @@
                     aria-valuenow="70"
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    title="name"
                   ></div>
                 </div>
                 <div class="rating-box">
@@ -53,6 +51,7 @@
                     aria-valuenow="30"
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    title="name"
                   ></div>
                 </div>
                 <div class="rating-box">
@@ -72,6 +71,7 @@
                     aria-valuenow="10"
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    title="name"
                   ></div>
                 </div>
                 <div class="rating-box">
@@ -91,6 +91,7 @@
                     aria-valuenow="2"
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    title="name"
                   ></div>
                 </div>
                 <div class="rating-box">
@@ -134,7 +135,7 @@
                   type="text"
                   placeholder="Search reviews..."
                 />
-                <button class="rvsrch_btn">
+                <button class="rvsrch_btn" title="name">
                   <i class="uil uil-search"></i>
                 </button>
               </div>
@@ -219,6 +220,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

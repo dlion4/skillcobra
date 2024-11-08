@@ -1,14 +1,7 @@
-import pytest
+from pytest_factoryboy import register
 
 from skillcobra.users.models import User
-from skillcobra.users.tests.factories import UserFactory
+# sourcery skip: dont-import-test-modules
+from tests.membership.factories import PlanFactory
 
-
-@pytest.fixture(autouse=True)
-def _media_storage(settings, tmpdir) -> None:
-    settings.MEDIA_ROOT = tmpdir.strpath
-
-
-@pytest.fixture()
-def user(db) -> User:
-    return UserFactory()
+register(PlanFactory)

@@ -1,10 +1,15 @@
 {
     "cSpell.words": [
+        "a",
         "allauth",
         "asgi",
+        "chars",
         "corsheaders",
+        "DOTENV",
+        "DOTENVS",
         "Gunicorn",
         "Iinvalid",
+        "jeckonia",
         "levelname",
         "skillcobra",
         "superadmin",
