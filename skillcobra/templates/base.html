@@ -70,23 +70,47 @@
     {% block css %}
     <!-- Your stuff: Third-party CSS libraries go here -->
     <!-- This file stores project-specific CSS -->
-    {% render_bundle 'project' 'css' %}
     <!--  -->
     {% endblock css %}
     <!-- Le javascript
     ================================================== -->
     {# Placed at the top of the document so pages load faster with defer #}
     <!--  -->
-    {% block javascript %}
-    <!-- Vendor dependencies bundled as one file -->
-    {% render_bundle 'vendors' 'js' attrs='defer' %}
-    <!-- place project specific Javascript in this file -->
-    {% render_bundle 'project' 'js' attrs='defer' %} {% endblock javascript %}
+    {% block javascript %} {% endblock javascript %}
     <!--  -->
     {% block styles %} {% endblock styles %}
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    {% block body %} {% endblock body %}
+    {% block body %}
+
+    <!-- header -->
+    {% block header %} {% include 'components/navbar/header.html' %}
+    <!--  -->
+    {% block sidebar %} {% include 'components/navbar/sidebar.html' %}
+    <!--  -->
+    {% endblock sidebar %}
+    <!--  -->
+    {% endblock header %}
+
+    <!-- /header -->
+
+    <!-- main content -->
+
+    {% block wrapper %}
+    <div class="wrapper">
+      <div class="sa4d25">{% block content %} {% endblock content %}</div>
+      <!-- footer -->
+      {% block footer %} {% include 'components/footer/main.html' %}
+      <!--  -->
+      {% endblock footer %}
+
+      <!-- /footer -->
+    </div>
+    {% endblock wrapper %}
+
+    <!-- /main content -->
+
+    {% endblock body %}
     <!-- /container -->
     {% block modal %} {% endblock modal %}
     <!-- scripts -->

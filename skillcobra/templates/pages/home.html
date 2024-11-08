@@ -1,8 +1,96 @@
 {% extends "base.html" %}
+<!--  -->
+{% load static %} {% block content %}
+<!--  -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-9 col-lg-8">{% include 'screens/home/index.html' %}</div>
+    <!--  -->
+    <div class="col-xl-3 col-lg-4">
+      <div class="right_side">
+        <div class="fcrse_2 mb-30">
+          <div class="tutor_img">
+            <a href="my_instructor_profile_view.html"
+              ><img src="{% static 'images/left-imgs/img-10.jpg' %}" alt=""
+            /></a>
+          </div>
+          <div class="tutor_content_dt">
+            <div class="tutor150">
+              <a href="" class="tutor_name">Joginder Singh</a>
+              <div class="mef78" title="Verify">
+                <i class="uil uil-check-circle"></i>
+              </div>
+            </div>
+            <div class="tutor_cate">Web Developer, Designer, and Teacher</div>
 
+            <div class="tut1250">
+              <span class="vdt15">0 completed</span>
+              <span class="vdt15">12 Courses</span>
+            </div>
+            <a href="" class="prfle12link">Go To Profile</a>
+          </div>
+        </div>
+        <div class="fcrse_3">
+          <div class="cater_ttle">
+            <h4>Live Streaming</h4>
+          </div>
+          <div class="live_text">
+            <div class="live_icon"><i class="uil uil-kayak"></i></div>
+            <div class="live-content">
+              <p>Set up your channel and stream live to your students</p>
+              <button
+                class="live_link"
+                onclick="window.location.href = 'add_streaming.html';"
+              >
+                Get Started
+              </button>
+              <span class="livinfo"
+                >Info : This feature only for 'Instructors'.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="get1452">
+          <h4>Get personalized recommendations</h4>
+          <p>Answer a few questions for your top picks</p>
+          <button class="Get_btn" onclick="window.location.href = '#';">
+            Get Started
+          </button>
+        </div>
+        <div class="fcrse_3">
+          <div class="cater_ttle">
+            <h4>Top Categories</h4>
+          </div>
+          <ul class="allcate15 category_list">
+          </ul>
+        </div>
+        <div class="strttech120">
+          <h4>Become an Instructor</h4>
+          <p>
+            Top instructors from around the world teach millions of students on
+            skillcobra. We provide the tools and skills to teach what you love.
+          </p>
+          <button class="Get_btn">Start Teaching</button>
+        </div>
+      </div>
+    </div>
+    <!-- right side -->
+    <!-- testimonials -->
 
-
-{% block body %}
-    {{request.user}}
-{% endblock body %}
-    
+    <div class="col-xl-12 col-lg-12">
+      <div class="section3125 mt-30">
+        <h4 class="item_title">What Our Student Have Today</h4>
+        <div class="la5lo1">
+          <div class="owl-carousel Student_says owl-theme">
+            {% include "screens/components/testimonial_item.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+<!--  -->
+{% block scripts %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock scripts %}

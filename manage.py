@@ -28,5 +28,6 @@ if __name__ == "__main__":
     # skillcobra directory.
     current_path = Path(__file__).parent.resolve()
     sys.path.append(str(current_path / "skillcobra"))
+    sys.path.append(str(current_path / "roles"))
 
     execute_from_command_line(sys.argv)

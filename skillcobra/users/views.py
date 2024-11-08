@@ -59,3 +59,8 @@ class RegisterView(FormView):
 
 class RequestPasswordResetView(TemplateView):
     template_name = "account/request_password_reset.html"
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse("home"))
+        return super().dispatch(request, *args, **kwargs)

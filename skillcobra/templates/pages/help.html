@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block wrapper %}
+<div class="wrapper _bg4586">
+    <div class="_215v12">
+        <div class="container-fluid">
+            <div class="row">
+                <!--  -->
+                <div class="col-lg-12">
+                    <div class="section3125">
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
+                                <div class="help_stitle">
+                                    <h2>How may we help you?</h2>
+                                    <div class="explore_search">
+                                        <div class="ui search focus">
+                                            <div class="ui left icon input swdh11">
+                                                <input class="prompt srch_explore" type="text" placeholder="Search for solutions">
+                                                <i class="uil uil-search-alt icon icon2"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="_215b15">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="course_tabs">
+                        <nav>
+                            <div class="nav nav-tabs help_tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
+                                <a
+                                    class="nav-item nav-link active"
+                                    id="nav-instructor-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-instructor"
+                                    role="tab"
+                                    aria-selected="true"
+                                >Instructor
+                                </a
+                >
+                                <a
+                                    class="nav-item nav-link"
+                                    id="nav-student-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-student"
+                                    role="tab"
+                                    aria-selected="false"
+                                >Student
+                                </a
+                >
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- tab helps -->
+    <div class="_215b17">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="course_tab_content">
+                        <div class="tab-content" id="nav-tabContent">
+                            <!--  -->
+                            {% include 'screens/components/help/instructor.html' %}
+                            {% include 'screens/components/help/student.html' %}
+                            <!--  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block footer %} {{ block.super }} {% endblock footer %}
+</div>
+<!--  -->
+</div>
+{% endblock wrapper %}

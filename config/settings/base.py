@@ -1,11 +1,14 @@
 # ruff: noqa: ERA001, E501
 """Base settings to build other settings files upon."""
-
+import sys
 from pathlib import Path
 
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+# roles folder for the actual applications
+ROLES_FOLDER = BASE_DIR / "roles"
+sys.path.append(str(ROLES_FOLDER))
 # skillcobra/
 APPS_DIR = BASE_DIR / "skillcobra"
 env = environ.Env()
@@ -89,6 +92,9 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "skillcobra.users",
     # Your stuff: custom apps go here
+    "roles.students.students",
+    "roles.instructors.instructor",
+    "skillcobra.core",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -179,7 +185,10 @@ TEMPLATES = [
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
-        "DIRS": [str(APPS_DIR / "templates")],
+        "DIRS": [
+            str(APPS_DIR / "templates"),
+            str(ROLES_FOLDER / "templates"),
+        ],
         # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
         "APP_DIRS": True,
         "OPTIONS": {
