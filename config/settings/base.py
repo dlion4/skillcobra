@@ -1,9 +1,14 @@
 # ruff: noqa: ERA001, E501
 """Base settings to build other settings files upon."""
+
 import sys
 from pathlib import Path
 
 import environ
+from corsheaders.defaults import default_headers
+from corsheaders.defaults import default_methods
+
+from .ckeditor import CKEDITOR_5_CONFIGURATION
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # roles folder for the actual applications
@@ -13,8 +18,7 @@ sys.path.append(str(ROLES_FOLDER))
 APPS_DIR = BASE_DIR / "skillcobra"
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
-if READ_DOT_ENV_FILE:
+if READ_DOT_ENV_FILE := env.bool("DJANGO_READ_DOT_ENV_FILE", default=True):
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR / ".env"))
 
@@ -94,6 +98,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "webpack_loader",
     "widget_tweaks",
+    "django_ckeditor_5",
 ]
 
 LOCAL_APPS = [
@@ -102,8 +107,26 @@ LOCAL_APPS = [
     "roles.students.students",
     "roles.instructors.instructor",
     "skillcobra.core",
-     "skillcobra.payments",
+    "skillcobra.payments",
+    #
+    "skillcobra.school",
 ]
+
+# https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload
+# --------------------------------------------------------------------------------------------
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = (
+    "authenticated"  # Possible values: "staff", "authenticated", "any"
+)
+# CKEDITOR_5_ALLOW_ALL_FILE_TYPES = True
+CKEDITOR_5_UPLOAD_FILE_TYPES = []  # optional
+CK_EDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file"
+CKEDITOR_5_MAX_FILE_SIZE = 5 # Max size in MB
+CKEDITOR_5_FILE_STORAGE = "config.settings.storage.CustomStorage" # optional
+
+
+CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGURATION
+
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -111,7 +134,6 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
 MIGRATION_MODULES = {"sites": "skillcobra.contrib.sites.migrations"}
-
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
@@ -374,3 +396,19 @@ WEBPACK_LOADER = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# CORS_ALLOWED_ORIGINS = []
+
+CORS_ALLOW_ALL_ORIGINS=True # TODO remove on production server
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:8002"]
+
+CORS_ALLOW_METHODS = (
+    *default_methods,
+    "COBRA",
+)
+
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "S-B-X-ApiKeyToken",
+)

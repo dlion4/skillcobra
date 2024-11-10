@@ -15,6 +15,11 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
 />
 
+<link
+  href="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.css' %}"
+  rel="stylesheet"
+/>
+
 {% endblock css %}
 
 <!--  -->
@@ -40,10 +45,50 @@
 <!--  -->
 <!--  -->
 <!--  -->
-{% block wrapper %} {% endblock wrapper %}
+<!--  -->
+{% block wrapper %}
+<div class="wrapper">
+  {% block main %}
+  <div class="sa4d25">
+    <div class="container-fluid">
+      {% block content %} {% endblock content %}
+    </div>
+  </div>
+  {% endblock main %} {% block footer %}
+  <!--  -->
+  {% include 'roles/components/footer.html' %}
+  <!--  -->
+  {% endblock footer %}
+</div>
 <!--  -->
 <!--  -->
 
-{% block scripts %} {% endblock scripts %}
+{% endblock wrapper %}
+<!--  -->
 
 {% endblock body %}
+
+<!--  -->
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      dots: false,
+      responsive: {
+        0: {
+          items: 1,
+        },
+        600: {
+          items: 1,
+        },
+        1000: {
+          items: 1,
+        },
+      },
+    });
+  });
+</script>
+{% endblock scripts %}

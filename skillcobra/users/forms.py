@@ -53,7 +53,8 @@ class UserRegistrationForm(forms.ModelForm):
     role = forms.CharField(widget=forms.HiddenInput())
     password1 = forms.CharField(
         label=_("Password"),
-        widget=forms.PasswordInput(attrs={"class": "prompt srch_explore", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"class": "prompt srch_explore", "placeholder": "Password"}),
     )
     password2 = forms.CharField(
         label=_("Confirm Password"),
@@ -61,6 +62,7 @@ class UserRegistrationForm(forms.ModelForm):
             attrs={"class": "prompt srch_explore", "placeholder": "Confirm Password"}
         ),
     )
+    PASSWORD_MIN_LENGTH=8
     class Meta:
         model = User
         fields = ("email","password1","password2")
@@ -74,7 +76,7 @@ class UserRegistrationForm(forms.ModelForm):
         if password1 != password2:
             raise forms.ValidationError(_("Passwords must match."))
 
-        if len(password1) < 8:
+        if len(password1) < self.PASSWORD_MIN_LENGTH:
             raise forms.ValidationError(
                 _("Passwords must be at least 8 characters long.")
             )
@@ -84,8 +86,9 @@ class UserRegistrationForm(forms.ModelForm):
     def save(self, commit=True):  # noqa: FBT002
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])  # Set the hashed password
+        user.role = self.cleaned_data.get("role")
         if commit:
-            user.save()  # Save the user instance
+            user.save()
         return user
 
 class UserLoginForm(forms.Form):

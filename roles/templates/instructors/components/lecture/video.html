@@ -1,0 +1,28 @@
+{% load static %}
+
+<div class="lecture-video-dt mt-30">
+  <div class="video-category">
+    <div class="embedded">
+      <div class="new-section">
+        <div class="ui search focus mt-30 lbel25">
+          <label>Enter your video url link is applicable*</label>
+          <div class="ui form swdh30">
+            <div class="field">{{lecture_form.lecture_video_url}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="video-duration">
+        <label class="label25"
+          >Video Runtime - <strong>hh:mm:ss</strong>*</label
+        >
+        <div class="duration-time">
+          <div class="input-group">
+            {{lecture_form.video_runtime_hours}}
+            {{lecture_form.video_runtime_minutes}}
+            {{lecture_form.video_runtime_seconds}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

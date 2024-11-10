@@ -10,17 +10,22 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
+from .views import custom_upload_function
 
 urlpatterns = [
     path("", include("skillcobra.core.urls")),
     path("student/", include("roles.students.urls", namespace="students")),
+    path("instructor/", include("roles.instructors.urls", namespace="instructors")),
+    path("school/", include("skillcobra.school.urls", namespace="school")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("skillcobra.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("upload/", custom_upload_function, name="custom_upload_file"),
     # ...
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

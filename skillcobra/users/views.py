@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
@@ -51,10 +52,7 @@ class RegisterView(FormView):
                 form.save()
                 return JsonResponse({"url": str(reverse("users:login"))}, status=201)
             except Exception as e:  # noqa: BLE001
-                return JsonResponse(
-                    {"detail": "An unexpected error occurred. Please try again."},
-                    status=500,
-                )
+                return JsonResponse({"detail": str(e)},status=500)
         return JsonResponse({"detail": form.errors.as_json()}, status=400)
 
 class RequestPasswordResetView(TemplateView):
@@ -64,3 +62,10 @@ class RequestPasswordResetView(TemplateView):
         if request.user.is_authenticated:
             return redirect(reverse("home"))
         return super().dispatch(request, *args, **kwargs)
+class LogoutView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return JsonResponse({"url": reverse("users:login")})

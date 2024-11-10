@@ -1,39 +1,34 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from .utils import TemplateViewMixin
 
 
 # Create your views here.
-class StudentDashboardView(TemplateView):
-    template_name = "students/dashboard.html"
-
-class StudentPurchasedCoursesView(TemplateView):
-    template_name = "students/purchases.html"
+class StudentDashboardView(TemplateViewMixin):
+    template_name = "dashboard.html"
 
 
-class StudentMessagesView(TemplateView):
-    template_name = "students/messages.html"
+class StudentPurchasedCoursesView(TemplateViewMixin):
+    template_name = "purchases.html"
 
 
-class StudentNotificationsView(TemplateView):
-    template_name = "students/notifications.html"
+class StudentMessagesView(TemplateViewMixin):
+    template_name = "messages.html"
 
 
-class StudentReviewsView(TemplateView):
-    template_name = "students/reviews.html"
+class StudentNotificationsView(TemplateViewMixin):
+    template_name = "notifications.html"
 
 
-
-class StudentCertificateView(TemplateView):
-    template_name = "students/certificates.html"
-
+class StudentReviewsView(TemplateViewMixin):
+    template_name = "reviews.html"
 
 
-class StudentTransactionView(TemplateView):
-    template_name = "students/statements.html"
+class StudentCertificateView(TemplateViewMixin):
+    template_name = "certificates.html"
 
 
+class StudentTransactionView(TemplateViewMixin):
+    template_name = "statements.html"
 
-class StudentCreditView(TemplateView):
-    template_name = "students/credits.html"
 
-
+class StudentCreditView(TemplateViewMixin):
+    template_name = "credits.html"

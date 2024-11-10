@@ -1,0 +1,124 @@
+{% load static %}
+
+<div
+  class="modal fade"
+  id="add_lecture_model_{{curriculum.pk}}"
+  tabindex="-1"
+  aria-labelledby="lectureModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <form action="{{curriculum.get_create_module_lecture}}" class="add_lecture_form"
+    id="data-lecture-form-{{curriculum.pk}}"
+    method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="lectureModalLabel">
+            Add Lecture for <strong style="font-weight: 600;">{{curriculum.module_title}}</strong>
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="course-main-tabs">
+                  <div
+                    class="nav nav-pills flex-column flex-sm-row nav-tabs"
+                    role="tablist"
+                  >
+                    <a
+                      class="flex-sm-fill text-sm-center nav-link active"
+                      data-bs-toggle="tab"
+                      href="#nav-basic-{{curriculum.pk}}"
+                      role="tab"
+                      aria-selected="true"
+                      ><i class="fas fa-file-alt me-2"></i>Basic</a
+                    >
+                    <a
+                      class="flex-sm-fill text-sm-center nav-link"
+                      data-bs-toggle="tab"
+                      href="#nav-video-{{curriculum.pk}}"
+                      role="tab"
+                      aria-selected="false"
+                      ><i class="fas fa-video me-2"></i>Video</a
+                    >
+                    <a
+                      class="flex-sm-fill text-sm-center nav-link"
+                      data-bs-toggle="tab"
+                      href="#nav-attachment-{{curriculum.pk}}"
+                      role="tab"
+                      aria-selected="false"
+                      ><i class="fas fa-paperclip me-2"></i>Attachments</a
+                    >
+                  </div>
+                  <div class="tab-content">
+                    <div
+                      class="tab-pane fade show active"
+                      id="nav-basic-{{curriculum.pk}}"
+                      role="tabpanel"
+                    >
+                      {% include "instructors/components/lecture/basic.html" %}
+                    </div>
+                    <div class="tab-pane fade" id="nav-video-{{curriculum.pk}}" role="tabpanel">
+                      {% include "instructors/components/lecture/video.html" %}
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="nav-attachment-{{curriculum.pk}}"
+                      role="tabpanel"
+                    >
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="upload-file-dt mt-30">
+                            <div class="upload-btn">
+                              <input
+                                class="form-control file-upload-input"
+                                type="file"
+                                multiple
+                                id="SourceFile__input--source"
+                              />
+                              {{lecture_form.lecture_attachments}}
+                              <label
+                                for="{{lecture_form.lecture_attachments.id_for_label}}" title="Zip"
+                              >
+                                <i class="far fa-plus-square me-2"></i>
+                                Attachment
+                              </label>
+                            </div>
+                            <span class="uploadBtn-main-file">
+                              {{lecture_form.lecture_attachments.help_text}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row"><div id="response-container"></div></div>
+                        <div class="row pt-4">
+                          <button type="submit" class="main-btn">
+                            Add Lecture
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="main-btn cancel" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

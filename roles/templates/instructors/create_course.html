@@ -1,0 +1,174 @@
+{% extends "instructors/base.html" %}
+<!--  -->
+{% load webpack_loader %}
+<!--  -->
+
+{% load static %}
+<!--  -->
+<!--  -->
+{% block content %}
+
+<style>
+  .is-invalid {
+    border: 2px solid red;
+  }
+</style>
+
+<div class="row">
+  <div class="col-lg-12">
+    <h2 class="st_title">
+      <i class="uil uil-analysis"></i>
+      Create New Course
+    </h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="">
+      <div id="add-course-tab" class="step-app">
+        <form
+          action=""
+          method="post"
+          enctype="multipart/form-data"
+          id="multi-step-form"
+        >
+          <input
+            type="hidden"
+            name="csrfmiddlewaretoken"
+            value="keklrugoglhuwjshflkugrksajfhdshgvrejkbreolewloqkhlfvhkgelkhwekbw"
+          />
+          <div class="step-content">
+            <!-- Basic form content -->
+            <div class="step-tab-panel step-tab-info">
+              {% include 'instructors/components/create_course/basic.html' %}
+            </div>
+            <div class="step-tab-panel step-tab-amenities">
+              {% include 'instructors/components/create_course/price.html' %}
+            </div>
+            <div class="invalid-feedback" style="display: none">
+              Kindly fill the form properly before proceeding.
+            </div>
+          </div>
+
+          <div class="step-footer step-tab-pager d-flex float-end">
+            <button data-direction="finish" class="btn btn-default steps_btn">
+              Submit for Review
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Popup (Initially Hidden) -->
+<div
+  class="modal fade"
+  id="submitModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="submitModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="submitModalLabel">Confirm Submission</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="publish-block">
+          <i class="far fa-edit"></i>
+          <p>
+            Your course is in a draft state. Students cannot view, purchase or
+            enroll in this course. For students that are already enrolled, this
+            course will not appear on their student Dashboard.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" id="confirmSubmitBtn">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+<!--  -->
+
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    // Function to check if the form is valid
+    function isFormValid() {
+      let isValid = true;
+
+      // Loop through all required fields and check if they are filled
+      $("#multi-step-form")
+        .find("[required]")
+        .each(function () {
+          let field = $(this);
+          if (!field.val().trim()) {
+            isValid = false;
+            // Optionally add a class to highlight the empty fields
+            field.addClass("is-invalid"); // Bootstrap class for invalid input
+            // Optionally show a message next to the invalid field
+            field.siblings(".invalid-feedback").show();
+          } else {
+            // Remove any error styles if the field is filled
+            field.removeClass("is-invalid");
+            field.siblings(".invalid-feedback").hide();
+          }
+        });
+
+      return isValid;
+    }
+
+    // When the "Submit for Review" button is clicked, validate the form first
+    $('[data-direction="finish"]').click(function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Check if the form is valid
+      if (isFormValid()) {
+        // Show the modal if the form is valid
+        $("#submitModal").modal("show");
+      }
+    });
+
+    // When the "Confirm" button in the modal is clicked, submit the form
+    $("#confirmSubmitBtn").click(function () {
+      $("#multi-step-form").submit(); // Submit the form
+    });
+
+    // Optional: Handle "Cancel" button click in the modal
+    $(".close, .btn-secondary").click(function () {
+      $("#submitModal").modal("hide"); // Hide the modal
+    });
+
+    // Optional: Highlight the invalid fields with a red border
+    $("#multi-step-form").on("input", "[required]", function () {
+      let field = $(this);
+      if (field.val().trim()) {
+        field.removeClass("is-invalid");
+        field.siblings(".invalid-feedback").hide();
+      } else {
+        field.addClass("is-invalid");
+        field.siblings(".invalid-feedback").show();
+      }
+    });
+  });
+</script>
+{% endblock scripts %}

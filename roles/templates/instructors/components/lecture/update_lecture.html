@@ -1,0 +1,117 @@
+{% load static %}
+
+<div>
+  <div class="">
+    <form
+      action="{{lecture.get_lecture_update_url}}"
+      class="add_lecture_form"
+      id="data-lecture-update-form-{{curriculum.pk}}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="course-main-tabs">
+                  <div
+                    class="nav nav-pills flex-column flex-sm-row"
+                  ></div>
+                  <div class="tab-content">
+                    <div class="">
+                      <div class="new-section mt-30">
+                        <div class="form_group">
+                          <label class="label25">Lecture Title*</label>
+                          {{lecture_form.title}}
+                        </div>
+                      </div>
+                      <div class="ui search focus lbel25 mt-30">
+                        <label>Description*</label>
+                        <div class="text-editor">
+                          {{lecture_form.description}}
+                        </div>
+                      </div>
+                      <div class="preview-dt">
+                        <span class="title-875">Free Preview</span>
+                        <label class="switch">
+                          {{lecture_form.has_free_preview}}
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="lecture-video-dt mt-30">
+                        <div class="video-category">
+                          <div class="embedded">
+                            <div class="new-section">
+                              <div class="ui search focus mt-30 lbel25">
+                                <label
+                                  >Enter your video url link is
+                                  applicable*</label
+                                >
+                                <div class="ui form swdh30">
+                                  <div class="field">
+                                    {{lecture_form.lecture_video_url}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="video-duration">
+                              <label class="label25"
+                                >Video Runtime -
+                                <strong>hh:mm:ss</strong>*</label
+                              >
+                              <div class="duration-time">
+                                <div class="input-group">
+                                  {{lecture_form.video_runtime_hours}}
+                                  {{lecture_form.video_runtime_minutes}}
+                                  {{lecture_form.video_runtime_seconds}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="upload-file-dt mt-30">
+                            <div class="upload-btn">
+                             
+                              {{lecture_form.lecture_attachments}}
+                              <label
+                                for="{{lecture_form.lecture_attachments.id_for_label}}"
+                                title="Zip"
+                              >
+                                <i class="far fa-plus-square me-2"></i>
+                                Attachment
+                              </label>
+                            </div>
+                            <span class="uploadBtn-main-file">
+                              {{lecture_form.lecture_attachments.help_text}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div id="response-container"></div>
+                        </div>
+                        <div class="row pt-4">
+                          <button type="submit" class="main-btn">
+                            update Lecture
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

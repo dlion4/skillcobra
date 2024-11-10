@@ -1,5 +1,6 @@
 # ruff: noqa: E501
 import logging
+import os
 
 import sentry_sdk
 from sentry_sdk.integrations.celery import CeleryIntegration
@@ -8,6 +9,7 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 from .base import *  # noqa: F403
+from .base import APPS_DIR
 from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import SPECTACULAR_SETTINGS
@@ -54,7 +56,7 @@ SESSION_COOKIE_SECURE = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
 CSRF_COOKIE_SECURE = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-name
-CSRF_COOKIE_NAME = "__Secure-csrftoken"
+# CSRF_COOKIE_NAME = "__Secure-csrftoken"
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-seconds
 # TODO: set this to 60 seconds first and then to 518400 once you prove the former works
@@ -114,7 +116,13 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-MEDIA_URL = f"https://{aws_s3_domain}/media/"
+
+if  DEBUG:
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(APPS_DIR, "media")  # noqa: PTH118
+else:
+    MEDIA_URL = f"https://{aws_s3_domain}/media/"
+
 
 # EMAIL
 # ------------------------------------------------------------------------------

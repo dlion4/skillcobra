@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "strict": true, // Enables strict type checking
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true // To support importing JSON files
+    },
+    "include": [
+        "**/*.ts",
+        "src/**/*.tsx",
+        "main.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "baseUrl": "./",
+    "paths": {
+        "@/*": [
+            "src/*"
+        ] 
+    }
+}

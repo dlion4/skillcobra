@@ -5,15 +5,15 @@
 <form id="instructorForm" action="{% url 'users:register' %}" method="post">
   <p class="error_field"></p>
   {% csrf_token %}
-  {{ form.role|attr:"value:instructor" }}
+  {{ form.role|attr:"value:instructor"|attr:"id:id_instructor_role_register" }}
   <div class="ui search focus mt-15">
-    <div class="ui left icon input swdh11 swdh19">{{form.email}}</div>
+    <div class="ui left icon input swdh11 swdh19">{{form.email|attr:"id:id_instructor_email_register"}}</div>
   </div>
   <div class="ui search focus mt-15">
-    <div class="ui left icon input swdh11 swdh19">{{form.password1}}</div>
+    <div class="ui left icon input swdh11 swdh19">{{form.password1|attr:"id:id_instructor_password1_register"}}</div>
   </div>
   <div class="ui search focus mt-15">
-    <div class="ui left icon input swdh11 swdh19">{{form.password2}}</div>
+    <div class="ui left icon input swdh11 swdh19">{{form.password2|attr:"id:id_instructor_password2_register"}}</div>
   </div>
   <div class="ui form mt-30 checkbox_sign">
     <div class="inline field">

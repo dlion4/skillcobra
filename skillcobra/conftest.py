@@ -1,7 +1,6 @@
 from pytest_factoryboy import register
 
-from skillcobra.users.models import User
-# sourcery skip: dont-import-test-modules
-from tests.membership.factories import PlanFactory
+from tests.membership.factories import PlanFactory  # Adjust the import if necessary
 
+# Register the PlanFactory so it can be used as a fixture
 register(PlanFactory)

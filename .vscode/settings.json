@@ -5,15 +5,26 @@
         "asgi",
         "chars",
         "corsheaders",
+        "csrfmiddlewaretoken",
+        "curriculumn",
         "DOTENV",
         "DOTENVS",
+        "factoryboy",
+        "fullhash",
         "Gunicorn",
+        "iframe",
         "Iinvalid",
         "jeckonia",
         "levelname",
+        "nocookie",
+        "pixrem",
+        "selectpicker",
+        "signout",
         "skillcobra",
+        "srch",
         "superadmin",
         "superadmins",
-        "whitenoise"
+        "whitenoise",
+        "youtu"
     ]
 }

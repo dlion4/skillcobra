@@ -45,7 +45,7 @@
 											</span>
 										</a>
 									</div>
-									<a href="{% if request.user.role == 'student' %}{% url 'students:dashboard' %}{% else %}#{% endif %}" class="item channel_item">Dashboard</a>						
+									<a href="{% if request.user.role == 'student' %}{% url 'students:dashboard' %}{% else %}{% url 'instructors:dashboard' %}{% endif %}" class="item channel_item">Dashboard</a>						
 									<a role="button" class="item channel_item signout-btn">Sign Out</a>
 								</div>
 							</li>

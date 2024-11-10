@@ -1,0 +1,21 @@
+{% extends "roles/layout.html" %}
+<!--  -->
+{% block title %} {{ block.super }} ~ Tutor Dashboard {% endblock title %}
+<!-- css -->
+{% load static %}
+<!--  -->
+
+{% block css %}
+<link href="{% static 'css/instructor-dashboard.css' %}" rel="stylesheet" />
+<link href="{% static 'css/instructor-responsive.css' %}" rel="stylesheet" />
+{{ block.super }}
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block sidebar %} {% include 'instructors/components/sidebar.html' %}
+<!--  -->
+{% endblock sidebar %}
+
+<!--  -->
+
+{% block content %} {% endblock content %}

@@ -4,10 +4,13 @@
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
-    <meta charset="utf-8"  />
+    <!-- <meta charset="utf-8" /> -->
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>{% block title %} skillcobra {% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=9" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=9"
+    />
     <meta name="description" content="lms" />
     <meta name="author" content="jeckonia,daniel" />
     <!-- Favicon Icon -->
@@ -69,6 +72,66 @@
     {% block javascript %} {% endblock javascript %}
     <!--  -->
     {% block styles %} {% endblock styles %}
+    <style>
+      /* Ensure button uses flex layout */
+      .submit-main-btn-with-spinner {
+        display: flex;
+        align-items: center; /* Vertically align items */
+        justify-content: center; /* Horizontally center items */
+        position: relative;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        gap: 15px;
+      }
+
+      /* Hide spinner by default */
+      .spinner-border {
+        display: none; /* Hidden by default */
+      }
+
+      /* Button when spinner is active */
+      .submit-main-btn-with-spinner.loading .spinner-border {
+        display: inline-block; /* Show spinner */
+      }
+    */
+      /* Overlay that will block interactions */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 9999; /* Ensure it's on top of everything */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Spinner styles */
+      .overlay .spinner {
+        border: 4px solid #f3f3f3; /* Light gray */
+        border-top: 4px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite; /* Spin animation */
+      }
+
+      /* Spinner animation */
+      @keyframes spin {
+        100% {
+          transform: rotate(0deg);
+        }
+        0% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}
@@ -112,8 +175,7 @@
     </script>
     {% endblock inline_javascript %}
     <!--  -->
-
-    {% block js %}
+    {% csrf_token %} {% block js %}
     <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>
 
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
@@ -121,27 +183,57 @@
     <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
     <script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/night-mode.js' %}"></script>
+    <script src="{% static 'js/jquery-steps.min.js' %}"></script>
 
     {% endblock js %}
     <!-- block scripts -->
+    <script>
+      function getCookie(name) {
+        const cookieValue = document.cookie
+          .split(";")
+          .find((cookie) => cookie.trim().startsWith(name + "="))
+          ?.split("=")[1];
+        return cookieValue || "";
+      }
+    </script>
 
     {% block scripts %} {% endblock scripts %}
 
-<script>
-  $(document).ready(function(){
-    $(".signout-btn").each(function(){
-      $(this).on("click", () => {
-        if (confirm("Are you sure you want to sign out?")) {
-          window.location.href = "/accounts/logout/";
-        }
+    <script>
+      $(document).ready(function () {
+        $(".signout-btn").each(function () {
+          $(this).on("click", () => {
+            var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+            console.log(csrfToken);
+            if (confirm("Are you sure you want to sign out?")) {
+              $.ajax({
+                type: "POST",
+                url: "/users/logout/",
+                headers: {
+                  "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+                },
+                success: function (response) {
+                  window.location.href = response.url;
+                },
+                error: function (xhr, status, error) {
+                  alert(xhr.responseText);
+                },
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({}),
+                cache: false,
+                timeout: 5000,
+                complete: function (response) {},
+              });
+            }
+          });
+        });
       });
-    })
-  })
+    </script>
 
-</script>
-
-
+    {% block vite %} {% endblock vite %}
   </body>
 </html>

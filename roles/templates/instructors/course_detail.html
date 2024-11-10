@@ -1,0 +1,487 @@
+{% extends "instructors/base.html" %}
+<!--  -->
+{% load webpack_loader %}
+<!--  -->
+
+{% load static %}
+<!--  -->
+<!--  -->
+{% block content %}
+<style>
+  .module_title_error {
+    font-weight: bold;
+    display: none;
+    padding: 0.89rem 0;
+  }
+  .is_invisible {
+    display: none !important;
+  }
+</style>
+
+<!-- Add New Section Start -->
+<div
+  class="modal fade"
+  id="add_section_model"
+  tabindex="-1"
+  aria-labelledby="lectureModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <form action="" method="post" id="curriculumnModuleSectionAddForm">
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="lectureModalLabel">Curriculum Section</h5>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="new-section">
+                  <div class="form_group">
+                    <label class="label25">Module Title*</label>
+                    {{form.module_title}}
+                    <div class="module_title_error"></div>
+                    <div
+                      class="invalid-feedback module_title_error response-container"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="main-btn cancel" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="submit"
+            class="main-btn submit-main-btn-with-spinner"
+            id="submitBtn"
+          >
+            <span class="btn-text">Add Section</span>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Add New Section End -->
+
+<div class="step-tab-panel step-tab-gallery" id="tab_step2">
+  <div class="tab-from-content">
+    <div class="title-icon">
+      <h3 class="title"><i class="uil uil-notebooks"></i>Curriculum</h3>
+    </div>
+    <div class="curriculum-section">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="curriculum-add-item">
+            <h4 class="section-title mt-0">
+              <i class="fas fa-th-list me-2"></i>Curriculum
+            </h4>
+            <button
+              class="main-btn color btn-hover ml-left add-section-title"
+              data-bs-toggle="modal"
+              data-bs-target="#add_section_model"
+            >
+              New Section
+            </button>
+          </div>
+
+          {% for curriculum in course.get_course_modules %}
+          <div class="added-section-item module-content-body">
+            <div class="section-header">
+              <h4>
+                <i class="fas fa-bars me-2"></i>{{curriculum.module_title}}
+              </h4>
+              <div class="section-edit-options">
+                <button
+                  class="btn-152"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#edit-section"
+                  data-module-title="{{curriculum.module_title}}"
+                  id="curriculum-update-item-{{curriculum.pk}}"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn-152 curriculum-delete-item"
+                  type="button"
+                  data-delete-url="{{curriculum.get_delete_url}}"
+                  id="curriculum-delete-item-{{curriculum.pk}}"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div
+                class="new-section smt-25 px-5 update-module-title-{{curriculum.pk}}-container is_invisible"
+              >
+                <form
+                  action="{{curriculum.get_update_url}}"
+                  method="post"
+                  id="update-module-title-form-{{curriculum.pk}}"
+                >
+                  <div class="form_group">
+                    <div class="ui search focus mt-30 lbel25">
+                      <label>Module Title*</label>
+                      <div class="ui left icon input swdh19">
+                        <input
+                          class="prompt srch_explore"
+                          type="text"
+                          placeholder=""
+                          name="module_title"
+                          id="id_{{curriculum.module_title}}"
+                          value="{{curriculum.module_title}}"
+                          title="{{curriculum.module_title}}"
+                        />
+                      </div>
+                      <div class="response-container"></div>
+                    </div>
+                  </div>
+                  <div class="share-submit-btns ps-0">
+                    <button
+                      class="main-btn color btn-hover submit-main-btn-with-spinner"
+                    >
+                      <span class="btn-text">
+                        <i class="fas fa-save me-2"></i>Update Section
+                      </span>
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="section-group-list">
+              <div class="d-flex flex-column">
+                <div class="section-list-item">
+                  <div class="section-item-title">
+                    <i class="fas fa-file-alt me-2"></i>
+                    <span class="section-item-title-text"
+                      >Module Lectures:
+                      ({{curriculum.get_all_curriculum_lectures.count}})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    class="section-item-tools edit-module-lecture"
+                    id="edit_lecture_module_{{curriculum.pk}}"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+
+                  <button type="button" class="section-item-tools">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                  <button type="button" class="section-item-tools ml-auto">
+                    <i class="fas fa-bars"></i>
+                  </button>
+                </div>
+                <!-- update lecture form -->
+                <div
+                  class="lecture_module_edit d-none"
+                  id="lecture_module_edit_{{curriculum.pk}}"
+                >
+                  <div class="accordion" id="accordionExample">
+                    {% for lecture in curriculum.get_all_curriculum_lectures %}
+
+                    <div class="px-2 py-3 accordion-item">
+                      <h2 class="accordion-header">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapse{{lecture.pk}}"
+                          aria-expanded="true"
+                          aria-controls="collapse{{lecture.pk}}"
+                        >
+                          {{lecture.title}}
+                        </button>
+                      </h2>
+                      <div
+                        id="collapse{{lecture.pk}}"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div class="accordion-body">
+                          {% include 'instructors/components/lecture/update_lecture.html' %}
+                        </div>
+                      </div>
+                    </div>
+
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-list-item">
+                <div class="section-item-title">
+                  <i class="fas fa-stream me-2"></i>
+                  <span class="section-item-title-text">Quiz Title</span>
+                </div>
+                <button type="button" class="section-item-tools">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="section-item-tools">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button type="button" class="section-item-tools ml-auto">
+                  <i class="fas fa-bars"></i>
+                </button>
+              </div>
+              <div class="section-list-item">
+                <div class="section-item-title">
+                  <i class="fas fa-clipboard-list me-2"></i>
+                  <span class="section-item-title-text">Assignment Title</span>
+                </div>
+                <button type="button" class="section-item-tools">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="section-item-tools">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button type="button" class="section-item-tools ml-auto">
+                  <i class="fas fa-bars"></i>
+                </button>
+              </div>
+            </div>
+            <div class="section-add-item-wrap p-3">
+              <button
+                class="add_lecture"
+                data-bs-toggle="modal"
+                data-bs-target="#add_lecture_model_{{curriculum.pk}}"
+              >
+                <i class="far fa-plus-square me-2"></i>Lecture
+              </button>
+              <button
+                class="add_quiz"
+                data-bs-toggle="modal"
+                data-bs-target="#add_quiz_model"
+              >
+                <i class="far fa-plus-square me-2"></i>Quiz
+              </button>
+              <button
+                class="add_assignment"
+                data-bs-toggle="modal"
+                data-bs-target="#add_assignment_model"
+              >
+                <i class="far fa-plus-square me-2"></i>Assignment
+              </button>
+            </div>
+          </div>
+          <!-- Add Lecture Start -->
+          {% include 'instructors/components/add_lecture.html' %}
+          <!-- Add Lecture End -->
+          {% empty %}
+          <div class="curriculum-add-item py-4">
+            <h4 class="section-title mt-0">
+              <i class="fas fa-regular fa-sitemap me-2"></i>
+              <strong style="font-weight: 600">{{course.title}}</strong>
+            </h4>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+<!--  -->
+
+{% block scripts %}
+
+<script>
+  $(document).ready(function () {
+    $(".edit-module-lecture").each(function () {
+      $(this).click(function () {
+        const parts = $(this).attr("id").split("_");
+        const curriculumPk = parts[parts.length - 1];
+        const scm = $(`#lecture_module_edit_${curriculumPk}`);
+        scm.toggleClass("d-none");
+      });
+    });
+
+    $(".add_lecture_form").each(function () {
+      $(this).submit(function (event) {
+        event.preventDefault();
+        const formParts = $(this).attr("id").split("-");
+        $(this).find("button.main-btn").text("uploading...");
+        const curriculumPk = formParts[formParts.length - 1];
+        const form = $(this);
+        const formData = new FormData(this);
+        $(this).find("button.main-btn").prop("disabled", true);
+
+        $.ajax({
+          method: "POST",
+          url: form.attr("action"),
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            form.find("button.main-btn").text("Upload complete successfully!");
+          },
+          error: function (xhr, status, error) {
+            form
+              .find("#response-container")
+              .css("padding", "0.67rem 0.3rem")
+              .show(1000)
+              .text("Error occurred while uploading the file.");
+          },
+          complete: function () {
+            form.find("button.main-btn").text("Upload complete");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          },
+        });
+      });
+    });
+
+    $("#curriculumnModuleSectionAddForm").submit(function (event) {
+      event.preventDefault();
+      const url = $(this).attr("action") || window.location.href;
+      const form = new FormData(this);
+
+      $("#submitBtn").prop("disabled", true).addClass("loading");
+
+      $.ajax({
+        url: url,
+        type: "POST",
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response);
+          $(".response-container")
+            .css("padding", "0.67rem 0.3rem")
+            .addClass("text-success")
+            .show(1000)
+            .text(response.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        },
+        error: function (xhr, status, error) {
+          const errors = xhr.responseJSON.errors;
+          $(".response-container")
+            .css("padding", "0.67rem 0.3rem")
+            .show(1000)
+            .text(errors);
+        },
+        complete: function () {
+          $("#submitBtn").prop("disabled", false).removeClass("loading");
+        },
+      });
+    });
+
+    $(".curriculum-delete-item").click(async function () {
+      const parts = $(this).attr("id").split("-");
+      let lastItem = parts[parts.length - 1];
+      lastItem = parseInt(lastItem, 10);
+      console.log(lastItem);
+
+      const urlEndpoint = $(this).attr("data-delete-url");
+      $("body").css("pointer-events", "none");
+      $("body").append(
+        '<div class="overlay"><div class="spinner"></div></div>'
+      );
+
+      $.ajax({
+        url: urlEndpoint,
+        method: "POST",
+        success: function (response) {
+          console.log(response);
+          window.location.reload();
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr, status, error);
+        },
+        complete: function () {
+          $("body").css("pointer-events", "auto");
+          $(".overlay").remove();
+        },
+      });
+    });
+
+    $(".section-edit-options").each(function () {
+      const updateButton = $(this).find("button[data-target='#edit-section']");
+      const updateParts = updateButton.attr("id").split("-");
+      const curriculumPk = updateParts[updateParts.length - 1];
+
+      const updateFormHolder = $(
+        `.update-module-title-${curriculumPk}-container`
+      );
+
+      updateButton.click(function () {
+        updateFormHolder.toggleClass("is_invisible");
+        $(`#update-module-title-form-${curriculumPk}`).submit(function () {
+          const uploadForm = $(this).find("button.main-btn");
+          const responseContainer = $(".response-container");
+
+          event.preventDefault();
+          uploadForm.addClass("loading");
+          uploadForm.prop("disabled", true);
+
+          const url = $(this).attr("action");
+          const form = new FormData(this);
+
+          $.ajax({
+            url: url,
+            type: "POST",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              console.log(response);
+              responseContainer
+                .css("padding", "0.57rem 0.3rem")
+                .addClass("text-success")
+                .text(response.details);
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            },
+            error: function (xhr, status, error) {
+              console.log(xhr, status, error);
+              const detail = xhr.responseJSON.details;
+              responseContainer
+                .css("padding", "0.57rem 0.3rem")
+                .addClass("text-danger")
+                .text(detail);
+            },
+            complete: function () {
+              uploadForm.removeClass("loading");
+              uploadForm.prop("disabled", false);
+              responseContainer.hide(1000);
+            },
+          });
+        });
+      });
+    });
+  });
+</script>
+
+{% endblock scripts %}

@@ -7,7 +7,8 @@
     "axe/aria": [
       "default",
       {
-        "aria-required-children": "off"
+        "aria-required-children": "off",
+        "aria-valid-attr-value": "off"
       }
     ],
     "no-inline-styles": "off",
@@ -21,15 +22,18 @@
       "default",
       {
         "ignore": [
-          "flex-direction"
+          "flex-direction",
+          "gap"
         ]
       }
     ],
     "axe/name-role-value": [
       "default",
       {
-        "link-name": "off"
+        "link-name": "off",
+        "button-name": "off"
       }
-    ]
+    ],
+    "meta-viewport": "off"
   }
 }
