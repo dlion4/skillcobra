@@ -10,24 +10,25 @@
       <div class="right_side">
         <div class="fcrse_2 mb-30">
           <div class="tutor_img">
-            <a href="my_instructor_profile_view.html"
-              ><img src="{% static 'images/left-imgs/img-10.jpg' %}" alt=""
-            /></a>
+            <a href="my_instructor_profile_view.html">
+              <img src="{% static 'images/left-imgs/img-10.jpg' %}" alt="" />
+            </a>
           </div>
           <div class="tutor_content_dt">
             <div class="tutor150">
-              <a href="" class="tutor_name">Joginder Singh</a>
+              <a href="" class="tutor_name">{{profile.full_name|title}}</a>
               <div class="mef78" title="Verify">
                 <i class="uil uil-check-circle"></i>
               </div>
             </div>
-            <div class="tutor_cate">Web Developer, Designer, and Teacher</div>
-
+            <div class="tutor_cate">
+              {{profile.headline|default:"Headline unset yet"}}
+            </div>
             <div class="tut1250">
               <span class="vdt15">0 completed</span>
               <span class="vdt15">12 Courses</span>
             </div>
-            <a href="" class="prfle12link">Go To Profile</a>
+            <a href="{{dashboard_url}}" class="prfle12link">Go To Profile</a>
           </div>
         </div>
         <div class="fcrse_3">
@@ -35,19 +36,27 @@
             <h4>Live Streaming</h4>
           </div>
           <div class="live_text">
-            <div class="live_icon"><i class="uil uil-kayak"></i></div>
+            <div class="live_icon">
+              <i class="uil uil-kayak"></i>
+            </div>
             <div class="live-content">
               <p>Set up your channel and stream live to your students</p>
-              <button
-                class="live_link"
-                onclick="window.location.href = 'add_streaming.html';"
-              >
+              <button class="live_link instructor_to_live_channel">
                 Get Started
               </button>
               <span class="livinfo"
-                >Info : This feature only for 'Instructors'.</span
-              >
+                >Info : This feature only for 'Instructors'.
+              </span>
             </div>
+            {% if request.user.role == 'instructor' %}
+            <script>
+              $(document).ready(function () {
+                $(".instructor_to_live_channel").click(function () {
+                  console.log("instructor clicked");
+                });
+              });
+            </script>
+            {% endif %}
           </div>
         </div>
         <div class="get1452">
@@ -61,8 +70,7 @@
           <div class="cater_ttle">
             <h4>Top Categories</h4>
           </div>
-          <ul class="allcate15 category_list">
-          </ul>
+          <ul class="allcate15 category_list"></ul>
         </div>
         <div class="strttech120">
           <h4>Become an Instructor</h4>
@@ -73,14 +81,12 @@
           <button class="Get_btn">Start Teaching</button>
         </div>
         <div class="strttech120">
-            <h4>Live Streams</h4>
-  
+          <h4>Live Streams</h4>
         </div>
       </div>
     </div>
     <!-- right side -->
     <!-- testimonials -->
-
     <div class="col-xl-12 col-lg-12">
       <div class="section3125 mt-30">
         <h4 class="item_title">What Our Student Have Today</h4>

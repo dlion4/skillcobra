@@ -4,10 +4,32 @@
 <!-- css -->
 {% load static %}
 <!--  -->
-
 {% block css %}
-<link href="{% static 'css/student_dashboard.css' %}" rel="stylesheet" />
-<link href="{% static 'css/student_responsive.css' %}" rel="stylesheet" />
+<link href="{% static 'css/student_dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'css/student_responsive.css' %}" rel="stylesheet">
+<style>
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
 {{ block.super }}
 <!--  -->
 {% endblock css %}
@@ -15,7 +37,40 @@
 {% block sidebar %} {% include 'students/components/sidebar.html' %}
 <!--  -->
 {% endblock sidebar %}
-
 <!--  -->
-
-{% block content %} {% endblock content %}
+{% block content %} {% endblock content %} {% block scripts %}
+<!--  -->
+{{ block.super }}
+<script>
+  $(document).ready(function () {
+    $("button.subscribe-btn").on("click", function (event) {
+      event.preventDefault();
+      const btn = $(this);
+      const csrfToken = $('meta[name="csrf-token"]').attr("content");
+      console.log(csrfToken);
+      $.ajax({
+        url: btn.data("subscribe-url"),
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        success: function (response) {
+          console.log(response);
+          btn.text("Subscribed!");
+          btn.prop("disabled", true);
+          const subscriptions = parseInt(response.subscriptions)
+          $("div._ttl123.subscriber_count").each(function(){
+            if(subscriptions > 1){
+              $(this).closest("._ttl122").text("Subscribers")
+            }
+            $(this).text(parseInt(response.subscriptions))
+          })
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    });
+  });
+</script>
+{% endblock scripts %}

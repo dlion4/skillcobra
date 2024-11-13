@@ -1,3 +1,4 @@
+from django.urls import include
 from django.urls import path
 
 from . import views
@@ -62,5 +63,15 @@ urlpatterns = [
         "terms-of-use/",
         views.HomeTermsOfUseView.as_view(),
         name="terms",
+    ),
+    # COURSE URL
+    path("courses/", include("skillcobra.core.courses.urls", namespace="courses")),
+    path(
+        "instructors/",
+        include("skillcobra.core.instructors.urls", namespace="profile_instructors"),
+    ),
+    path(
+        "students/",
+        include("skillcobra.core.students.urls", namespace="profile_students"),
     ),
 ]

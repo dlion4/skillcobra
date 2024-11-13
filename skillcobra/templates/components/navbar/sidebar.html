@@ -60,7 +60,7 @@
 
         {% if request.user.role == "student" %}
         <li class="menu--item">
-          <a href="saved_courses.html" class="menu--link" title="Saved Courses">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
             <i class="uil uil-heart-alt menu--icon"></i>
             <span class="menu--label">Saved Courses</span>
           </a>

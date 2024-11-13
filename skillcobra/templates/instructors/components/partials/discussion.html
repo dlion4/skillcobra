@@ -1,0 +1,85 @@
+{% load static %}
+
+<div class="review_item review-item-{{item.pk}}">
+  <div class="review_usr_dt">
+    <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="{{item.student.full_name}}">
+    <div class="rv1458">
+      <h4 class="tutor_name1">{{item.student.full_name|title|default:item.student.user.email}}</h4>
+      <span class="time_145">{{item.created_at|timesince}}
+        ago</span>
+    </div>
+    {% if request.user.user_profile == item.student or is_instructor and request.user.user_profile == item.tutor %}
+      <div class="eps_dots more_dropdown">
+        <a role="button">
+          <i class="uil uil-ellipsis-v"></i>
+        </a>
+        <div class="dropdown-content">
+          <span>
+            <i class='uil uil-comment-alt-edit'></i>Edit</span>
+          <span class="discussion_delete_btn" data-delete-url="{{item.get_delete_url}}">
+            <span class="spinner" style="display: none;"></span>
+            <i class='delete-content uil uil-trash-alt'></i>Delete
+          </span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  <p class="rvds10">
+    {{item.message|safe}}
+  </p>
+  <div class="rpt101">
+    <a href="#" class="report155">
+      <i class='uil uil-thumbs-up'></i>
+      10</a>
+    <a href="#" class="report155">
+      <i class='uil uil-thumbs-down'></i>
+      1</a>
+    <a href="#" class="report155">
+      <i class='uil uil-heart'></i>
+    </a>
+    <a href="#" class="report155 ml-3">Reply</a>
+  </div>
+</div>
+{% if item.get_discussion_replies %}
+  <div class="review_reply">
+    {% for item in item.get_discussion_replies %}
+      <div class="review_item">
+        <div class="review_usr_dt">
+          <img src="{% static 'images/left-imgs/img-3.jpg' %}" alt="">
+          <div class="rv1458">
+            <h4 class="tutor_name1">{{item.profile.full_name|title|default:item.profile.user.email}}</h4>
+            <span class="time_145">{{item.created_at|timesince}}
+              ago</span>
+          </div>
+
+          {% if request.user.user_profile == item.profile %}
+            <div class="eps_dots more_dropdown">
+              <a role="button">
+                <i class="uil uil-ellipsis-v"></i>
+              </a>
+              <div class="dropdown-content">
+                <span>
+                  <i class='uil uil-trash-alt'></i>Delete</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        <p class="rvds10">
+          {{item.message}}
+        </p>
+        <div class="rpt101">
+          <a href="#" class="report155">
+            <i class='uil uil-thumbs-up'></i>
+            4</a>
+          <a href="#" class="report155">
+            <i class='uil uil-thumbs-down'></i>
+            2</a>
+          <a href="#" class="report155">
+            <i class='uil uil-heart'></i>
+          </a>
+          <a href="#" class="report155 ml-3">Reply</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,63 @@
+{% load static %}
+
+<div class="crse_content">
+  <h3>Course content</h3>
+  <div class="_112456">
+    <ul class="accordion-expand-holder">
+      <li><span class="accordion-expand-all _d1452">Expand all</span></li>
+      <li><span class="_fgr123"> {{course.get_cumulated_lectures.count}} lectures</span></li>
+      <li><span class="_fgr123">47:06:29</span></li>
+    </ul>
+  </div>
+
+  {% if course.get_course_curriculums %}
+  <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
+    {% for item in course.get_course_curriculums %}
+    <a
+      href="javascript:void(0)"
+      class="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all"
+    >
+      <div class="section-header-left">
+        <span class="section-title-wrapper">
+          <i class="uil uil-presentation-play crse_icon"></i>
+          <span class="section-title-text">{{item.module_title|title}}</span>
+        </span>
+      </div>
+      <div class="section-header-right">
+        <span class="num-items-in-section"
+          >{{item.get_all_curriculum_lectures.count}} lectures</span
+        >
+        <span class="section-header-length">22:08</span>
+      </div>
+    </a>
+
+    {% for lecture in item.get_all_curriculum_lectures %}
+    <div
+      class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom"
+    >
+      <div class="lecture-container">
+        <div class="left-content">
+            {% if lecture.lecture_video_url %}
+          <i class="uil uil-play-circle icon_142"></i>
+          {% elif lecture.lecture_attachments %}
+           <i class="uil uil-file-download-alt icon_142"></i>
+          {% endif %}
+          <div class="top">
+            <div class="title">{{lecture.title}}</div>
+          </div>
+        </div>
+        <div class="details">
+            {% if lecture.lecture_video_url and lecture.has_free_preview  %}
+          <a href="#" class="preview-text">Preview</a>
+          <span class="content-summary">07:48</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!--  -->
+    {% endfor %}
+  </div>
+  {% endif %}
+  <a class="btn1458" href="#">20 More Sections</a>
+</div>

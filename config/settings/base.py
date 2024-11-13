@@ -3,6 +3,7 @@
 
 import sys
 from pathlib import Path
+from typing import Optional
 
 import environ
 from corsheaders.defaults import default_headers
@@ -63,7 +64,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
-
+ASGI_APPLICATION = "config.asgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
@@ -99,17 +100,20 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     "widget_tweaks",
     "django_ckeditor_5",
+    # FRAOLA EDITOR
+    "froala_editor",
+    "django_twilio",
+    "channels",
 ]
 
 LOCAL_APPS = [
     "skillcobra.users",
-    # Your stuff: custom apps go here
     "roles.students.students",
     "roles.instructors.instructor",
     "skillcobra.core",
     "skillcobra.payments",
-    #
     "skillcobra.school",
+    "skillcobra.purchases",
 ]
 
 # https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload
@@ -118,7 +122,6 @@ CKEDITOR_5_FILE_UPLOAD_PERMISSION = (
     "authenticated"  # Possible values: "staff", "authenticated", "any"
 )
 # CKEDITOR_5_ALLOW_ALL_FILE_TYPES = True
-CKEDITOR_5_UPLOAD_FILE_TYPES = []  # optional
 CK_EDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file"
 CKEDITOR_5_MAX_FILE_SIZE = 5 # Max size in MB
 CKEDITOR_5_FILE_STORAGE = "config.settings.storage.CustomStorage" # optional
@@ -412,3 +415,10 @@ CORS_ALLOW_HEADERS = (
     *default_headers,
     "S-B-X-ApiKeyToken",
 )
+
+# TWILIO CREDENTIAL SETUP
+TWILIO_ACCOUNT_SID = env.str("TWILIO_ACCOUNT_SSID")
+TWILIO_AUTH_TOKEN = env.str("TWILIO_ACCOUNT_AUTH_TOKEN")
+TWILIO_ACCOUNT_PHONE_NUMBER = env.str("TWILIO_ACCOUNT_PHONE_NUMBER")
+DJANGO_TWILIO_FORGERY_PROTECTION=False
+DJANGO_TWILIO_BLACKLIST_CHECK = False

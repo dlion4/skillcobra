@@ -1,8 +1,13 @@
 {
     "cSpell.words": [
         "a",
+        "adcart",
         "allauth",
+        "apiclient",
         "asgi",
+        "asgiref",
+        "authtoken",
+        "boto",
         "chars",
         "corsheaders",
         "csrfmiddlewaretoken",
@@ -10,21 +15,39 @@
         "DOTENV",
         "DOTENVS",
         "factoryboy",
+        "fcrse",
+        "FRAOLA",
+        "froala",
         "fullhash",
         "Gunicorn",
         "iframe",
         "Iinvalid",
         "jeckonia",
         "levelname",
+        "mpesa",
         "nocookie",
+        "Pesa",
         "pixrem",
         "selectpicker",
         "signout",
         "skillcobra",
+        "socialaccount",
         "srch",
         "superadmin",
         "superadmins",
+        "twiml",
+        "unsave",
         "whitenoise",
         "youtu"
+    ],
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "database": "skillcobra",
+            "name": "skillcobra",
+            "connectString": "postgres://postgres:1234@localhost:5432/skillcobra"
+        }
     ]
 }

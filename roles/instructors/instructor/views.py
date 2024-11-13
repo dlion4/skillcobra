@@ -15,6 +15,7 @@ from django.views.generic import TemplateView
 from skillcobra.school.forms import CourseCurriculumForm, CreateCourseCurriculumLectureForm
 from skillcobra.school.forms import CourseForm
 from skillcobra.school.models import Course
+from skillcobra.users.forms import UpdateAccountProfileBasicDataForm
 
 
 class TemplateViewMixin(TemplateView):
@@ -34,6 +35,10 @@ class TemplateViewMixin(TemplateView):
 
     def get_profile(self):
         return get_user(self.request).user_profile
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["profile"] = self.get_profile()
+        return context
 
 
 # Create your views here.
@@ -71,13 +76,12 @@ class InstructorCreatedCourseView(TemplateViewMixin, FormView):
             instance.tutor = self.get_profile()
             instance.save()
             form.save()
-            return JsonResponse(
-                {"status": "success", "message": "Course created successfully"},
-            )
-        return JsonResponse({"status": "error", "errors": form.errors}, status=400)
-
+            return redirect(instance)
+        context = {"form": form}
+        return render(request, self.get_template_names(), context)
 
 class InstructorCourseDetailView(TemplateViewMixin, FormView):
+    
     template_name = "course_detail.html"
     form_class = CourseCurriculumForm
     lecture_form = CreateCourseCurriculumLectureForm
@@ -113,8 +117,18 @@ class InstructorCourseDetailView(TemplateViewMixin, FormView):
                     },
                     status=500,
                 )
-        error_messages = []
+        error_messages:list[str] = []
         for field, errors in form.errors.items():
             error_messages.extend(
                 {"field": field, "message": error} for error in errors)
         return JsonResponse({"errors": error_messages}, status=400)
+
+class InstructorProfileUpdateView(TemplateViewMixin):
+    template_name = "profile_update.html"
+    account_basic_form = UpdateAccountProfileBasicDataForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["account_basic_update_form"] = self.account_basic_form(
+            instance=self.get_profile(),
+        )
+        return context

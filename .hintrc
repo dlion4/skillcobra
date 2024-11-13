@@ -8,14 +8,17 @@
       "default",
       {
         "aria-required-children": "off",
-        "aria-valid-attr-value": "off"
+        "aria-valid-attr-value": "off",
+        "aria-required-parent": "off",
+        "aria-command-name": "off"
       }
     ],
     "no-inline-styles": "off",
     "axe/structure": [
       "default",
       {
-        "list": "off"
+        "list": "off",
+        "listitem": "off"
       }
     ],
     "compat-api/css": [
@@ -34,6 +37,15 @@
         "button-name": "off"
       }
     ],
-    "meta-viewport": "off"
+    "meta-viewport": "off",
+    "compat-api/html": [
+      "default",
+      {
+        "ignore": [
+          "iframe[allow]",
+          "iframe[allowfullscreen]"
+        ]
+      }
+    ]
   }
 }

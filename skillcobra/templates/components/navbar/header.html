@@ -30,12 +30,13 @@
   </div>
   <div class="header_right">
     <ul>
-      
+    
       {% if request.user.role == 'student' %}
       <li>
-        <a href="" class="option_links" title="cart"
+        <a href="{% url 'students:shopping_courses' %}" class="option_links"
           ><i class="uil uil-shopping-cart-alt"></i
-          ><span class="noti_count">0</span></a
+          >
+          <span class="noti_count cart_counter">{{request.user.user_profile.get_all_cart_items.count|default:"0"}}</span></a
         >
       </li>
       {% endif %}
@@ -157,7 +158,7 @@
               <img src="{% static 'images/hd_dp.jpg' %}" alt="" />
               <div class="pd_content">
                 <div class="rhte85">
-                  <h6>John Singh</h6>
+                  <h6>{{request.user.user_profile.full_name|title}}</h6>
                   <div class="mef78" title="Verify">
                     <i class="uil uil-check-circle"></i>
                   </div>
@@ -181,7 +182,7 @@
             Dashboard
           </a>
           <a href="membership.html" class="item channel_item">Memberships</a>
-          <a href="setting.html" class="item channel_item">Setting</a>
+          <a href="{% if request.user.role == 'student' %}#{% else %}{% url 'instructors:update_profile' %}{% endif %}" class="item channel_item">Setting</a>
           <a href="{% url 'help' %}" class="item channel_item">Help</a>
           <a href="{% url 'feedback' %}" class="item channel_item"
             >Send Feedback</a

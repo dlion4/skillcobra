@@ -1,0 +1,31 @@
+<div
+    class="tab-pane fade"
+    id="pills-privacy"
+    role="tabpanel"
+    aria-labelledby="pills-privacy-tab"
+>
+    <div class="account_setting">
+        <h4>Privacy</h4>
+        <p>Modify your privacy settings here.</p>
+        <div class="basic_profile">
+            <div class="basic_form">
+                <div class="nstting_content">
+                    <div class="basic_ptitle">
+                        <h4>Profile page settings</h4>
+                    </div>
+                    <div class="ui toggle checkbox _1457s2">
+                        <input type="checkbox" name="stream_ss8" checked="" title="profile_name">
+                        <label>Show your profile on search engines</label>
+                    </div>
+                    {% if request.user.role == "student" %}
+                    <div class="ui toggle checkbox _1457s2">
+                        <input type="checkbox" name="stream_ss9" title="stream">
+                        <label>Show courses you're taking on your profile page</label>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <button class="save_btn" type="submit">Save Changes</button>
+    </div>
+</div>

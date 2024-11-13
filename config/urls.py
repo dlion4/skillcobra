@@ -3,14 +3,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.http import HttpResponse
 from django.urls import include
-from django.urls import path
+from django.urls import path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
-from .views import custom_upload_function
+from .views import custom_upload_function, serve_s3_file
+
 
 urlpatterns = [
     path("", include("skillcobra.core.urls")),
@@ -26,6 +28,10 @@ urlpatterns = [
     path("upload/", custom_upload_function, name="custom_upload_file"),
     # ...
     path("ckeditor5/", include("django_ckeditor_5.urls")),
+    # Freolar ediotr
+    path("froala_editor/", include("froala_editor.urls")),
+    # path("serve-s3-file/<file_key>/", serve_file, name="serve_s3_file"),
+    re_path(r"^serve-s3-file/(?P<file_key>.+)/$", serve_s3_file, name="serve_s3_file"),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

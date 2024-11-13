@@ -1,0 +1,404 @@
+{% extends "base.html" %}
+<!-- -->
+{% block title %}
+  {{ block.super }}
+  {{course.title}}
+{% endblock title %}
+<!-- -->
+{% block styles %}
+<style>
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+</style>
+{% endblock styles %}
+<!-- -->
+{% load static %}
+<!-- -->
+{% block wrapper %}
+
+  {% if course.preview_video %}
+<!-- Video Model Start -->
+<div
+    class="modal vd_mdl fade"
+    id="videoModal{{course.pk}}"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <button
+                type="button"
+                class="close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <iframe src="{{course.preview_video}}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Video Model End -->
+{% endif %}
+<div class="wrapper _bg4586">
+    {% block content %}
+    <div class="_215b01">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section3125">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-4 col-lg-5 col-md-6">
+                                <div class="preview_video">
+                                    <a
+                                        href="#"
+                                        class="fcrse_img"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#videoModal{{course.pk}}"
+                                    >
+                                        <img src="{% if course.cover %}{{course.cover.url}}{% else %}{% static 'images/courses/img-2.jpg' %}{% endif %}" alt="{{course.title}}">
+                                        <div class="course-overlay">
+                                            <div class="badge_seller">Bestseller</div>
+                                            {% if course.preview_video %}
+                                            <span class="play_btn1">
+                                                <i class="uil uil-play"></i>
+                                            </span>
+                                            <span class="_215b02">Preview this course</span>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="_215b10">
+                                    <a href="#" class="_215b11">
+                                        <span>
+                                            <i class="uil uil-heart"></i>
+                                        </span>
+                                        Save
+                                    </a>
+                                    <a href="#" class="_215b12">
+                                        <span>
+                                            <i class="uil uil-windsock"></i>
+                                        </span>
+                                        Report abuse
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <div class="_215b03">
+                                    <h2>{{course.title}}</h2>
+                                    <span class="_215b04">
+                                        {{course.short_description|truncatewords:"20"}}
+                                    </span>
+                                </div>
+                                <div class="_215b05">
+                                    <div class="crse_reviews mr-2">
+                                        <i class="uil uil-star"></i>
+                                        5.3.2
+                                    </div>
+                                    (81,665 ratings)
+                                </div>
+                                <div class="_215b05">114,521 students enrolled</div>
+                                <div class="_215b06">
+                                    <div class="_215b07">
+                                        <span>
+                                            <i class="uil uil-comment"></i>
+                                        </span>
+                                        English
+                                    </div>
+                                    <div class="_215b08">
+                                        <span>
+                                            <i class="uil uil-closed-captioning"></i>
+                                        </span>
+                                        <span>
+                                            English, USA
+                                            <span class="caption_tooltip">
+                                                12 more
+                                                <span class="caption-content">
+                                                    <span>French</span>
+                                                    <span>Swahili</span>
+                                                    <span>German [Auto-generated]</span>
+                                                    <span>Indonesian [Auto-generated]</span>
+                                                    <span>Italian [Auto-generated]</span>
+                                                    <span>Japanese [Auto-generated]</span>
+                                                    <span>Korean</span>
+                                                    <span>Polish</span>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="_215b05">Last updated 1/2024</div>
+                                <ul class="_215b31">
+                                    {% if course.pk in cart_course_items %}
+                                    <li>
+                                        <button disabled class="btn_adcart" data-add-cart-url="{{course.get_add_to_cart_url}}">
+                                            <div class="spinner" style="display: none;"></div>
+                                            Item in Cart
+                                        </button>
+                                    </li>
+                                    {% else %}
+                                    <li>
+                                        <button class="btn_adcart" data-add-cart-url="{{course.get_add_to_cart_url}}">
+                                            <div class="spinner" style="display: none;"></div>
+                                            Add to Cart
+                                        </button>
+                                    </li>
+                                    {% endif %}
+                                    {% if not course.pk in cart_course_items %}
+                                    <li>
+                                        <button class="btn_buy" data-buy-course-url="{{course.get_buy_course_url}}">Buy Now</button>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                <div class="_215fgt1">30-Day Money-Back Guarantee</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="_215b15 _byt1458">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="user_dt5">
+                        <div class="user_dt_left">
+                            <div class="live_user_dt">
+                                <div class="user_img5">
+                                    <a href="{{course.tutor.get_public_profile_url}}">
+                                        <img src="{% if course.tutor.avatar %}{{course.tutor.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="">
+                                    </a>
+                                </div>
+                                <div class="user_cntnt">
+                                    <a href="{{course.tutor.get_public_profile_url}}" class="_df7852">
+                                        {{course.tutor.full_name|title}}
+                                    </a>
+                                    <button class="subscribe-btn">Subscribe</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user_dt_right">
+                            <ul>
+                                <li>
+                                    <a href="#" class="lkcm152">
+                                        <i class="uil uil-eye"></i>
+                                        <span>{{course.views}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="lkcm152 like_course_button">
+                                        <i class="uil uil-thumbs-up"></i>
+                                        <span>{{course.likes}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="lkcm152 unlike_course_button">
+                                        <i class="uil uil-thumbs-down"></i>
+                                        <span>{{course.un_likes}}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="lkcm152">
+                                        <i class="uil uil-share-alt"></i>
+                                        <span>{{course.shared}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <p class="realtime_notification"></p>
+                        </div>
+                    </div>
+                    <div class="course_tabs">
+                        <nav>
+                            <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
+                                <a
+                                    class="nav-item nav-link active"
+                                    id="nav-about-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-about"
+                                    role="tab"
+                                    aria-selected="true"
+                                >
+                                    About
+                                </a>
+                                <a
+                                    class="nav-item nav-link"
+                                    id="nav-courses-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-courses"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Courses Content
+                                </a>
+                                <a
+                                    class="nav-item nav-link"
+                                    id="nav-reviews-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-reviews"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Reviews
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="_215b17">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="course_tab_content">
+                        <div class="tab-content" id="nav-tabContent">
+                            <!-- About -->
+                            <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
+                                <div class="_htg451">
+                                    <div class="_htgdrt mt-35">
+                                        {{course.course_description|safe}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content -->
+                            <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+                                {% include 'components/course/content.html' %}
+                            </div>
+                            <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
+                                {% include 'components/course/reviews.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+    <!-- footer -->
+    {% block footer %}
+      {{ block.super }}
+    <!-- -->
+    {% endblock footer %}
+    <!-- /footer -->
+</div>
+{% endblock wrapper %}
+
+{% block scripts %}
+<script>
+    const courseId = "{{ course.pk }}";
+
+    const courseNotification = new WebSocket(`ws://${window.location.host}/ws/notifications/${courseId}`)
+
+    courseNotification.onopen = () => {
+      console.log('websocket connection established');
+    }
+    const resp = $(".realtime_notification")
+
+    const likeEndpoint = "{{course.get_like_endpoint}}";
+    $(".like_course_button").click(function (event) {
+      event.preventDefault();
+      const spanItem = $(this).find("span")
+      $.ajax({
+        type: "POST",
+        url: likeEndpoint,
+        success: function (response) {
+          console.log(response)
+          spanItem.text(response.views);
+          $(".unlike_course_button")
+            .find("span")
+            .text((response.views - 1))
+          if (response.status == 'Liked') {
+            console.log("worker script here")
+            courseNotification.send(JSON.stringify({
+              ...response
+            }))
+          }
+        },
+        error: function () {
+          alert("Failed to like the course");
+        }
+      })
+    });
+
+    // unlike endpoint
+    const unlikeEndpoint = "{{course.get_unlike_endpoint}}";
+    $(".unlike_course_button").click(function (event) {
+      event.preventDefault();
+      const spanItem = $(this).find("span")
+
+      $.ajax({
+        type: "POST",
+        url: unlikeEndpoint,
+        success: function (response) {
+          spanItem.text(response.views);
+
+          $(".like_course_button")
+            .find("span")
+            .text((response.views - 1))
+        },
+        error: function () {
+          alert("Failed to like the course");
+        }
+      })
+    });
+
+    courseNotification.onmessage = function (event) {
+      console.log(event)
+      const data = JSON.parse(event.data);
+      resp.text(JSON.stringify(data));
+      console.log("Message received: ", data.message);
+    };
+
+
+    $(".btn_adcart").click(function(event){
+      event.preventDefault()
+      const btn = $(this)
+      const cartEndpoint = btn.data("add-cart-url");
+      btn.prop("disabled", true)
+      btn.find(".spinner").show()
+      $.ajax({
+        type: "POST",
+        url: cartEndpoint,
+        success: function (response) {
+          console.log(response)
+          $(".cart_counter").each(function(){
+            $(this).text(response.cart_count)
+          })
+          btn.text("Added to cart");
+        },
+        error: function () {
+          console.log("Failed to add the course to cart");
+        },
+        complete: function () {
+          btn.find(".spinner").hide()
+          btn.prop("disabled", true)
+        }
+      })
+    })
+</script>
+<!-- -->
+{% endblock scripts %}

@@ -1,3 +1,5 @@
+from skillcobra.school.models import SavedCourse
+
 from .utils import TemplateViewMixin
 
 
@@ -32,3 +34,12 @@ class StudentTransactionView(TemplateViewMixin):
 
 class StudentCreditView(TemplateViewMixin):
     template_name = "credits.html"
+
+class StudentSavedCoursesView(TemplateViewMixin):
+    template_name = "saved_course.html"
+    model = SavedCourse
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+class StudentShoppingCartView(TemplateViewMixin):
+    template_name = "shopping_cart.html"

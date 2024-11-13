@@ -1,0 +1,113 @@
+{% load static %}
+<div
+  class="tab-pane fade show active"
+  id="pills-account"
+  role="tabpanel"
+  aria-labelledby="pills-account-tab"
+>
+  <div class="account_setting">
+    <form
+      class="basic_update_form"
+      action="{% url 'users:update_profile' %}"
+      method="post"
+    >
+      {% csrf_token %}
+      <h4>Your skillcobra Account</h4>
+      <p>
+        This is your public presence on skillcobra. You need a account to upload
+        your paid courses, comment on courses, purchased by students, or
+        earning.
+      </p>
+      <div class="basic_profile">
+        <div class="basic_ptitle">
+          <h4>Basic Profile</h4>
+          <p>Add information about yourself</p>
+        </div>
+        <div class="basic_form">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="ui search focus mt-30">
+                    <div class="ui icon input swdh11 swdh19">
+                      {{account_basic_update_form.first_name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="ui search focus mt-30">
+                    <div class="ui icon input swdh11 swdh19">
+                      {{account_basic_update_form.last_name}}
+                    </div>
+                  </div>
+                </div>
+                {% if request.user.role == "instructor" %}
+                <div class="col-lg-12">
+                  <div class="ui search focus mt-30">
+                    <div class="ui icon input swdh11 swdh19">
+                      {{account_basic_update_form.headline}}
+                      <div
+                        class="form-control-counter"
+                        data-purpose="form-control-counter"
+                      >
+                        36
+                      </div>
+                    </div>
+                    <div class="help-block">
+                      {{account_basic_update_form.headline.help_text}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="ui search focus mt-30">
+                    <div class="ui form swdh30">
+                      <div class="field">{{account_basic_update_form.bio}}</div>
+                    </div>
+                    <div class="help-block">
+                      {{account_basic_update_form.bio.help_text}}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="col-lg-12">
+                  <div class="divider-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="response-container"></div>
+      <button class="save_btn" type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $(".account_setting .basic_update_form").submit(function (event) {
+      event.preventDefault();
+      const fd = new FormData(this);
+      const updateButton = $(this).find("button[type=submit].save_btn");
+      const responseContainer = $(this).find(".response-container");
+      updateButton.prop("disabled", true).text("updating profile ...");
+
+      $.ajax({
+        type: "POST",
+        url: $(this).attr("action"),
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          updateButton.text("Profile updated");
+        },
+        error: function (xhr, status, error) {
+          updateButton.text("Profile update failed");
+          responseContainer.text(xhr.responseJSON);
+        },
+        complete: function (xhr, status) {
+          updateButton.prop("disabled", false).text("Save Changes");
+        },
+      });
+    });
+  });
+</script>

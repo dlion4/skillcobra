@@ -11,6 +11,11 @@ urlpatterns = [
         name="delete_course_module_view",
     ),
     path(
+        "courses/delete-course/<course_pk>/<course_slug>/",
+        views.delete_course_view,
+        name="delete_course_view",
+    ),
+    path(
         "courses/update-module/<module_pk>/",
         views.update_course_module,
         name="update_course_module_view",
@@ -21,8 +26,13 @@ urlpatterns = [
         name="create_course_module_view",
     ),
     path(
-        "courses/lecture-for-module/<module_pk>/<lecture_pk>/",
+        "courses/update-lecture-for-module/<module_pk>/<lecture_pk>/",
         views.update_lecture_view,
         name="update_lecture_view",
+    ),
+    path(
+        "courses/delete-lecture-for-module/<module_pk>/<lecture_pk>/",
+        views.delete_lecture_view,
+        name="delete_lecture_view",
     ),
 ]

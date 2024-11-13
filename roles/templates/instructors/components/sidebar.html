@@ -7,8 +7,8 @@
       <ul>
         <li class="menu--item">
           <a
-            href="instructor_dashboard.html"
-            class="menu--link active"
+            href="{% url 'instructors:dashboard' %}"
+            class="menu--link {% if request.resolver_match.view_name == 'instructors:dashboard' %} active {% endif %}"
             title="Dashboard"
           >
             <i class="uil uil-apps menu--icon"></i>
@@ -16,7 +16,9 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_courses.html" class="menu--link" title="Courses">
+          <a href=""
+           class="menu--link"
+           title="Courses">
             <i class="uil uil-book-alt menu--icon"></i>
             <span class="menu--label">Courses</span>
           </a>
@@ -33,8 +35,8 @@
         </li>
         <li class="menu--item">
           <a
-            href="create_new_course.html"
-            class="menu--link"
+            href="{% url 'instructors:create_course_view' %}"
+            class="menu--link  {% if request.resolver_match.view_name == 'instructors:create_course_view' %} active {% endif %}"
             title="Create Course"
           >
             <i class="uil uil-plus-circle menu--icon"></i>
@@ -118,7 +120,9 @@
     <div class="left_section pt-2">
       <ul>
         <li class="menu--item">
-          <a href="setting.html" class="menu--link" title="Setting">
+          <a href="{% url 'instructors:update_profile' %}" 
+          class="menu--link {% if request.resolver_match.view_name == 'instructors:update_profile' %} active {% endif %}"
+           title="Setting">
             <i class="uil uil-cog menu--icon"></i>
             <span class="menu--label">Setting</span>
           </a>

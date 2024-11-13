@@ -1,10 +1,13 @@
 from django import forms
 from django.forms import widgets
 from django_ckeditor_5.widgets import CKEditor5Widget
+from froala_editor.widgets import FroalaEditor
 
-from .models import COURSE_LEVEL_CHOICES, CourseCurriculum, Lecture
+from .models import COURSE_LEVEL_CHOICES
 from .models import Category
 from .models import Course
+from .models import CourseCurriculum
+from .models import Lecture, DiscussionReply, Discussion
 from .models import SubCategory
 
 
@@ -119,6 +122,18 @@ class CourseForm(forms.ModelForm):
             },
         ),
     )
+    course_description = forms.CharField(
+        initial="""
+                Explain in detail what your course is all about including but not
+                limited to
+                course outline,
+                prerequisites,
+                course materials,
+                learning outcomes,
+                assessment methods,
+                """,
+        widget=FroalaEditor(),
+    )
 
     class Meta:
         model = Course
@@ -132,34 +147,25 @@ class CourseForm(forms.ModelForm):
             "require_enrollment",
             "regular_price",
             "discount_price",
+            "cover",
+            "course_duration",
+            "preview_video",
         ]
 
         widgets = {
             "title": forms.TextInput(attrs={"class": "prompt srch_explore"}),
-            "short_description": CKEditor5Widget(
-                config_name="minor_editor",
+            "preview_video": forms.URLInput(attrs={"class": "prompt srch_explore"}),
+            "course_duration": forms.TextInput(attrs={"class": "prompt srch_explore"}),
+            "cover": forms.FileInput(attrs={"class": "form-control file-input"}),
+            "short_description": forms.TextInput(
                 attrs={
-                    "class": "django_ckeditor_5",
-                    "style": "height: 300px !important;",
                     "placeholder": "Just a short description about your course in 220 words",
-                },
-            ),
-            "course_description": CKEditor5Widget(
-                attrs={
-                    "class": "django_ckeditor_5",
-                    "style": "height: 300px !important;",
-                    "placeholder": """
-                    Explain in detail what your course is all about including but not limited to
-                    course outline,
-                    prerequisites,
-                    course materials,
-                    learning outcomes,
-                    assessment methods,
-                    """,
+                    "rows": 2,
+                    "class": "form-control prompt srch_explore",
                 },
             ),
         }
-        help_text = {
+        help_texts = {
             "title": "(Please make this a maximum of 100 characters and unique.)",
         }
 
@@ -169,29 +175,23 @@ class CourseCurriculumForm(forms.ModelForm):
         model = CourseCurriculum
         fields = [
             "module_title",
-            # "module_description",
         ]
         widgets = {
             "module_title": forms.TextInput(attrs={"class": "form_input_1"}),
-            # "module_description": forms.Textarea(attrs={"rows": "3"}),
         }
 
 
 class CreateCourseCurriculumLectureForm(forms.ModelForm):
-    title = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form_input_1", "placeholder": "lecture title"}))
-    description = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Just a simple or overview of what the lecture is about",
-                "rows": 3,
-            },
-        ),
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"class": "form_input_1", "placeholder": "lecture title"}
+        )
     )
-    has_free_preview = forms.BooleanField(
-        required=False,
-        widget=forms.CheckboxInput())
+    description = forms.CharField(
+        initial="Just a simple or overview of what the lecture is about",
+        widget=FroalaEditor(),
+    )
+    has_free_preview = forms.BooleanField(required=False, widget=forms.CheckboxInput())
     lecture_video_url = forms.CharField(
         required=False,
         widget=forms.Textarea(attrs={"class": "form-control", "rows": 3}),
@@ -215,8 +215,8 @@ class CreateCourseCurriculumLectureForm(forms.ModelForm):
         required=False,
         help_text="Upload your lecture attachments (e.g., PowerPoint, PDF, Word)",
         widget=forms.ClearableFileInput(
-            attrs={
-                "class": "form-control file-upload-input"}),
+            attrs={"class": "form-control file-upload-input"}
+        ),
     )
 
     class Meta:
@@ -231,3 +231,33 @@ class CreateCourseCurriculumLectureForm(forms.ModelForm):
             "video_runtime_seconds",
             "lecture_attachments",
         ]
+
+
+class DiscussionForm(forms.ModelForm):
+    class Meta:
+        model = Discussion
+        fields = ["message"]
+
+        widgets = {
+            "message": forms.TextInput(
+                attrs={
+                    "class": "_cmnt001",
+                    "placeholder": "Your discussion message for the tutor or the community",
+                },
+            ),
+        }
+
+
+class DiscussionReplyForm(forms.ModelForm):
+    class Meta:
+        model = DiscussionReply
+        fields = ["message"]
+
+    widgets = {
+        "message": forms.TextInput(
+            attrs={
+                "class": "_cmnt001",
+                "placeholder": "Your discussion message for the tutor or the community",
+            },
+        ),
+    }

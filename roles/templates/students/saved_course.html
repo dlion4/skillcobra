@@ -1,0 +1,184 @@
+{% extends "students/base.html" %}
+<!-- -->
+{% block title %}
+  {{ block.super }}
+  Saved courses
+{% endblock title %}
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 col-md-4 ">
+        <div class="section3125 hstry142">
+            <div class="grp_titles pt-0">
+                <div class="ht_title">Saved Courses</div>
+                {% if profile.get_saved_courses %}
+                <a role="button" class="ht_clr remove-btn"  data-remove-course-url="{% url 'profile_students:all_course_unsave_view' %}">Remove All</a>
+                {% endif %}
+            </div>
+            <div class="tb_145">
+                <div class="wtch125">
+                    <span class="vdt14">{{profile.get_saved_courses.count}} Course{{profile.get_saved_courses.count|pluralize}}</span>
+                </div>
+                {% if profile.get_saved_courses %}
+                <a role="button" class="rmv-btn remove-btn" data-remove-course-url="{% url 'profile_students:all_course_unsave_view' %}">
+                    <span class="spinner" style="display: none;"></span>
+                    <i class="uil uil-trash-alt"></i>
+                    Remove Saved Courses
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <div class="col-md-9">
+        <div class="_14d25 mb-20">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="mhs_title"></h4>
+                    {% for item in  profile.get_saved_courses %}
+                    <div class="fcrse_1 main-wrapper-item">
+                        <a href="{{item.get_public_absolute_url}}" class="hf_img">
+                            <img src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-1.jpg' %}{% endif %}" alt="{{item.title}}">
+                            <div class="course-overlay">
+                                <div class="badge_seller">Bestseller</div>
+                                <div class="crse_reviews">
+                                    <i class="uil uil-star"></i>
+                                    4.5
+                                </div>
+                                <span class="play_btn1">
+                                    <i class="uil uil-play"></i>
+                                </span>
+                                <div class="crse_timer">
+                                    {{item.course_duration}}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="hs_content">
+                            <div class="eps_dots eps_dots10 more_dropdown">
+                                <a href="#">
+                                    <i class="uil uil-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-content">
+                                    <span class="remove-saved-course" data-unsave-url="{{item.get_course_unsave_url}}">
+                                        <span class="spinner" style="display: none;"></span>
+                                        <i class="uil uil-times"></i>
+                                        Remove
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="vdtodt">
+                                <span class="vdt14">{{item.views}} view{{item.views|pluralize}}</span>
+                                <span class="vdt14">{{item.updated_at|timesince}} ago</span>
+                            </div>
+                            <a href="{{item.get_public_absolute_url}}" class="crse14s">
+                                {{item.title|truncatewords:"9"}}
+                            </a>
+                            <a href="#" class="crse-cate">{{item.sub_category.category.name}} | {{item.sub_category.name}}</a>
+                            <div class="auth1lnkprce">
+                                <p class="cr1fot">
+                                    By
+                                    <a href="{{item.tutor.get_public_profile_url}}">{{item.tutor.full_name|title}}</a>
+                                </p>
+                                <div class="prce142">${{item.payable_amount}}</div>
+                                <button class="shrt-cart-btn" title="cart">
+                                    <i class="uil uil-shopping-cart-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="fcrse_1 empty-box">
+                        <div class="hs_content">
+                            <div class="mx-auto d-flex align-items-center justify-content-center py-4 px-5 flex-column">
+                                <h4 class="mhs_title">
+                                    You have not saved courses yet
+                                </h4>
+                                <a href="" class="link">View courses</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+<!-- -->
+{% block modal %}
+<!-- -->
+<!-- -->
+{% endblock modal %}
+
+{% block scripts %}
+<!--  -->
+<script>
+    $(document).ready(function(){
+
+        $(document).on("click", "a[role=button].rmv-btn, a[role=button].ht_clr", function(event){
+            event.preventDefault();
+            const btn = $(this)
+            const url = btn.data("remove-course-url");
+            btn.find("i").hide()
+            btn.find(".spinner").css({
+                display: "inline-block",
+                opacity: 1,
+                height: "22px",
+                width: "22px",
+            }).show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function(response){
+                    $(".main-wrapper-item").each(function(){
+                        $(this).fadeOut(1000);
+                    });
+                    $(".empty-box").fadeIn(1000);
+                    btn.remove();
+                    $(".remove-btn").each(function(){$(this).remove()})
+                    $(".vdt14").text("0 courses");
+                },
+                error: function(xhr, status, error){
+                    console.log(xhr.responseText);
+                },
+                complete: function(){
+                    btn.find(".spinner").hide();
+                    btn.find("i").show()
+                }
+ 
+            })
+        })
+
+
+        $(document).on("click", ".remove-saved-course", function(event){
+            event.preventDefault();
+            const btn = $(this)
+            const url = btn.data("unsave-url");
+            btn.find("i").remove()
+            btn.find(".spinner").css({
+                display: "inline-block",
+                opacity: 1,
+                height: "22px",
+                width: "22px",
+            }).show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function(response){
+                    btn.parent().closest(".fcrse_1").remove();
+                },
+                error: function(xhr, status, error){
+                    console.log(xhr.responseText);
+                },
+                complete: function(){
+                    btn.find(".spinner").hide();
+                }
+            })
+        })
+    })
+</script>
+{% endblock scripts %}

@@ -9,6 +9,11 @@ urlpatterns = [
         name="dashboard",
     ),
     path(
+        "profile-update/",
+        views.InstructorProfileUpdateView.as_view(),
+        name="update_profile",
+    ),
+    path(
         "create-course/",
         views.InstructorCreatedCourseView.as_view(),
         name="create_course_view",

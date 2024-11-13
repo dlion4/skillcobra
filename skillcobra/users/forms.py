@@ -5,7 +5,7 @@ from django.contrib.auth import forms as admin_forms
 from django.forms import EmailField
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import Profile, User
 
 
 class UserAdminChangeForm(admin_forms.UserChangeForm):
@@ -44,17 +44,20 @@ class UserSocialSignupForm(SocialSignupForm):
     See UserSignupForm otherwise.
     """
 
+
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(
         label=_("Email Address"),
         widget=forms.EmailInput(
-            attrs={"class": "prompt srch_explore", "placeholder": "Email Address"}),
+            attrs={"class": "prompt srch_explore", "placeholder": "Email Address"}
+        ),
     )
     role = forms.CharField(widget=forms.HiddenInput())
     password1 = forms.CharField(
         label=_("Password"),
         widget=forms.PasswordInput(
-            attrs={"class": "prompt srch_explore", "placeholder": "Password"}),
+            attrs={"class": "prompt srch_explore", "placeholder": "Password"}
+        ),
     )
     password2 = forms.CharField(
         label=_("Confirm Password"),
@@ -62,13 +65,14 @@ class UserRegistrationForm(forms.ModelForm):
             attrs={"class": "prompt srch_explore", "placeholder": "Confirm Password"}
         ),
     )
-    PASSWORD_MIN_LENGTH=8
+    PASSWORD_MIN_LENGTH = 8
+
     class Meta:
         model = User
-        fields = ("email","password1","password2")
+        fields = ("email", "password1", "password2")
 
     def clean(self):
-        cleaned_data = super().clean()
+        cleaned_data: dict = super().clean()
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
@@ -76,7 +80,7 @@ class UserRegistrationForm(forms.ModelForm):
         if password1 != password2:
             raise forms.ValidationError(_("Passwords must match."))
 
-        if len(password1) < self.PASSWORD_MIN_LENGTH:
+        if password1 and len(password1) < self.PASSWORD_MIN_LENGTH:
             raise forms.ValidationError(
                 _("Passwords must be at least 8 characters long.")
             )
@@ -91,14 +95,61 @@ class UserRegistrationForm(forms.ModelForm):
             user.save()
         return user
 
+
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
         label=_("Email Address"),
         widget=forms.EmailInput(
-            attrs={"class": "prompt srch_explore", "placeholder": "Email Address"}),
+            attrs={"class": "prompt srch_explore", "placeholder": "Email Address"}
+        ),
     )
     password = forms.CharField(
         label=_("Password"),
         widget=forms.PasswordInput(
-            attrs={"class": "prompt srch_explore", "placeholder": "Password"}),
+            attrs={"class": "prompt srch_explore", "placeholder": "Password"}
+        ),
     )
+
+
+class UpdateAccountProfileBasicDataForm(forms.ModelForm):
+    first_name = forms.CharField(
+        initial="First name",
+        widget=forms.TextInput(
+            attrs={"class": "prompt srch_explore", "placeholder": "First name"},
+        ),
+    )
+    last_name = forms.CharField(
+        initial="Last name",
+        widget=forms.TextInput(
+            attrs={"class": "prompt srch_explore", "placeholder": "Last name"},
+        ),
+    )
+    headline = forms.CharField(
+        required=False,
+        help_text="Add a professional headline like, `Engineer at skillcobra` or `Architect.`",  # noqa: E501
+        widget=forms.TextInput(
+            attrs={
+                "class": "prompt srch_explore",
+                "placeholder": "A little headline about you",
+            },
+        ),
+    )
+    bio = forms.CharField(
+        required=False,
+        help_text="Links and coupon codes are not permitted in this section.",
+        widget=forms.Textarea(
+            attrs={"rows": 3, "placeholder": "Write a little description about you..."},
+        ),
+    )
+
+    class Meta:
+        model = Profile
+        fields = ["first_name", "last_name", "headline", "bio"]
+
+
+    def save(self, commit=...):
+        return super().save(commit=commit)
+
+
+class UpdateAccountProfileSocialDataForm(forms.Form):
+    pass

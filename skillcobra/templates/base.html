@@ -1,5 +1,4 @@
 {% load static i18n %} {% load render_bundle from webpack_loader %}
-
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -13,6 +12,7 @@
     />
     <meta name="description" content="lms" />
     <meta name="author" content="jeckonia,daniel" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
     {% block cssBlock %}
@@ -97,7 +97,7 @@
       .submit-main-btn-with-spinner.loading .spinner-border {
         display: inline-block; /* Show spinner */
       }
-    */
+      */
       /* Overlay that will block interactions */
       .overlay {
         position: fixed;
@@ -132,10 +132,13 @@
         }
       }
     </style>
+    <script
+      src="https://js.sentry-cdn.com/a359abfbe32f524e8dc5e5cf63e203dc.min.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
     {% block body %}
-
     <!-- header -->
     {% block header %} {% include 'components/navbar/header.html' %}
     <!--  -->
@@ -144,11 +147,8 @@
     {% endblock sidebar %}
     <!--  -->
     {% endblock header %}
-
     <!-- /header -->
-
     <!-- main content -->
-
     {% block wrapper %}
     <div class="wrapper">
       <div class="sa4d25">{% block content %} {% endblock content %}</div>
@@ -156,13 +156,10 @@
       {% block footer %} {% include 'components/footer/main.html' %}
       <!--  -->
       {% endblock footer %}
-
       <!-- /footer -->
     </div>
     {% endblock wrapper %}
-
     <!-- /main content -->
-
     {% endblock body %}
     <!-- /container -->
     {% block modal %} {% endblock modal %}
@@ -177,7 +174,6 @@
     <!--  -->
     {% csrf_token %} {% block js %}
     <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>
-
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
@@ -187,9 +183,12 @@
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/night-mode.js' %}"></script>
     <script src="{% static 'js/jquery-steps.min.js' %}"></script>
-
     {% endblock js %}
     <!-- block scripts -->
+    <!-- A button to trigger a test error -->
+   <script src="{% static 'worker/js/worker.js' %}"></script>
+   <script src="{% static 'worker/js/websocket.js' %}"></script>
+
     <script>
       function getCookie(name) {
         const cookieValue = document.cookie
@@ -199,9 +198,7 @@
         return cookieValue || "";
       }
     </script>
-
     {% block scripts %} {% endblock scripts %}
-
     <script>
       $(document).ready(function () {
         $(".signout-btn").each(function () {
@@ -233,7 +230,6 @@
         });
       });
     </script>
-
     {% block vite %} {% endblock vite %}
   </body>
 </html>

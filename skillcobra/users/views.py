@@ -1,13 +1,20 @@
+from time import sleep
 from django.contrib.auth import authenticate
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView
+from django.views.generic import TemplateView
 
+from skillcobra.users.models import Profile
+
+from .forms import UpdateAccountProfileBasicDataForm
 from .forms import UserLoginForm
 from .forms import UserRegistrationForm
 
@@ -69,3 +76,20 @@ class LogoutView(View):
     def post(self, request, *args, **kwargs):
         logout(request)
         return JsonResponse({"url": reverse("users:login")})
+
+
+class UpdateProfileView(View):
+    account_basic_form = UpdateAccountProfileBasicDataForm
+
+    @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        profile = request.user.user_profile
+        form = self.account_basic_form(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({}, status=200)
+        return JsonResponse({"detail": form.errors.as_json()}, status=400)

@@ -43,4 +43,14 @@ urlpatterns = [
         views.StudentTransactionView.as_view(),
         name="statements",
     ),
+    path(
+        "saved-courses/",
+        views.StudentSavedCoursesView.as_view(),
+        name="saved_courses",
+    ),
+    path(
+        "courses/shoppings/",
+        views.StudentShoppingCartView.as_view(),
+        name="shopping_courses",
+    ),
 ]
