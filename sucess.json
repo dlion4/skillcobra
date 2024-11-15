@@ -27,6 +27,10 @@
                 }
             },
             "transHashSha2": null
+        },
+        "amount": {
+            "currency": "USD",
+            "value": "10.00"
         }
     }
 }

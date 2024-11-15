@@ -10,6 +10,7 @@ from django.utils import timezone
 class CoursePurchasePaymentForm(forms.Form):
     full_name = forms.CharField(
         label="Name on card",
+        initial="Jeckonia Kwasa",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control py-2",
@@ -21,6 +22,7 @@ class CoursePurchasePaymentForm(forms.Form):
 
     card_number = forms.CharField(
         label="Card number",
+        initial="5424000000000015",
         widget=forms.NumberInput(
             attrs={
                 "class": "form-control py-2",
@@ -33,6 +35,7 @@ class CoursePurchasePaymentForm(forms.Form):
 
     expiry_date = forms.CharField(
         label="Expiry Date (MM/YY)",
+        initial="12/46",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control py-2",
@@ -45,6 +48,7 @@ class CoursePurchasePaymentForm(forms.Form):
 
     cvv = forms.CharField(
         label="CVV",
+        initial="243",
         widget=forms.NumberInput(
             attrs={"class": "form-control py-2", "id": "cvv", "placeholder": "***"},
         ),
@@ -52,6 +56,7 @@ class CoursePurchasePaymentForm(forms.Form):
     )
     coupon = forms.CharField(widget=forms.HiddenInput(), required=False)
     amount = forms.DecimalField(widget=forms.HiddenInput())
+    courses_ids = forms.CharField(widget=forms.HiddenInput())
     def __init__(self, *args, **kwargs):
         self.profile = kwargs.pop("profile", None)
         super().__init__(*args, **kwargs)  # Call the parent class's

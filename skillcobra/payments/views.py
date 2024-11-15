@@ -1,3 +1,4 @@
+import json
 import random
 import string
 from decimal import Decimal
@@ -10,7 +11,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
 from skillcobra.payments.forms import CoursePurchasePaymentForm
+from skillcobra.payments.tasks import create_student_success_payment_transaction
+from skillcobra.payments.threads import DatabaseInsertionThreadPool
+from skillcobra.school.models import Course
 
+
+thread_pool = DatabaseInsertionThreadPool()
 
 # Create your views here.
 class ProcessPaymentFormView(View):
@@ -32,6 +38,8 @@ class ProcessPaymentFormView(View):
 
     def handle_payment_method(self, form):
         data = form.cleaned_data
+
+        profile = self.request.user.user_profile
 
         if data.get("coupon") == "Jeckon":
             data["amount"] = data["amount"] * Decimal("0.9")  # Apply coupon discount
@@ -57,6 +65,7 @@ class ProcessPaymentFormView(View):
         )
         response.raise_for_status()
         res = response.json()
+        print(res)
         if (
             res.get("createTransactionResponse").get("messages").get("resultCode")
             == "Error"
@@ -80,5 +89,30 @@ class ProcessPaymentFormView(View):
                 .get("message")
                 .get("description")
             )
+            for pk in json.loads(data.get("courses_ids", None)):
+                course = Course.objects.get(pk=int(pk))
+                self._create_payment_success_transaction(
+                    student=profile,
+                    parent=course,
+                    payment_details={
+                        "amount": str(
+                            res.get("createTransactionResponse")
+                            .get("amount")
+                            .get("value"),
+                        ),
+                        "currency": str(
+                            res.get("createTransactionResponse")
+                            .get("amount")
+                            .get("currency"),
+                        ),
+                    },
+                )
             return JsonResponse({"detail": success_message}, status=200)
         return JsonResponse({"response": "Payment processed successfully"})
+    def _create_payment_success_transaction(self, student, parent, payment_details):
+        thread_pool.submit(
+            create_student_success_payment_transaction,
+            student=student,
+            parent=parent,
+            payment_details=payment_details,
+        )

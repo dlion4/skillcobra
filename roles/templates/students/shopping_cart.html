@@ -64,7 +64,7 @@
       <div class="row">
         <div class="col-lg-8">
           {% for item in request.user.user_profile.get_all_cart_items %}
-            <div class="fcrse_1 course_cart_object">
+            <div class="fcrse_1 course_cart_object" data-course-id="{{item.pk}}">
               <a href="{{item.get_public_absolute_url}}" class="hf_img">
                 <img class="cart_img" src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-2.jpg' %}{% endif %}" alt="">
               </a>
@@ -173,6 +173,7 @@
             <div class="mb-3">
               <label for="{{payment_form.card_number.id_for_label}}" class="form-label">{{payment_form.card_number.label}}</label>
               {{payment_form.card_number}}
+              <small id="card-error"></small>
             </div>
             <div class="row mb-3">
               <div class="col">
@@ -183,9 +184,10 @@
                 <label for="{{payment_form.cvv.id_for_label}}" class="form-label">{{payment_form.cvv.label}}</label>
                 {{payment_form.cvv}}
               </div>
+              {{payment_form.courses_ids}}
             </div>
-            <div class="row mb-3 d-flex align-content-center gap-4">
-              <button type="submit" class="btn btn-success">
+            <div class="mb-3 d-flex align-content-center gap-4">
+              <button type="submit" class="btn btn-success" id="paymentButton">
                 <span class="spinner" style="display: none;"></span>
                 Pay now
               </button>
@@ -253,21 +255,37 @@
   <script>
     const csrfToken = $('meta[name="csrf-token"]').attr('content')
 
+    var btn = $('#paymentButton'); // Replace with the actual ID of your submit button
+
+    $('#cardNumber').on('input', function() {
+        var cardNumber = $('#cardNumber').val();
+        
+        // Check if the card number length is exactly 16 and only contains digits
+        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+            btn.prop('disabled', true); // Disable the button
+            $("#card-error").text("Invalid card number. It must be 16 digits."); // Error message
+        } else {
+            btn.prop('disabled', false); // Enable the button if the card number is valid
+            $("#card-error").text(""); // Clear any error messages
+        }
+    });
+    let courseIds = [];  // Declare the courseIds array before the loop
+
+    $(".course_cart_object").each(function() {
+        const courseId = $(this).attr("data-course-id");
+        courseIds.push(courseId);
+        console.log(courseIds);  // Log the array to verify it is being populated correctly
+    });
     // Handle form submission
     $(document).on('submit', '#paymentForm', function (event) {
       event.preventDefault();
-      const paymentData = {
-        full_name: $('#cardName').val(),
-        card_number: $('#cardNumber').val(),
-        expiry_date: $('#expiryDate').val(),
-        cvv: $('#cvv').val(),
-        coupon: $("#id_coupon_code").val(),
-        amount: parseFloat($(".order_price5").find("span").text())
-      };
+
+      const btn = $("#paymentModal").find("button[type=submit]")
+   
       const df = new FormData(this)
       df.append("coupon", $("#id_coupon_code").val())
       df.append("amount", parseFloat($(".order_price5").find("span").text()))
-      const btn = $("#paymentModal").find("button[type=submit]")
+      df.append("courses_ids", JSON.stringify(courseIds));
       btn.prop("disabled", true);
       btn
         .find("span")
@@ -291,7 +309,9 @@
         complete: function () {
           setTimeout(() => {
             btn.prop("disabled", false);
-            btn.find("span").hide();
+            btn
+              .find("span")
+              .hide();
           }, 1000)
         }
       })

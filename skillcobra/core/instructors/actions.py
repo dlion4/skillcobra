@@ -82,17 +82,14 @@ def subscribe_to_tutor(request, tutor_pk):
         ).values_list("course_id", flat=True),
     )
 
-    # Prepare CourseSubscription instances using list comprehension
-    course_subscriptions = [
-        CourseSubscription(subscription=subscription, student=student, course=course)
+    if course_subscriptions := [
+        CourseSubscription(
+            subscription=subscription, student=student, course=course,
+        )
         for course in tutor_courses
         if course.id not in existing_subscriptions
-    ]
-
-    # Only perform bulk_create if there are new subscriptions to add
-    if course_subscriptions:
+    ]:
         CourseSubscription.objects.bulk_create(course_subscriptions)
-
     return JsonResponse(
         {"subscriptions": str(subscription.students.all().count())},
         status=201,
