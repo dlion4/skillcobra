@@ -12,8 +12,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
-from skillcobra.school.forms import CourseCurriculumForm, CreateCourseCurriculumLectureForm
+from skillcobra.school.forms import CourseCurriculumForm
 from skillcobra.school.forms import CourseForm
+from skillcobra.school.forms import CreateCourseCurriculumLectureForm
 from skillcobra.school.models import Course
 from skillcobra.users.forms import UpdateAccountProfileBasicDataForm
 
@@ -132,3 +133,6 @@ class InstructorProfileUpdateView(TemplateViewMixin):
             instance=self.get_profile(),
         )
         return context
+
+class InstructorAnalyticsView(TemplateViewMixin):
+    template_name = "analytics.html"

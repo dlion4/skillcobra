@@ -34,6 +34,8 @@ urlpatterns = [
     re_path(r"^serve-s3-file/(?P<file_key>.+)/$", serve_s3_file, name="serve_s3_file"),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+    # payments
+    path("payments/", include("skillcobra.payments.urls", namespace="payments")),
 ]
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
@@ -43,6 +45,8 @@ if settings.DEBUG:
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
+    # API VERSIONS
+    path("api/v1/", include("roles.instructors.instructor.actions.urls")),
     # DRF auth token
     path("api/auth-token/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),

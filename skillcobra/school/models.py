@@ -152,6 +152,8 @@ class Course(models.Model):
                 "slug": self.slug,
             },
         )
+    def get_sales(self):
+        return {"count":21}
 
     @property
     def payable_amount(self):

@@ -1,3 +1,4 @@
+import time
 from typing import ClassVar
 
 from django.contrib.auth.models import AbstractUser
@@ -10,6 +11,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from skillcobra.purchases.models import Cart
+from skillcobra.school.models import CourseSubscription
 
 from .managers import UserManager
 
@@ -45,8 +47,10 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.username:
-            self.username = self.email[: self.email.index("@")]
+            self.username = self.email[:self.email.index("@")]
         super().save(*args, **kwargs)
+    def get_username(self):
+        return self.email[:self.email.index("@")]
 
 
 # models.py
@@ -67,15 +71,18 @@ class SuperAdmin(User):
         proxy = True
         verbose_name = "SuperAdmin"
 
+def upload_avatar_to_(instance, filename):
+    return f"profile/avatar/{instance.user.username}/{time.time()}_{filename}"
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="user_profile"
+        User, on_delete=models.CASCADE, related_name="user_profile",
     )
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
     headline = models.CharField(max_length=200, blank=True)
     bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to=upload_avatar_to_, blank=True, null=True)
 
     def __str__(self):
         return self.user.email
@@ -83,7 +90,7 @@ class Profile(models.Model):
     def full_name(self):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
-        return self.user.username
+        return self.user.username or self.user.get_username()
 
     def get_public_profile_url(self):
         return reverse(
@@ -132,6 +139,18 @@ class Profile(models.Model):
                 "tutor_pk": self.pk,
             },
         )
+    def received_messages(self):
+        return self.message_recipient.filter(is_read=False)[:3]
+    def get_all_received_messages(self):
+        return self.message_recipient.filter(is_read=False)
+
+    def get_subscribed_tutor_ids(self):
+        # Get the IDs of tutors that this student is subscribed to
+        ids = CourseSubscription.objects.filter(student=self).values_list(
+            "subscription__tutor_id", flat=True,
+        )
+        return [Profile.objects.filter(pk=ids).first() for ids in ids]
+
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):

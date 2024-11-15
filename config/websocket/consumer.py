@@ -39,3 +39,4 @@ class AsyncNotificationConsumer(AsyncWebsocketConsumer):
         logger.info(f"Received message: {data}")  # noqa: G004
         if data["type"] == "like_action":
             await self.broadcast_notification({"message": data["message"]})
+

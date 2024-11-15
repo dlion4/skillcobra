@@ -1,7 +1,7 @@
 class WebSocketManager {
     constructor(path) {
         this.socket = null;
-        this.path = path;
+        this.path=path;
         this.websocketPath = `ws://${window.location.host}/ws`;
     }
 

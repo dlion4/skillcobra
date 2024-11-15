@@ -6,41 +6,25 @@
 <!--  -->
 {% block css %}
 <!-- Owl Carousel CSS -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
-/>
-
-<link
-  href="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.css' %}"
-  rel="stylesheet"
-/>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<link href="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.css' %}" rel="stylesheet">
 {% endblock css %}
-
 <!--  -->
 {% block javascript %}
 <!-- jQuery (required for Owl Carousel to work) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <!-- Owl Carousel JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
 {% endblock javascript %}
 <!--  -->
 {% block body %}
-
 <!--  -->
 {% block header %} {{ block.super }}
 <!--  -->
 {% block sidebar %} {% endblock sidebar %}
 <!--  -->
 {% endblock header %}
-
 <!--  -->
 <!--  -->
 <!--  -->
@@ -48,26 +32,23 @@
 <!--  -->
 {% block wrapper %}
 <div class="wrapper">
-  {% block main %}
-  <div class="sa4d25">
-    <div class="container-fluid">
-      {% block content %} {% endblock content %}
+    {% block main %}
+    <div class="sa4d25">
+        <div class="container-fluid">
+            {% block content %} {% endblock content %}
+        </div>
     </div>
-  </div>
-  {% endblock main %} {% block footer %}
-  <!--  -->
-  {% include 'roles/components/footer.html' %}
-  <!--  -->
-  {% endblock footer %}
+    {% endblock main %} {% block footer %}
+    <!--  -->
+    {% include 'roles/components/footer.html' %}
+    <!--  -->
+    {% endblock footer %}
 </div>
 <!--  -->
 <!--  -->
-
 {% endblock wrapper %}
 <!--  -->
-
 {% endblock body %}
-
 <!--  -->
 {% block scripts %}
 <script>
@@ -91,4 +72,5 @@
     });
   });
 </script>
+
 {% endblock scripts %}

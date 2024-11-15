@@ -100,26 +100,23 @@
       </ul>
     </div>
 
-    {% if request.user.role == "instructor" %}
+    {% if request.user.role == "student" %}
+    {% if request.user.user_profile.get_subscribed_tutor_ids %}
     <div class="left_section">
       <h6 class="left_title">SUBSCRIPTIONS</h6>
       <ul>
+        {% for tutor in request.user.user_profile.get_subscribed_tutor_ids %}
         <li class="menu--item">
-          <a href="instructor_profile_view.html" class="menu--link user_img">
-            <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="" />
-            Rock Smith
+          <a href="{{tutor.get_public_profile_url}}" class="menu--link user_img">
+            <img src="{% if tutor.cover %}{{tutor.cover.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="" />
+            {{tutor.full_name|title}}
             <div class="alrt_dot"></div>
           </a>
         </li>
-        <li class="menu--item">
-          <a href="" class="menu--link user_img">
-            <img src="{% static 'images/left-imgs/img-2.jpg' %}" alt="" />
-            Cobra William
-          </a>
-          <div class="alrt_dot"></div>
-        </li>
+        {% endfor %}
       </ul>
     </div>
+    {% endif %}
     {% endif %}
 
     <div class="left_section pt-2">

@@ -62,7 +62,11 @@ def delete_discussion(request, discussion_pk):
 
 @login_required
 @transaction.atomic
-def subscribe_to_tutor(request, tutor_pk):  # sourcery skip: use-named-expression
+def message_tutor(request, tutor_pk):
+    pass
+@login_required
+@transaction.atomic
+def subscribe_to_tutor(request, tutor_pk):
     tutor = get_object_or_404(Profile, pk=tutor_pk)
     student = (
         request.user.user_profile

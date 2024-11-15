@@ -5,8 +5,8 @@
 {% load static %}
 <!--  -->
 {% block css %}
-<link href="{% static 'css/student_dashboard.css' %}" rel="stylesheet">
-<link href="{% static 'css/student_responsive.css' %}" rel="stylesheet">
+<link href="{% static 'css/student_dashboard.css' %}" rel="stylesheet" />
+<link href="{% static 'css/student_responsive.css' %}" rel="stylesheet" />
 <style>
   .spinner {
     width: 18px;
@@ -38,7 +38,11 @@
 <!--  -->
 {% endblock sidebar %}
 <!--  -->
-{% block content %} {% endblock content %} {% block scripts %}
+{% block content %} {% endblock content %} {% block js %}
+<!--  -->
+{{ block.super }}
+
+{% endblock js %} {% block scripts %}
 <!--  -->
 {{ block.super }}
 <script>
@@ -58,13 +62,13 @@
           console.log(response);
           btn.text("Subscribed!");
           btn.prop("disabled", true);
-          const subscriptions = parseInt(response.subscriptions)
-          $("div._ttl123.subscriber_count").each(function(){
-            if(subscriptions > 1){
-              $(this).closest("._ttl122").text("Subscribers")
+          const subscriptions = parseInt(response.subscriptions);
+          $("div._ttl123.subscriber_count").each(function () {
+            if (subscriptions > 1) {
+              $(this).closest("._ttl122").text("Subscribers");
             }
-            $(this).text(parseInt(response.subscriptions))
-          })
+            $(this).text(parseInt(response.subscriptions));
+          });
         },
         error: function (xhr, status, error) {
           console.error("Error:", error);

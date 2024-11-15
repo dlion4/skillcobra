@@ -33,6 +33,8 @@
 
 $(document).ready(function() {
   "use strict";
+
+
   
   /*======== 1. DUAL LINE CHART ========*/
   var dual = document.getElementById("dual-line");
@@ -1622,9 +1624,46 @@ $(document).ready(function() {
     });
   }
 });
+
+
+
+
+
+
+
+
 /*======== 20. BAR CHART ========*/
 var barX = document.getElementById("barChart");
 if (barX !== null) {
+
+
+  // function renderChart(data) {
+  //   var ctx = document.getElementById('myChart').getContext('2d');
+  //   var myChart = new Chart(ctx, {
+  //     type: 'bar',
+  //     data: {
+  //       labels: [
+  //         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  //         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  //       ],
+  //       datasets: [{
+  //         label: 'Subscriptions',
+  //         data: data, // Use the fetched data here
+  //         backgroundColor: '#ed2a26'
+  //       }]
+  //     },
+  //     options: {
+  //       scales: {
+  //         y: {
+  //           beginAtZero: true
+  //         }
+  //       }
+  //     }
+  //   });
+
+
+
+
   var myChart = new Chart(barX, {
     type: "bar",
     data: {

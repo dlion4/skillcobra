@@ -1,0 +1,32 @@
+{
+    "createTransactionResponse": {
+        "refId": "MerchantID-0001",
+        "messages": {
+            "resultCode": "Ok",
+            "message": {
+                "code": "I00001",
+                "text": "Successful."
+            }
+        },
+        "transactionResponse": {
+            "responseCode": "1",
+            "authCode": "000000",
+            "avsResultCode": "P",
+            "cvvResultCode": null,
+            "cavvResultCode": null,
+            "transId": "0",
+            "refTransID": null,
+            "transHash": null,
+            "testRequest": "1",
+            "accountNumber": "XXXX0015",
+            "accountType": "MasterCard",
+            "messages": {
+                "message": {
+                    "code": "1",
+                    "description": "This transaction has been approved."
+                }
+            },
+            "transHashSha2": null
+        }
+    }
+}

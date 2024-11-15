@@ -12,7 +12,7 @@
     />
     <meta name="description" content="lms" />
     <meta name="author" content="jeckonia,daniel" />
-    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="csrf-token" content="{{ csrf_token }}" />
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
     {% block cssBlock %}
@@ -67,7 +67,103 @@
     {% endblock css %}
     <!-- Le javascript
     ================================================== -->
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     {# Placed at the top of the document so pages load faster with defer #}
+    <script defer="defer">
+      $(document).ready(function () {
+        var tutorPk = $("input[type=hidden][name=instructor_pk]").val() || 1;
+
+        const messageWebsocket = new WebSocket(
+          `ws://${window.location.host}/ws/message/${tutorPk}`
+        );
+
+        console.log($("input[type=hidden][name=instructor_pk]").val());
+
+        var currentProfile = "{{ profile.pk }}" || "{{ request.user.user_profile }}";
+
+        console.log(currentProfile);
+
+        messageWebsocket.onopen = async (event) => {
+          console.log(`websocket connected ... `);
+        };
+
+        $(".tutorMessageModalLabel").submit(async (event) => {
+          event.preventDefault();
+          const message = new FormData(event.target);
+          $(".spinner").show();
+          $(this).find("button[type=submit]").prop("disabled", true);
+          $(".spinner").css({
+            display: "inline-block",
+            width: "20px",
+            height: "20px",
+          });
+          setTimeout(() => {
+            messageWebsocket.send(
+              JSON.stringify({ message: Object.fromEntries(message) })
+            );
+            console.log(message);
+          }, 1000);
+        });
+        messageWebsocket.onmessage = function (event) {
+          $(".spinner").hide();
+          $(".tutorMessageModalLabel")
+            .find("button[type=submit]")
+            .prop("disabled", false);
+          let data;
+          if (typeof event.data === "string") {
+            try {
+              data = JSON.parse(event.data);
+            } catch (error) {
+              return;
+            }
+          } else if (typeof event.data === "object") {
+            data = event.data;
+          } else {
+            return;
+          }
+          if (data.message) {
+            sendMessageToTutor(data);
+          }
+
+          if (data.count !== undefined) {
+            if (
+              parseInt(data.message.receiver.id) === parseInt(currentProfile)
+            ) {
+              const tutorMessageCount = $(".message_container_count");
+              tutorMessageCount.text(data.count);
+            }
+          }
+        };
+        function sendMessageToTutor(data) {
+          if (parseInt(data.message.receiver.id) === parseInt(currentProfile)) {
+            const tutorMessageCount = $(".message_container_count");
+            const newCount = parseInt(tutorMessageCount.text()) + 1;
+            tutorMessageCount.text(newCount);
+            const messageUpdate = {
+              type: "update_count",
+              count: newCount,
+              receiverId: data.message.receiver.id,
+            };
+            console.log(messageUpdate);
+          }
+          console.log(data);
+        }
+
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("{% static 'worker/js/worker.js' %}")
+            .then((registration) => {
+              console.log("Service Worker registered successfully");
+              registration.onupdatefound = function () {
+                console.log("Service Worker updated");
+              };
+            })
+            .catch((error) => {
+              console.log("Service Worker registration failed", error);
+            });
+        }
+      });
+    </script>
     <!--  -->
     {% block javascript %} {% endblock javascript %}
     <!--  -->
@@ -174,7 +270,6 @@
     <!--  -->
     {% csrf_token %} {% block js %}
     <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>
-    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
     <script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
@@ -186,9 +281,8 @@
     {% endblock js %}
     <!-- block scripts -->
     <!-- A button to trigger a test error -->
-   <script src="{% static 'worker/js/worker.js' %}"></script>
-   <script src="{% static 'worker/js/websocket.js' %}"></script>
-
+    <script src="{% static 'worker/js/worker.js' %}"></script>
+    <script src="{% static 'worker/js/websocket.js' %}"></script>
     <script>
       function getCookie(name) {
         const cookieValue = document.cookie

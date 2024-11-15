@@ -40,58 +40,68 @@
         >
       </li>
       {% endif %}
-        
+
+      <!--  -->
       <li class="dropdown-msg">
         <a
           href="#"
           class="option_links"
+          {% if profile.received_messages %}
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
           aria-expanded="false"
+          {% endif %}
           ><i class="uil uil-envelope-alt"></i
-          ><span class="noti_count">3</span></a
+          ><span class="noti_count message_container_count">{{profile.get_all_received_messages.count|default:"0"}}</span></a
         >
-        <div class="dropdown-menu dropdown_ms drop-down">
-          <a href="#" class="channel_my item">
-            <div class="profile_link">
-              <img src="{% static 'images/left-imgs/img-6.jpg' %}" alt="" />
-              <div class="pd_content">
-                <h6>Zoena Singh</h6>
-                <p>
-                  Hi! Sir, How are you. I ask you one thing please explain it
-                  this video price.
-                </p>
-                <span class="nm_time">2 min ago</span>
+        {% if profile.received_messages %}
+          <div class="dropdown-menu dropdown_ms drop-down message_container">
+            {% for message in profile.received_messages %}
+            <a href="#" class="channel_my item">
+              <div class="profile_link">
+                <img src="{% if message.sender.avatar %}{{message.sender.avatar.url}}{% else %}{% static 'images/left-imgs/img-6.jpg' %}{% endif %}" alt="" />
+                <div class="pd_content">
+                  <h6>{{message.sender.full_name|title}}</h6>
+                  <p>
+                    {{message.content|truncatewords:"30"}}
+                  </p>
+                  <span class="nm_time">{{message.timestamp|timesince}} ago</span>
+                </div>
               </div>
-            </div>
-          </a>
-          <a href="#" class="channel_my item">
-            <div class="profile_link">
-              <img src="{% static 'images/left-imgs/img-5.jpg' %}" alt="" />
-              <div class="pd_content">
-                <h6>Joy Dua</h6>
-                <p>
-                  Hello, I paid you video tutorial but did not play error 404.
-                </p>
-                <span class="nm_time">10 min ago</span>
+            </a>
+            <!-- <a href="#" class="channel_my item">
+              <div class="profile_link">
+                <img src="{% static 'images/left-imgs/img-5.jpg' %}" alt="" />
+                <div class="pd_content">
+                  <h6>Joy Dua</h6>
+                  <p>
+                    Hello, I paid you video tutorial but did not play error 404.
+                  </p>
+                  <span class="nm_time">10 min ago</span>
+                </div>
               </div>
-            </div>
-          </a>
-          <a href="#" class="channel_my item">
-            <div class="profile_link">
-              <img src="{% static 'images/left-imgs/img-8.jpg' %}" alt="" />
-              <div class="pd_content">
-                <h6>Jass</h6>
-                <p>Thanks Sir, Such a nice video.</p>
-                <span class="nm_time">25 min ago</span>
+            </a>
+            <a href="#" class="channel_my item">
+              <div class="profile_link">
+                <img src="{% static 'images/left-imgs/img-8.jpg' %}" alt="" />
+                <div class="pd_content">
+                  <h6>Jass</h6>
+                  <p>Thanks Sir, Such a nice video.</p>
+                  <span class="nm_time">25 min ago</span>
+                </div>
               </div>
-            </div>
-          </a>
-          <a class="vbm_btn" href="instructor_messages.html"
-            >View All <i class="uil uil-arrow-right"></i
-          ></a>
-        </div>
+            </a> -->
+            {% endfor %}
+            <!--  -->
+            {% if profile.get_all_received_messages.count > 4 %}
+            <a class="vbm_btn" href="instructor_messages.html"
+              >View All <i class="uil uil-arrow-right"></i>
+            </a>
+            {% endif %}
+          </div>
+        {% endif %}
       </li>
+
       <li class="dropdown-noti">
         <a
           href="#"

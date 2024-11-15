@@ -1,3 +1,4 @@
+from skillcobra.payments.forms import CoursePurchasePaymentForm
 from skillcobra.school.models import SavedCourse
 
 from .utils import TemplateViewMixin
@@ -43,3 +44,9 @@ class StudentSavedCoursesView(TemplateViewMixin):
 
 class StudentShoppingCartView(TemplateViewMixin):
     template_name = "shopping_cart.html"
+    payment_form = CoursePurchasePaymentForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["payment_form"] = self.payment_form(profile=self.get_profile())
+        return context
+

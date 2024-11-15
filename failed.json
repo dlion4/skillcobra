@@ -1,0 +1,32 @@
+{
+    "createTransactionResponse": {
+        "refId": "MerchantID-0001",
+        "messages": {
+            "resultCode": "Error",
+            "message": {
+                "code": "E00027",
+                "text": "The transaction was unsuccessful."
+            }
+        },
+        "transactionResponse": {
+            "responseCode": "3",
+            "authCode": "000000",
+            "avsResultCode": "P",
+            "cvvResultCode": null,
+            "cavvResultCode": null,
+            "transId": "0",
+            "refTransID": null,
+            "transHash": null,
+            "testRequest": "1",
+            "accountNumber": "XXXX1322",
+            "accountType": null,
+            "errors": {
+                "error": {
+                    "errorCode": "6",
+                    "errorText": "The credit card number is invalid."
+                }
+            },
+            "transHashSha2": null
+        }
+    }
+}

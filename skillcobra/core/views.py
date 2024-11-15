@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from skillcobra.school.models import Course
+from skillcobra.school.models import Course, CourseSubscription, Subscription
 
 
 class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
