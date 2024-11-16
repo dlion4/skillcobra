@@ -157,3 +157,14 @@ class InstructorStreamingView(TemplateViewMixin):
 
 class InstructorEarningView(TemplateViewMixin):
     template_name = "earnings.html"
+
+class InstructorPayoutView(TemplateViewMixin):
+    template_name = "payout.html"
+
+
+
+class InstructorPaymentStatementView(TemplateViewMixin):
+    template_name = "statements.html"
+
+
+

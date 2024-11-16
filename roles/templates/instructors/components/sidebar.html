@@ -32,53 +32,46 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_messages.html" class="menu--link" title="Messages">
+          <a href="" class="menu--link" title="Messages">
             <i class="uil uil-comments menu--icon"></i>
             <span class="menu--label">Messages</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_notifications.html" class="menu--link" title="Notifications">
+          <a href="" class="menu--link" title="Notifications">
             <i class="uil uil-bell menu--icon"></i>
             <span class="menu--label">Notifications</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_my_certificates.html" class="menu--link" title="My Certificates">
-            <i class="uil uil-award menu--icon"></i>
-            <span class="menu--label">My Certificates</span>
-          </a>
-        </li>
-        <li class="menu--item">
-          <a href="instructor_all_reviews.html" class="menu--link" title="Reviews">
+          <a href="" class="menu--link" title="Reviews">
             <i class="uil uil-star menu--icon"></i>
             <span class="menu--label">Reviews</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href="{% url 'instructors:earnings_view' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:earnings_view' %} active {% endif %}" title="Earning">
+          <a href="{% url 'instructors:earnings_view' %}" class="menu--link
+           {% if request.resolver_match.view_name == 'instructors:earnings_view' %} active {% endif %}" title="Earning">
             <i class="uil uil-dollar-sign menu--icon"></i>
             <span class="menu--label">Earning</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_payout.html" class="menu--link" title="Payout">
+          <a href="{% url 'instructors:payout_view' %}" 
+          class="menu--link   {% if request.resolver_match.view_name == 'instructors:payout_view' %} active {% endif %}" title="Payout">
             <i class="uil uil-wallet menu--icon"></i>
             <span class="menu--label">Payout</span>
           </a>
         </li>
+        
         <li class="menu--item">
-          <a href="instructor_statements.html" class="menu--link" title="Statements">
-            <i class="uil uil-file-alt menu--icon"></i>
-            <span class="menu--label">Statements</span>
-          </a>
-        </li>
-        <li class="menu--item">
-          <a href="instructor_verification.html" class="menu--link" title="Verification">
-            <i class="uil uil-check-circle menu--icon"></i>
-            <span class="menu--label">Verification</span>
-          </a>
-        </li>
+						<a href="{% url 'instructors:payment_statements_view' %}" 
+            class="menu--link {% if request.resolver_match.view_name == 'instructors:payment_statements_view' %} active {% endif %}" title="Statements">
+						  <i class='uil uil-file-alt menu--icon'></i>
+						  <span class="menu--label">Statements</span>
+						</a>
+					</li>
+        <!-- payment_statements_view -->
       </ul>
     </div>
     <div class="left_section pt-2">

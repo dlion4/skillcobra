@@ -24,6 +24,16 @@ urlpatterns = [
         name="earnings_view",
     ),
     path(
+        "payout/sales/",
+        views.InstructorPayoutView.as_view(),
+        name="payout_view",
+    ),
+    path(
+        "payout/statements/",
+        views.InstructorPaymentStatementView.as_view(),
+        name="payment_statements_view",
+    ),
+    path(
         "stream-setup/",
         views.InstructorStreamingSetupView.as_view(),
         name="streaming_setup",
