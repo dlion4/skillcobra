@@ -153,12 +153,17 @@
                                 <ul class="_215b31">
                                     {% if course.pk in cart_course_items %}
                                     <li>
+                                        {% if not course.pk in profile.purchased_courses.all %}
                                         <button disabled class="btn_adcart" data-add-cart-url="{{course.get_add_to_cart_url}}">
                                             <div class="spinner" style="display: none;"></div>
                                             Item in Cart
                                         </button>
+                                        {% else %}
+
+                                        {% endif %}
                                     </li>
                                     {% else %}
+                                      {% if not course.pk in purchased_courses %}
                                     <li>
                                         <button class="btn_adcart" data-add-cart-url="{{course.get_add_to_cart_url}}">
                                             <div class="spinner" style="display: none;"></div>
@@ -166,10 +171,19 @@
                                         </button>
                                     </li>
                                     {% endif %}
+                                    {% endif %}
                                     {% if not course.pk in cart_course_items %}
+                                    <!--  -->
+                                    {% if not course.pk in purchased_courses %}
                                     <li>
                                         <button class="btn_buy" data-buy-course-url="{{course.get_buy_course_url}}">Buy Now</button>
                                     </li>
+                                    {% else %}
+                                    <li>
+                                        <button disabled class="btn_buy">Already Purchased</button>
+                                    </li>
+                                    <!--  -->
+                                    {% endif %}
                                     {% endif %}
                                 </ul>
                                 <div class="_215fgt1">30-Day Money-Back Guarantee</div>

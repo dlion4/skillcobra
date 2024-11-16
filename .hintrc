@@ -46,6 +46,13 @@
           "iframe[allowfullscreen]"
         ]
       }
-    ]
+    ],
+    "axe/keyboard": [
+      "default",
+      {
+        "nested-interactive": "off"
+      }
+    ],
+    "axe/forms": "off"
   }
 }

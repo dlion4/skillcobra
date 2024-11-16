@@ -6,79 +6,49 @@
     <div class="left_section">
       <ul>
         <li class="menu--item">
-          <a
-            href="{% url 'instructors:dashboard' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'instructors:dashboard' %} active {% endif %}"
-            title="Dashboard"
-          >
+          <a href="{% url 'instructors:dashboard' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:dashboard' %} active {% endif %}" title="Dashboard">
             <i class="uil uil-apps menu--icon"></i>
             <span class="menu--label">Dashboard</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href=""
-           class="menu--link"
-           title="Courses">
+          <a href="" class="menu--link" title="Courses">
             <i class="uil uil-book-alt menu--icon"></i>
             <span class="menu--label">Courses</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="{% url 'instructors:analytics' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'instructors:analytics' %} active {% endif %}"
-            title="Analytics"
-          >
+          <a href="{% url 'instructors:analytics' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:analytics' %} active {% endif %}" title="Analytics">
             <i class="uil uil-analysis menu--icon"></i>
             <span class="menu--label">Analytics</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="{% url 'instructors:create_course_view' %}"
-            class="menu--link  {% if request.resolver_match.view_name == 'instructors:create_course_view' %} active {% endif %}"
-            title="Create Course"
-          >
+          <a href="{% url 'instructors:create_course_view' %}" class="menu--link  {% if request.resolver_match.view_name == 'instructors:create_course_view' %} active {% endif %}" title="Create Course">
             <i class="uil uil-plus-circle menu--icon"></i>
             <span class="menu--label">Create Course</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_messages.html"
-            class="menu--link"
-            title="Messages"
-          >
+          <a href="instructor_messages.html" class="menu--link" title="Messages">
             <i class="uil uil-comments menu--icon"></i>
             <span class="menu--label">Messages</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_notifications.html"
-            class="menu--link"
-            title="Notifications"
-          >
+          <a href="instructor_notifications.html" class="menu--link" title="Notifications">
             <i class="uil uil-bell menu--icon"></i>
             <span class="menu--label">Notifications</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_my_certificates.html"
-            class="menu--link"
-            title="My Certificates"
-          >
+          <a href="instructor_my_certificates.html" class="menu--link" title="My Certificates">
             <i class="uil uil-award menu--icon"></i>
             <span class="menu--label">My Certificates</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_all_reviews.html"
-            class="menu--link"
-            title="Reviews"
-          >
+          <a href="instructor_all_reviews.html" class="menu--link" title="Reviews">
             <i class="uil uil-star menu--icon"></i>
             <span class="menu--label">Reviews</span>
           </a>
@@ -96,21 +66,13 @@
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_statements.html"
-            class="menu--link"
-            title="Statements"
-          >
+          <a href="instructor_statements.html" class="menu--link" title="Statements">
             <i class="uil uil-file-alt menu--icon"></i>
             <span class="menu--label">Statements</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="instructor_verification.html"
-            class="menu--link"
-            title="Verification"
-          >
+          <a href="instructor_verification.html" class="menu--link" title="Verification">
             <i class="uil uil-check-circle menu--icon"></i>
             <span class="menu--label">Verification</span>
           </a>
@@ -120,9 +82,7 @@
     <div class="left_section pt-2">
       <ul>
         <li class="menu--item">
-          <a href="{% url 'instructors:update_profile' %}" 
-          class="menu--link {% if request.resolver_match.view_name == 'instructors:update_profile' %} active {% endif %}"
-           title="Setting">
+          <a href="{% url 'instructors:update_profile' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:update_profile' %} active {% endif %}" title="Setting">
             <i class="uil uil-cog menu--icon"></i>
             <span class="menu--label">Setting</span>
           </a>
@@ -135,6 +95,10 @@
         </li>
       </ul>
     </div>
+    <div class="left_footer">
+      {% include 'components/navbar/nav_footer.html' %}
+    </div>
+    {% include 'components/banner/membership.html' %}
   </div>
 </nav>
 <!-- Left Sidebar End -->

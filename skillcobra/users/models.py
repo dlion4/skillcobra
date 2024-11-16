@@ -83,6 +83,8 @@ class Profile(models.Model):
     headline = models.CharField(max_length=200, blank=True)
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to=upload_avatar_to_, blank=True, null=True)
+    purchased_courses = models.ManyToManyField(
+        "school.Course", blank=True, related_name="purchased_courses")
 
     def __str__(self):
         return self.user.email

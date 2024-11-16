@@ -35,7 +35,11 @@ class CourseDetailView(DetailView):
         cart_course_items = (
             self.get_profile().get_all_cart_items().values_list("pk", flat=True)
         )
+        purchased_courses = self.get_profile().purchased_courses.values_list(
+            "pk", flat=True,
+        )
         context["cart_course_items"] = cart_course_items
+        context["purchased_courses"] = purchased_courses
         return context
 
     def get(self, request, *args, **kwargs):

@@ -64,7 +64,7 @@ class Course(models.Model):
         max_length=300,
         default="1 hour 3 minutes",
         help_text="Approximate duration of the course. Can be in weeks, days or even hours",
-    )  # noqa: E501
+    )
     sub_category = models.ForeignKey(
         SubCategory,
         on_delete=models.CASCADE,
@@ -152,8 +152,9 @@ class Course(models.Model):
                 "slug": self.slug,
             },
         )
+
     def get_sales(self):
-        return {"count":21}
+        return {"count": 21}
 
     @property
     def payable_amount(self):
@@ -389,7 +390,8 @@ class Subscription(models.Model):
     tutor = models.OneToOneField(
         "users.Profile",
         on_delete=models.SET_NULL,
-        blank=True, null=True,
+        blank=True,
+        null=True,
         related_name="tutor_subscriptions",
     )
     students = models.ManyToManyField(
@@ -397,14 +399,21 @@ class Subscription(models.Model):
         related_name="student_subscriptions",
         through="CourseSubscription",
     )
+
     def __str__(self):
         return ""
 
 
 class CourseSubscription(models.Model):
-    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, blank=True, null=True)
-    student = models.ForeignKey("users.Profile", on_delete=models.SET_NULL, blank=True, null=True)
-    course = models.ForeignKey("school.Course", on_delete=models.SET_NULL, blank=True, null=True)
+    subscription = models.ForeignKey(
+        Subscription, on_delete=models.SET_NULL, blank=True, null=True,
+    )
+    student = models.ForeignKey(
+        "users.Profile", on_delete=models.SET_NULL, blank=True, null=True,
+    )
+    course = models.ForeignKey(
+        "school.Course", on_delete=models.SET_NULL, blank=True, null=True,
+    )
     date_subscribed = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 

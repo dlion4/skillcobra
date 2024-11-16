@@ -1,9 +1,11 @@
 {% load static %}
 
 <h4 class="item_title">Featured Courses</h4>
-<a href="#" class="see150">See all</a>
+<a href="#" class="see150"></a>
 <div class="la5lo1">
   <div class="owl-carousel featured_courses owl-theme">
-  {% include 'screens/components/course_item.html' %}
+    {% for item in featured_courses %}
+    {% include 'screens/components/course_item.html' %}
+    {% endfor %}
   </div>
 </div>

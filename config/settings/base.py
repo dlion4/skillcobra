@@ -100,7 +100,6 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     "widget_tweaks",
     "django_ckeditor_5",
-    # FRAOLA EDITOR
     "froala_editor",
     "django_twilio",
     "channels",
@@ -114,6 +113,7 @@ LOCAL_APPS = [
     "skillcobra.payments",
     "skillcobra.school",
     "skillcobra.purchases",
+    "skillcobra.memberships",
 ]
 
 # https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload
@@ -187,6 +187,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "skillcobra.users.middleware.AuthorizationMiddleware",
+    "skillcobra.payments.middleware.RequestRetrievalMiddleware",
 ]
 
 # STATIC

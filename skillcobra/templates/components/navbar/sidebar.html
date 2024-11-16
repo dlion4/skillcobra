@@ -1,31 +1,25 @@
 {% load static %}
-
 <nav class="vertical_nav">
   <div class="left_section menu_left" id="js-menu">
     <div class="left_section">
       <ul>
         <li class="menu--item">
-          <a
-            href="{% url 'home' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'home' %}active{% endif %}"
-            title="Home"
-          >
+          <a href="{% url 'home' %}" class="menu--link {% if request.resolver_match.view_name == 'home' %}active{% endif %}" title="Home">
             <i class="uil uil-home-alt menu--icon"></i>
             <span class="menu--label">Home</span>
           </a>
         </li>
+        {% if request.user.role == "student" %}
         <li class="menu--item">
           <a href="live_streams.html" class="menu--link" title="Live Streams">
             <i class="uil uil-kayak menu--icon"></i>
             <span class="menu--label">Live Streams</span>
+            <div class="alrt_dot"></div>
           </a>
         </li>
+        {% endif %}
         <li class="menu--item">
-          <a
-            href="{% url 'explore' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'explore' %}active{% endif %}"
-            title="Explore"
-          >
+          <a href="{% url 'explore' %}" class="menu--link {% if request.resolver_match.view_name == 'explore' %}active{% endif %}" title="Explore">
             <i class="uil uil-search menu--icon"></i>
             <span class="menu--label">Explore</span>
           </a>
@@ -37,7 +31,7 @@
           </label>
           <ul class="sub_menu">
             <li class="sub_menu--item">
-              <a href="#.html" class="sub_menu--link">IT & Software</a>
+              <a href="#" class="sub_menu--link">IT & Software</a>
             </li>
             <li class="sub_menu--item">
               <a href="#" class="sub_menu--link">Office Productivity</a>
@@ -51,22 +45,19 @@
           </label>
           <ul class="sub_menu">
             <li class="sub_menu--item">
-              <a href="certification_center.html" class="sub_menu--link"
-                >Certification Center</a
-              >
+              <a href="certification_center.html" class="sub_menu--link">Certification Center
+              </a>
             </li>
           </ul>
         </li>
-
         {% if request.user.role == "student" %}
-        <li class="menu--item">
-          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
-            <i class="uil uil-heart-alt menu--icon"></i>
-            <span class="menu--label">Saved Courses</span>
-          </a>
-        </li>
+          <li class="menu--item">
+            <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
+              <i class="uil uil-heart-alt menu--icon"></i>
+              <span class="menu--label">Saved Courses</span>
+            </a>
+          </li>
         {% endif %}
-
         <li class="menu--item menu--item__has_sub_menu">
           <label class="menu--link" title="Pages">
             <i class="uil uil-file menu--icon"></i>
@@ -74,9 +65,8 @@
           </label>
           <ul class="sub_menu">
             <li class="sub_menu--item">
-              <a href="checkout_membership.html" class="sub_menu--link"
-                >Checkout</a
-              >
+              <a href="checkout_membership.html" class="sub_menu--link">Checkout
+              </a>
             </li>
             <li class="sub_menu--item">
               <a href="invoice.html" class="sub_menu--link">Invoice</a>
@@ -91,34 +81,31 @@
               <a href="press.html" class="sub_menu--link">Press</a>
             </li>
             <li class="sub_menu--item">
-              <a href="live_output.html" class="sub_menu--link"
-                >Live Stream View</a
-              >
+              <a href="live_output.html" class="sub_menu--link">Live Stream View
+              </a>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-
     {% if request.user.role == "student" %}
-    {% if request.user.user_profile.get_subscribed_tutor_ids %}
-    <div class="left_section">
-      <h6 class="left_title">SUBSCRIPTIONS</h6>
-      <ul>
-        {% for tutor in request.user.user_profile.get_subscribed_tutor_ids %}
-        <li class="menu--item">
-          <a href="{{tutor.get_public_profile_url}}" class="menu--link user_img">
-            <img src="{% if tutor.cover %}{{tutor.cover.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="" />
-            {{tutor.full_name|title}}
-            <div class="alrt_dot"></div>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
+      {% if request.user.user_profile.get_subscribed_tutor_ids %}
+        <div class="left_section">
+          <h6 class="left_title">SUBSCRIPTIONS</h6>
+          <ul>
+            {% for tutor in request.user.user_profile.get_subscribed_tutor_ids %}
+              <li class="menu--item">
+                <a href="{{tutor.get_public_profile_url}}" class="menu--link user_img">
+                  <img src="{% if tutor.cover %}{{tutor.cover.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="">
+                  {{tutor.full_name|title}}
+                  <div class="alrt_dot"></div>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     {% endif %}
-    {% endif %}
-
     <div class="left_section pt-2">
       <ul>
         <li class="menu--item">
@@ -128,21 +115,13 @@
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="{% url 'help' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'help' %}active{% endif %}"
-            title="Help"
-          >
+          <a href="{% url 'help' %}" class="menu--link {% if request.resolver_match.view_name == 'help' %}active{% endif %}" title="Help">
             <i class="uil uil-question-circle menu--icon"></i>
             <span class="menu--label">Help</span>
           </a>
         </li>
         <li class="menu--item">
-          <a
-            href="{% url 'report-history' %}"
-            class="menu--link {% if request.resolver_match.view_name == 'report-history' %}active{% endif %}"
-            title="Report History"
-          >
+          <a href="{% url 'report-history' %}" class="menu--link {% if request.resolver_match.view_name == 'report-history' %}active{% endif %}" title="Report History">
             <i class="uil uil-windsock menu--icon"></i>
             <span class="menu--label">Report History</span>
           </a>
@@ -155,8 +134,9 @@
         </li>
       </ul>
     </div>
+    {% include 'components/banner/membership.html' %}
     <div class="left_footer">
-         {% include 'components/navbar/nav_footer.html' %}
+      {% include 'components/navbar/nav_footer.html' %}
     </div>
   </div>
 </nav>

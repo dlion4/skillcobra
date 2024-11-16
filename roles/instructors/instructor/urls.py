@@ -14,6 +14,16 @@ urlpatterns = [
         name="analytics",
     ),
     path(
+        "stream-setup/",
+        views.InstructorStreamingSetupView.as_view(),
+        name="streaming_setup",
+    ),
+    path(
+        "stream/live/",
+        views.InstructorStreamingView.as_view(),
+        name="streaming_live_view",
+    ),
+    path(
         "profile-update/",
         views.InstructorProfileUpdateView.as_view(),
         name="update_profile",

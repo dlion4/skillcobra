@@ -12,8 +12,8 @@
     <div class="card_dash">
       <div class="card_dash_left">
         <h5>Total Purchased Courses</h5>
-        <h2>15</h2>
-        <span class="crdbg_3">New 5</span>
+        <h2>{{profile.purchased_courses.count}}</h2>
+        <span class="crdbg_3">New {{latest_courses.count}}</span>
       </div>
       <div class="card_dash_right">
         <img src="{% static 'images/dashboard/online-course.svg' %}" alt="" />
@@ -23,9 +23,9 @@
   <div class="col-xl-6 col-lg-6 col-md-6">
     <div class="card_dash">
       <div class="card_dash_left">
-        <h5>Total Instrutors Subscribing</h5>
-        <h2>45</h2>
-        <span class="crdbg_4">New 3</span>
+        <h5>Total Instructors Subscribing</h5>
+        <h2>{{tutor_subscribed_to}}</h2>
+        <span class="crdbg_4">New {{recent_subscriptions.count}}</span>
       </div>
       <div class="card_dash_right">
         <img src="{% static 'images/dashboard/knowledge.svg' %}" alt="" />

@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 
 from skillcobra.school.models import Course, CourseSubscription, Subscription
+from skillcobra.users.models import Profile
 
 
 class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
@@ -41,8 +42,12 @@ class HomeView(AuthorizedHomeViewMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["newest_courses"] = self.get_newest_course()
+        context["featured_courses"] = self.get_newest_course()
         context["courses"] = self.get_courses()
+        context["popular_tutors"] = self.get_popular_tutors()
         return context
+    def get_popular_tutors(self):
+        return Profile.objects.filter(user__role="instructor").order_by("?")
 
 
 class HomeExploreView(AuthorizedHomeViewMixin):

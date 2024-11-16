@@ -136,3 +136,9 @@ class InstructorProfileUpdateView(TemplateViewMixin):
 
 class InstructorAnalyticsView(TemplateViewMixin):
     template_name = "analytics.html"
+
+class InstructorStreamingSetupView(TemplateViewMixin):
+    template_name = "streaming_setup.html"
+
+class InstructorStreamingView(TemplateViewMixin):
+    template_name = "stream.html"

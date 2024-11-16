@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+<!-- -->
+{% load static %} {% block content %}
+
+<div class="container">
+  <div class="row"></div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="membership_bg">
+        <div class="membership_title">
+          <div class="membership__left">
+            <h2>{{student_plan.get_name_display|title}} Plan</h2>
+            <div class="memmbership_price">${{student_plan.price}}/month</div>
+            <div class="save_price">Save $67 when paid annually</div>
+          </div>
+          <div class="membership__right">
+            <img src="{% static 'images/membership/icon-1.svg' %}" alt="" />
+          </div>
+        </div>
+        <div class="membership_des">
+          <p>For instructors launching their first digital products.</p>
+        </div>
+
+        <div class="panel-group accordion" id="accordion0">
+          {% for item in student_plan.plan_features.all %}
+          <!-- -->
+          {% if item.is_available %}
+          <div class="panel panel-default">
+            <div class="panel-heading" id="heading{{item.pk}}">
+              <div class="panel-title">
+                <a
+                  class="collapsed"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{item.pk}}"
+                  href="#"
+                  aria-expanded="false"
+                  aria-controls="collapse{{item.pk}}"
+                >
+                  <i class="uil uil-check chck_icon"></i>{{item.feature}}
+                </a>
+              </div>
+            </div>
+            <div
+              id="collapse{{item.pk}}"
+              class="panel-collapse collapse"
+              role="tabpanel"
+              aria-labelledby="heading{{item.pk}}"
+              data-bs-parent="#accordion0"
+            >
+              <div class="panel-body">{{item.description|safe}}</div>
+            </div>
+          </div>
+          {% else %}
+          <div class="panel panel-default-1">
+            <div class="panel-heading">
+              <div class="panel-title-1">
+                <a class="collapsed">
+                  <i class="uil uil-times chck_icon_1"></i>{{item.feature}}
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <!-- -->
+          {% endfor %}
+        </div>
+        {% if request.user.role == 'student' %}
+        <button class="prmb_btn">Purchase Membership</button>
+        {% else %}
+        <button class="prmb_btn" disabled="disabled">
+          Purchase Membership
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="membership_bg">
+        <div class="membership_title">
+          <div class="membership__left">
+            <h2>{{instructor_plan.get_name_display|title}} Plan</h2>
+            <div class="memmbership_price">
+              ${{instructor_plan.price}}/month
+            </div>
+            <div class="save_price">Save $189 when paid annually</div>
+          </div>
+          <div class="membership__right">
+            <img src="{% static 'images/membership/icon-2.svg' %}" alt="" />
+          </div>
+        </div>
+        <div class="membership_des">
+          <p>For instructors who are ready to grow their business.</p>
+        </div>
+        <div class="panel-group accordion" id="accordion1">
+          {% for item in instructor_plan.plan_features.all %}
+          <!-- -->
+          {% if item.is_available %}
+          <div class="panel panel-default">
+            <div class="panel-heading" id="heading{{item.pk}}">
+              <div class="panel-title">
+                <a
+                  class="collapsed"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{item.pk}}"
+                  href="#"
+                  aria-expanded="false"
+                  aria-controls="collapse{{item.pk}}"
+                >
+                  <i class="uil uil-check chck_icon"></i>{{item.feature}}
+                </a>
+              </div>
+            </div>
+            <div
+              id="collapse{{item.pk}}"
+              class="panel-collapse collapse"
+              role="tabpanel"
+              aria-labelledby="heading{{item.pk}}"
+              data-bs-parent="#accordion0"
+            >
+              <div class="panel-body">{{item.description|safe}}</div>
+            </div>
+          </div>
+          {% else %}
+          <div class="panel panel-default-1">
+            <div class="panel-heading">
+              <div class="panel-title-1">
+                <a class="collapsed">
+                  <i class="uil uil-times chck_icon_1"></i>{{item.feature}}
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <!-- -->
+          {% endfor %}
+        </div>
+        {% if request.user.role == 'instructor' %}
+        <button class="prmb_btn">Purchase Membership</button>
+        {% else %}
+        <button class="prmb_btn" disabled="disabled">
+          Purchase Membership
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="title589 mt-62">
+        <h2>Membership FAQ</h2>
+        <p>Wait, what about…</p>
+      </div>
+      <div class="membership_faq_bg">
+        <div class="panel-group mt-4 accordion" id="accordion2">
+            {% for item in plan_questions %}
+            <div class="panel panel-default">
+              <div class="panel-heading" id="headingOne{{item.pk}}">
+                <div class="panel-title">
+                  <a
+                    class="collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne{{item.pk}}"
+                    href="#"
+                    aria-expanded="false"
+                    aria-controls="collapseOne{{item.pk}}"
+                  >
+                    {{item.question}}
+                  </a>
+                </div>
+              </div>
+              <div
+                id="collapseOne{{item.pk}}"
+                class="panel-collapse collapse"
+                aria-labelledby="headingOne{{item.pk}}"
+                data-bs-parent="#accordion2"
+              >
+                <div class="panel-body">{{item.answer|safe}}</div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock scripts %}

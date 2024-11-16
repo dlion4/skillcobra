@@ -58,12 +58,10 @@
         <div class="card_dash1">
             <div class="card_dash_left1">
                 <i class="uil uil-book-alt" style="transform: translateY(-0.5rem);"></i>
-                <h1>Jump Into Course Creation</h1>
+                <h1>Start a live lesson</h1>
             </div>
             <div class="card_dash_right1">
-                <button class="create_btn_dash" url="{% url 'instructors:create_course_view' %}">
-                    Create Your Course
-                </button>
+                <button url="{% url 'instructors:streaming_setup' %}" class="create_btn_dash"><i class='uil uil-video' style="margin-right: 5px;"></i>Go Live</button>
             </div>
         </div>
     </div>

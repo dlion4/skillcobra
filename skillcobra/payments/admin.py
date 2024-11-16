@@ -1,11 +1,10 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 
-from .models import MemberShip
+from skillcobra.memberships.models import MemberShip
+from skillcobra.memberships.models import Plan
+from skillcobra.memberships.models import PlanFeature
 
-# Register your models here.
-from .models import Plan
-from .models import PlanFeature
 from .models import Transaction
 
 
