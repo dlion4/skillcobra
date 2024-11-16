@@ -1,0 +1,144 @@
+{% load static %}
+<style>
+  .spinner {
+    width: 22px;
+    height: 22px;
+    border: 2px solid transparent;
+    /* Transparent border for full circle */
+    border-top: 2px solid #fff;
+    /* White color for the visible border */
+    border-radius: 50%;
+    /* Make it circular */
+    animation: spin 1s linear infinite;
+    /* Apply spinning animation */
+    background-color: red;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<div class="col-lg-8">
+  <form action="" method="post" class="address_form_update">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.first_name}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.last_name}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="mt-30">
+          {{billing_form.country}}
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.address_line1}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.address_line2}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.city}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.state}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.postal_code}}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="ui search focus mt-30">
+          <div class="ui icon input swdh11 swdh19">
+            {{billing_form.phone_number}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="save_payout_btn" type="submit">
+      <div class="d-flex mx-auto align-items-center gap-1">
+        <div class="spinner" style="display: none;"></div>
+        <div class="text-display ms-2">update address</div>
+      </div>
+    </button>
+    <div class="response"></div>
+  </form>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $(".address_form_update").on("submit", function (event) {
+      event.preventDefault();
+      const fd = new FormData(event.target);
+      const form = $(this)
+      const btn = form.find("button[type=submit].save_payout_btn")
+      btn
+        .find(".spinner")
+        .show();
+      btn.prop("disabled", true);
+
+      $.ajax({
+        url: "{% url 'users:update_profile_address' %}",
+        method: "POST",
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response); // Debugging
+          $(".response").text(response.message); // Display response message
+          $("input[name=address_id]").val(response.address_id); // Set hidden input value
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(jqXHR, textStatus, errorThrown); // Debugging
+          $(".response").text("An error occurred while updating your address."); // Display error message
+        },
+        complete: function () {
+          btn
+            .find(".spinner")
+            .hide();
+          btn.prop("disabled", false);
+          setTimeout(() => {
+            $(".response").text("");
+          }, 2000)
+        }
+      });
+
+    })
+  })
+</script>

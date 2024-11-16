@@ -103,6 +103,7 @@ THIRD_PARTY_APPS = [
     "froala_editor",
     "django_twilio",
     "channels",
+    "django_countries",
 ]
 
 LOCAL_APPS = [
@@ -237,6 +238,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "skillcobra.users.context_processors.allauth_settings",
+                "skillcobra.payments.context_processors.payment_context_processor",
             ],
         },
     },

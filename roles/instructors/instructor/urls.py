@@ -9,9 +9,19 @@ urlpatterns = [
         name="dashboard",
     ),
     path(
+        "courses/",
+        views.InstructorCoursesView.as_view(),
+        name="courses_view",
+    ),
+    path(
         "analytics/",
         views.InstructorAnalyticsView.as_view(),
         name="analytics",
+    ),
+    path(
+        "earnings/",
+        views.InstructorEarningView.as_view(),
+        name="earnings_view",
     ),
     path(
         "stream-setup/",

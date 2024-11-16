@@ -134,6 +134,11 @@ class CourseForm(forms.ModelForm):
                 """,
         widget=FroalaEditor(),
     )
+    course_release_date = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control py-2 px-4", "style": "display: none"},
+        ),
+    )
 
     class Meta:
         model = Course
@@ -150,6 +155,7 @@ class CourseForm(forms.ModelForm):
             "cover",
             "course_duration",
             "preview_video",
+            "course_release_date",
         ]
 
         widgets = {
@@ -185,7 +191,7 @@ class CreateCourseCurriculumLectureForm(forms.ModelForm):
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={"class": "form_input_1", "placeholder": "lecture title"}
-        )
+        ),
     )
     description = forms.CharField(
         initial="Just a simple or overview of what the lecture is about",

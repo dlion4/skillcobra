@@ -1,6 +1,9 @@
+from decimal import Decimal
 import time
 from typing import ClassVar
-
+from django.db.models import Sum
+from django.utils import timezone
+from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -10,6 +13,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from roles.instructors.instructor.models import CourseSale
 from skillcobra.purchases.models import Cart
 from skillcobra.school.models import CourseSubscription
 
@@ -47,10 +51,11 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if not self.username:
-            self.username = self.email[:self.email.index("@")]
+            self.username = self.email[: self.email.index("@")]
         super().save(*args, **kwargs)
+
     def get_username(self):
-        return self.email[:self.email.index("@")]
+        return self.email[: self.email.index("@")]
 
 
 # models.py
@@ -71,12 +76,16 @@ class SuperAdmin(User):
         proxy = True
         verbose_name = "SuperAdmin"
 
+
 def upload_avatar_to_(instance, filename):
     return f"profile/avatar/{instance.user.username}/{time.time()}_{filename}"
 
+
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="user_profile",
+        User,
+        on_delete=models.CASCADE,
+        related_name="user_profile",
     )
     first_name = models.CharField(max_length=200, blank=True)
     last_name = models.CharField(max_length=200, blank=True)
@@ -84,7 +93,8 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to=upload_avatar_to_, blank=True, null=True)
     purchased_courses = models.ManyToManyField(
-        "school.Course", blank=True, related_name="purchased_courses")
+        "school.Course", blank=True, related_name="purchased_courses",
+    )
 
     def __str__(self):
         return self.user.email
@@ -114,6 +124,8 @@ class Profile(models.Model):
 
     def get_all_courses(self):
         return self.course_tutor.all()
+    def get_up_coming_courses(self):
+        return self.course_tutor.filter(course_release_date__gte=timezone.now())
 
     def get_discussions(self):
         return (
@@ -129,11 +141,13 @@ class Profile(models.Model):
             return self.student_saved_course.courses.all()
         except ObjectDoesNotExist:
             return []
+
     def get_all_cart_items(self):
         try:
             return Cart.objects.get(student=self).courses.all()
         except ObjectDoesNotExist:
             return []
+
     def get_subscription_url(self):
         return reverse(
             "profile_instructors:subscribe_to_tutor_view",
@@ -141,17 +155,41 @@ class Profile(models.Model):
                 "tutor_pk": self.pk,
             },
         )
+
     def received_messages(self):
         return self.message_recipient.filter(is_read=False)[:3]
+
     def get_all_received_messages(self):
         return self.message_recipient.filter(is_read=False)
 
     def get_subscribed_tutor_ids(self):
         # Get the IDs of tutors that this student is subscribed to
         ids = CourseSubscription.objects.filter(student=self).values_list(
-            "subscription__tutor_id", flat=True,
+            "subscription__tutor_id",
+            flat=True,
         )
         return [Profile.objects.filter(pk=ids).first() for ids in ids]
+
+    def get_tutor_latest_sales(self):
+        try:
+            return self._extracted_from_get_tutor_total_sales_3()
+        except ObjectDoesNotExist:
+            return Decimal("0.00")
+
+    def get_tutor_total_sales(self):
+        try:
+            return self._extracted_from_get_tutor_total_sales_3()
+        except CourseSale.DoesNotExist:
+            return Decimal("0.00")
+
+    # TODO Rename this here and in `get_tutor_latest_sales` and `get_tutor_total_sales`
+    def _extracted_from_get_tutor_total_sales_3(self):
+        sales = self.tutor_sales.transactions.aggregate(total_sales=Sum("amount"))
+        if sales["total_sales"] is None:
+            return Decimal("0.00")
+        return sales["total_sales"]
+    def get_tutor_sales(self):
+        return self.tutor_sales.courses.all()
 
 
 @receiver(post_save, sender=User)

@@ -6,13 +6,14 @@
     <div class="left_section">
       <ul>
         <li class="menu--item">
-          <a href="{% url 'instructors:dashboard' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:dashboard' %} active {% endif %}" title="Dashboard">
+          <a href="{% url 'instructors:dashboard' %}" 
+          class="menu--link {% if request.resolver_match.view_name == 'instructors:dashboard' %} active {% endif %}" title="Dashboard">
             <i class="uil uil-apps menu--icon"></i>
             <span class="menu--label">Dashboard</span>
           </a>
         </li>
         <li class="menu--item">
-          <a href="" class="menu--link" title="Courses">
+          <a href="{% url 'instructors:courses_view' %}" class="menu--link  {% if request.resolver_match.view_name == 'instructors:courses_view' %} active {% endif %}" title="Courses">
             <i class="uil uil-book-alt menu--icon"></i>
             <span class="menu--label">Courses</span>
           </a>
@@ -24,7 +25,8 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="{% url 'instructors:create_course_view' %}" class="menu--link  {% if request.resolver_match.view_name == 'instructors:create_course_view' %} active {% endif %}" title="Create Course">
+          <a href="{% url 'instructors:create_course_view' %}" 
+          class="menu--link  {% if request.resolver_match.view_name == 'instructors:create_course_view' %} active {% endif %}" title="Create Course">
             <i class="uil uil-plus-circle menu--icon"></i>
             <span class="menu--label">Create Course</span>
           </a>
@@ -54,7 +56,7 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="instructor_earning.html" class="menu--link" title="Earning">
+          <a href="{% url 'instructors:earnings_view' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:earnings_view' %} active {% endif %}" title="Earning">
             <i class="uil uil-dollar-sign menu--icon"></i>
             <span class="menu--label">Earning</span>
           </a>

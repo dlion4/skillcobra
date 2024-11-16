@@ -1,106 +1,72 @@
 {% extends "instructors/base.html" %}
-<!--  -->
+<!-- -->
 {% block title %}
-    {{ block.super }} Update Profile
+  {{ block.super }}
+  Update Profile
 {% endblock title %}
-<!--  -->
-<!--  -->
+<!-- -->
+<!-- -->
 {% load static %}
-<!--  -->
+<!-- -->
 {% block content %}
+
+
 <div class="row">
-    <div class="col-lg-12">
-        <h2 class="st_title">
-            <i class="uil uil-cog"></i>
-            Setting
-        </h2>
-        <div class="setting_tabs">
-            <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a
-                        class="nav-link active"
-                        id="pills-account-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-account"
-                        role="tab"
-                        aria-selected="true"
-                    >Account</a>
-                </li>
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="pills-notification-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-notification"
-                        role="tab"
-                        aria-selected="false"
-                    >Notification</a>
-                </li>
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="pills-privacy-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-privacy"
-                        role="tab"
-                        aria-selected="false"
-                    >Privacy</a>
-                </li>
-                
-                {% if request.user.role == "instructor" %}
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="pills-bllingpayment-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-bllingpayment"
-                        role="tab"
-                        aria-selected="false"
-                    >Billing and Payouts</a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="pills-api-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-api"
-                        role="tab"
-                        aria-selected="false"
-                    >API Clients</a>
-                </li>
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        id="pills-closeaccount-tab"
-                        data-bs-toggle="pill"
-                        href="#pills-closeaccount"
-                        role="tab"
-                        aria-selected="false"
-                    >Close Account</a>
-                </li>
-            </ul>
-        </div>
-        <!-- Content -->
-        <div class="tab-content" id="pills-tabContent">
-            <!--  -->
-            {% include 'account/update/account.html' %}
-            <!--  -->
-            {% include 'account/update/notification.html' %}
-            <!--  -->
-            {% include 'account/update/privacy.html' %}
-            <!--  -->
-            {% include 'account/update/billing.html' %}
-            <!--  -->
-            {% include 'account/update/close.html' %}
-            <!--  -->
-            {% include 'instructors/components/account/apiclient.html' %}
-        </div>
+  <div class="col-lg-12">
+    <h2 class="st_title">
+      <i class="uil uil-cog"></i>
+      Setting
+    </h2>
+    <div class="setting_tabs">
+      <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="pills-account-tab" data-bs-toggle="pill" href="#pills-account" role="tab" aria-selected="true">Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-notification-tab" data-bs-toggle="pill" href="#pills-notification" role="tab" aria-selected="false">Notification</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-privacy-tab" data-bs-toggle="pill" href="#pills-privacy" role="tab" aria-selected="false">Privacy</a>
+        </li>
+
+        {% if request.user.role == "instructor" %}
+          <li class="nav-item">
+            <a class="nav-link" id="pills-bllingpayment-tab" data-bs-toggle="pill" href="#pills-bllingpayment" role="tab" aria-selected="false">Billing and Payouts</a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" id="pills-api-tab" data-bs-toggle="pill" href="#pills-api" role="tab" aria-selected="false">API Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-closeaccount-tab" data-bs-toggle="pill" href="#pills-closeaccount" role="tab" aria-selected="false">Close Account</a>
+        </li>
+      </ul>
     </div>
+
+    <!-- Content -->
+<div class="tab-content" id="pills-tabContent">
+  <!-- -->
+  {% include 'account/update/account.html' %}
+  <!-- -->
+  {% include 'account/update/notification.html' %}
+  <!-- -->
+  {% include 'account/update/privacy.html' %}
+  <!-- -->
+  {% include 'account/update/billing.html' %}
+  <!-- -->
+  {% include 'account/update/close.html' %}
+  <!-- -->
+  {% include 'instructors/components/account/apiclient.html' %}
 </div>
+
+  </div>
+</div>
+
+
 {% endblock content %}
-<!--  -->
+<!-- -->
+
 {% block scripts %}
-<!--  -->
-{{ block.super }}
+  <!-- -->
+  {{ block.super }}
 {% endblock scripts %}

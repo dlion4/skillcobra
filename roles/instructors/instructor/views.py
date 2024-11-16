@@ -1,7 +1,10 @@
 from datetime import timedelta
+from decimal import Decimal
 
 from django.contrib.auth import get_user
 from django.db import IntegrityError
+from django.db.models import Q
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -12,6 +15,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
+from roles.instructors.instructor.models import CourseSale
+from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.school.forms import CourseCurriculumForm
 from skillcobra.school.forms import CourseForm
 from skillcobra.school.forms import CreateCourseCurriculumLectureForm
@@ -64,6 +69,10 @@ class InstructorDashboardView(TemplateViewMixin):
         context["courses"] = self.get_courses()
         context["new_courses"] = self.get_courses()
         return context
+
+
+class InstructorCoursesView(TemplateViewMixin):
+    template_name = "courses.html"
 
 
 class InstructorCreatedCourseView(TemplateViewMixin, FormView):
@@ -127,11 +136,13 @@ class InstructorCourseDetailView(TemplateViewMixin, FormView):
 class InstructorProfileUpdateView(TemplateViewMixin):
     template_name = "profile_update.html"
     account_basic_form = UpdateAccountProfileBasicDataForm
+    billing_form = BillingAddressForm
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["account_basic_update_form"] = self.account_basic_form(
             instance=self.get_profile(),
         )
+        context["billing_form"] = self.billing_form(profile=self.get_profile())
         return context
 
 class InstructorAnalyticsView(TemplateViewMixin):
@@ -142,3 +153,7 @@ class InstructorStreamingSetupView(TemplateViewMixin):
 
 class InstructorStreamingView(TemplateViewMixin):
     template_name = "stream.html"
+
+
+class InstructorEarningView(TemplateViewMixin):
+    template_name = "earnings.html"

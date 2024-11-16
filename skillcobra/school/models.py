@@ -1,3 +1,4 @@
+from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal
 
@@ -5,7 +6,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-from django_ckeditor_5.fields import CKEditor5Field
+from django.utils.timezone import get_default_timezone
+from django.utils.timezone import make_aware
 from froala_editor.fields import FroalaField
 
 from skillcobra.school.utils import upload_lecture_attachment
@@ -48,7 +50,11 @@ class SubCategory(models.Model):
 
 class CourseManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status="approved")
+        return (
+            super()
+            .get_queryset()
+            .filter(status="approved", course_release_date__lt=timezone.now())
+        )
 
 
 class Course(models.Model):
@@ -123,6 +129,7 @@ class Course(models.Model):
     likes = models.IntegerField(default=1)
     un_likes = models.IntegerField(default=0)
     shared = models.IntegerField(default=11)
+    course_release_date = models.DateTimeField(blank=True, null=True)
 
     all_objects = models.Manager()
     objects = CourseManager()
@@ -131,6 +138,20 @@ class Course(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        if isinstance(self.course_release_date, str):
+            try:
+                naive_datetime = datetime.strptime(  # noqa: DTZ007
+                    self.course_release_date,
+                    "%Y-%m-%d %H:%M",
+                )
+                # Convert naive datetime to aware datetime
+                self.course_release_date = make_aware(
+                    naive_datetime,
+                    timezone=get_default_timezone(),
+                )
+            except ValueError as e:
+                msg = "Invalid date format. Expected format: 'YYYY-MM-DD HH:MM'."
+                raise ValueError(msg) from e
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -406,13 +427,22 @@ class Subscription(models.Model):
 
 class CourseSubscription(models.Model):
     subscription = models.ForeignKey(
-        Subscription, on_delete=models.SET_NULL, blank=True, null=True,
+        Subscription,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
     student = models.ForeignKey(
-        "users.Profile", on_delete=models.SET_NULL, blank=True, null=True,
+        "users.Profile",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
     course = models.ForeignKey(
-        "school.Course", on_delete=models.SET_NULL, blank=True, null=True,
+        "school.Course",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
     date_subscribed = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)

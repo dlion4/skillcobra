@@ -1,0 +1,225 @@
+{% load static %}
+<div class="basic_form mt-50">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="basic_ptitle">
+        <h4>Withdrawal Method</h4>
+      </div>
+      <div class="rpt100 mt-30">
+        <ul class="radio--group-inline-container_1 row" style="width: 100%;">
+          <li class="col-md-4 col-12">
+            <div class="radio-item_1" style="width: 100%;">
+              <input id="paypal1" value="paypal" name="paymentmethod" type="radio" data-minimum="50.0" style="width: 100%;">
+              <label for="paypal1" class="radio-label_1" style="width: 100%;">Paypal</label>
+            </div>
+          </li>
+          <li class="col-md-4 col-12">
+            <div class="radio-item_1" style="width: 100%;">
+              <input id="bank" value="bank" name="paymentmethod" type="radio" data-minimum="50.0" style="width: 100%;">
+              <label for="bank" class="radio-label_1" style="width: 100%;">Bank</label>
+            </div>
+          </li>
+          <li class="col-md-4 col-12">
+            <div class="radio-item_1">
+              <input id="M-Pesa" value="M-Pesa" name="paymentmethod" type="radio" data-minimum="50.0">
+              <label for="M-Pesa" class="radio-label_1">M-Pesa</label>
+            </div>
+          </li>
+          <li class="col-md-4 col-12">
+            <div class="radio-item_1">
+              <input id="airtel" value="airtel" name="paymentmethod" type="radio" data-minimum="50.0">
+              <label for="airtel" class="radio-label_1">Airtel Money</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="form-group return-departure-dts" data-method="bank">
+        <div class="row">
+          <form action="{% url 'users:create_profile_payout_account_view' %}" class="bank_form" method="post">
+            {% csrf_token %}
+            {{bank_payout_form.account_type}}
+            <div class="col-lg-12">
+              <div class="pymnt_title">
+                <h4>Your Account</h4>
+                <span>Minimum - $500.00</span>
+                <p>SyncPay (International Transfer) get paid directly into your bank account. Connected with over 9000 banking organizations, security institutions and customers in more than 200 countries
+                  <a href="#">More about SyncPay</a>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <div class="ui search focus mt-15">
+                <div class="ui icon input swdh11 swdh19">
+                  {{bank_payout_form.account_number}}
+                </div>
+              </div>
+              <div class="ui search focus mt-15">
+                <div class="ui icon input swdh11 swdh19">
+                  {{bank_payout_form.account_name}}
+                </div>
+              </div>
+              <div class="ui search focus mt-15">
+                <div class="ui icon input swdh11 swdh19">
+                  {{bank_payout_form.bank_name}}
+                </div>
+              </div>
+              <button class="save_payout_btn" type="submit">Set Payout Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="form-group return-departure-dts" data-method="paypal">
+        <div class="row">
+          <form action="{% url 'users:create_profile_payout_account_view' %}" class="paypal_form" method="post">
+            {% csrf_token %}
+            {{paypal_payout_form.account_type}}
+            <div class="col-lg-12">
+              <div class="pymnt_title">
+                <h4>Your PayPal Account</h4>
+                <span>Minimum - $50.00</span>
+                <p>
+                  Get paid by credit or debit card, PayPal transfer or even via bank account in just a few clicks. All you need is your email address or mobile number.
+                  <a href="#">More about PayPal</a>
+                  |
+                  <a href="#">Create an account</a>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="ui search focus mt-30">
+                <div class="ui icon input swdh11 swdh19">
+                  {{paypal_payout_form.email_address}}
+                </div>
+              </div>
+              <button class="save_payout_btn" type="submit">Set Payout Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="form-group return-departure-dts" data-method="M-Pesa">
+        <div class="row">
+          <form action="{% url 'users:create_profile_payout_account_view' %}" class="mpesa_form" method="post">
+            {% csrf_token %}
+            {{mpesa_payout_form.account_type}}
+            <div class="col-lg-12">
+              <div class="pymnt_title">
+                <h4>Your Mpesa Account</h4>
+                <span>Minimum - $50.00</span>
+                <p>
+                  Mpesa Prepaid MasterCard® or Global Bank Transfer (Mpesa) offers an easy, convenient and cost effective way to get paid.
+                  <a href="#">More about MPesa</a>
+                  |
+                  <a href="#">MPesa FAQs</a>
+                </p>
+                <p>
+                  <strong>Note:
+                  </strong>This applies to tutors from the east african countries</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="ui search focus mt-30">
+                <div class="ui icon input swdh11 swdh19">
+                  {{mpesa_payout_form.phone_number}}
+                </div>
+              </div>
+              <button class="save_payout_btn" type="submit">Set Payout Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="form-group return-departure-dts" data-method="airtel">
+        <div class="row">
+          <form action="{% url 'users:create_profile_payout_account_view' %}" class="airtel_form" method="post">
+            {% csrf_token %}
+            {{airtel_payout_form.account_type}}
+            <div class="col-lg-12">
+              <div class="pymnt_title">
+                <h4>Your Airtel Money Account</h4>
+                <span>Minimum - $50.00</span>
+                <p>
+                  Airtel Prepaid MasterCard® or Global Bank Transfer (Airtel) offers an easy, convenient and cost effective way to get paid.
+                  <a href="#">More about MPesa</a>
+                  |
+                  <a href="#">Airtel FAQs</a>
+                </p>
+                <p>
+                  <strong>Note:
+                  </strong>This applies to tutors from the east african countries</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+              <div class="ui search focus mt-30">
+                <div class="ui icon input swdh11 swdh19">
+                  {{airtel_payout_form.phone_number}}
+                </div>
+              </div>
+              <button class="save_payout_btn" type="submit">Set Payout Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+<div class="addressEmpty"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    const addressId = $("input[type=hidden][name=address_id]").val()
+    console.log("Address ID:", addressId);
+    if (addressId && addressId.trim().length === 0) {
+      $(".addressEmpty").text("Please create an address before proceeding!")
+      setTimeout(()=>{ $(".addressEmpty").text("")}, 400)
+    } else {
+      $(document)
+        .off("submit", ".paypal_form, .mpesa_form, .bank_form, .airtel_form")
+        .on("submit", ".paypal_form, .mpesa_form, .bank_form, .airtel_form", function (event) {
+          event.preventDefault();
+
+          const combinedFormData = new FormData();
+
+          $( ".paypal_form, .mpesa_form, .bank_form, .airtel_form").each(function () {
+            const formData = new FormData(this);
+            for (const [key, value] of formData.entries()) {
+              combinedFormData.append(key, value);
+            }
+          });
+          const form = $(this);
+
+          combinedFormData.set("account_type", form.find("input[name='account_type']").val());
+          combinedFormData.append("address_id", addressId);
+
+          const fd = combinedFormData;
+          console.log(Object.fromEntries(fd));
+
+          const btn = form.find("button[type=submit].save_payout_btn");
+          btn.prop("disabled", true);
+          btn.text("Loading...");
+
+          $.ajax({
+            type: "POST",
+            url: form.attr("action"),
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+              console.log("Success Response:", response);
+            },
+            error: function (xhr, status, error) {
+              console.error("Error Response:", xhr.responseText);
+            },
+            complete: function () {
+              btn.prop("disabled", false);
+              btn.text("Set Payout Account");
+            }
+          });
+        });
+    }
+
+  });
+</script>

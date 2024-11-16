@@ -10,8 +10,8 @@
         <div class="card_dash">
             <div class="card_dash_left">
                 <h5>Total Sales</h5>
-                <h2>$350</h2>
-                <span class="crdbg_1">New $50</span>
+                <h2>${{profile.get_tutor_total_sales}}</h2>
+                <span class="crdbg_1">New ${{profile.get_tutor_latest_sales}}</span>
             </div>
             <div class="card_dash_right">
                 <img src="{% static 'images/dashboard/achievement.svg' %}" alt="">

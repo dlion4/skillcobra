@@ -10,3 +10,9 @@ class TransactionIntentChoices(models.TextChoices):
     SP = "sp", "Service Purchase"
     MP = "mp", "Membership Purchase"
     MS = "ms", "Monthly Subscription"
+
+class PayoutAccountChoices(models.TextChoices):
+    PAYPAL = "paypal", "Paypal Account"
+    MPESA = "mpesa", "MPesa Account"
+    AIRTEL = "airtel", "Airtel Account"
+    BANK = "bank", "Bank Account"

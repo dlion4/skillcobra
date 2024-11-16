@@ -3,6 +3,96 @@
 {% load static %}
 <!--  -->
 {% block content %}
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <h2 class="st_title">
+      <i class="uil uil-dollar-sign"></i>
+      Earning</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="earning_steps">
+      <p>Sales earnings this month (April), after skillcobra+ fees, & before taxes:</p>
+      <h2>$1146.78</h2>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="earning_steps">
+      <p>Your balance:</p>
+      <h2>$1146.78</h2>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="earning_steps">
+      <p>Total value of your sales, before taxes:</p>
+      <h2>$95895.54</h2>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div class="top_countries mt-50">
+      <div class="top_countries_title">
+        <h2>Top Category</h2>
+      </div>
+      <ul class="country_list">
+        <li>
+          <div class="country_item">
+            <div class="country_item_left">
+              <span>Computer Science</span>
+            </div>
+            <div class="country_item_right">
+              <span>$48</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-lg-8 col-md-12">
+    <div class="date_selector">
+      <div class="ui selection dropdown skills-search vchrt-dropdown">
+        <input name="date" type="hidden" value="default">
+        <i class="dropdown icon d-icon"></i>
+        <div class="text">Item Sales</div>
+        <div class="menu">
+          <div class="item" data-value="0">Total Sales</div>
+          <div class="item" data-value="1">2024</div>
+          <div class="item" data-value="2">2025</div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="table-responsive mt-30">
+      <table class="table ucp-table earning__table">
+        <thead class="thead-s">
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Item Sales Count</th>
+            <th scope="col">Earning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1, Wednesday</td>
+            <td>3</td>
+            <td>$120.50</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td>34</td>
+            <td>$1146.78</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+
 {% endblock content %}
 <!--  -->
 {% block scripts %}
