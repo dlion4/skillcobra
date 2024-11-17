@@ -33,4 +33,5 @@ $(document).ready(function () {
         const listItem = `<li><a href="#" class="ct_item"><i class='uil ${item.icon}'></i>${item.name}</a></li>`;
         $(".category_list").append(listItem);
     });
+  
 });

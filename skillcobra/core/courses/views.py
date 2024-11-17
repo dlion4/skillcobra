@@ -1,13 +1,17 @@
 import time
 
 from channels.layers import get_channel_layer
+from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
-from django.contrib.auth import get_user
+
+from roles.instructors.instructor.models import ScheduleClass
 from skillcobra.core.courses.decorators import object_item_available
 from skillcobra.purchases.models import Cart
 from skillcobra.school.models import Course
@@ -119,3 +123,10 @@ def remove_course_from_cart(request, course_pk, course_slug):
         {"cart_count": str(profile_cart.courses.all().count())},
         status=200,
     )
+
+
+@login_required
+@csrf_exempt
+def live_class_short_url_redirect(request, short_url):
+    schedule_class = get_object_or_404(ScheduleClass, short_url=short_url)
+    return redirect(schedule_class.class_live_link)

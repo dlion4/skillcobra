@@ -1,10 +1,11 @@
 import json
 import random
 import string
-from decimal import Decimal
 import time
+from decimal import Decimal
 
 import requests
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse
@@ -57,9 +58,10 @@ class ProcessPaymentFormView(View):
             "itemId": "22",
             "itemDescription": "This is purchase for course",
             "itemTotalPrice": str(data.get("amount")),
+            "customer_email": str(profile.user.email),
         }
         response = requests.post(
-            "http://localhost:8001",
+            str(settings.SYNCPAY_MERCHANT_PAYMENT_URL),
             json=payment_upload_data,
             timeout=10,
         )

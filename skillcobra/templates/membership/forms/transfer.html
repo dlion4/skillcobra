@@ -1,0 +1,59 @@
+<form name="bankTransfer">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="ui search focus mt-30 lbel25">
+        <label>Account Holder Name</label>
+        <div class="ui left icon input swdh11 swdh19">
+          <input
+            class="prompt srch_explore"
+            type="text"
+            name="account_name"
+            value=""
+            required=""
+            maxlength="64"
+            placeholder="Enter Your Full Name"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="ui search focus mt-30 lbel25">
+        <label>Account Number</label>
+        <div class="ui left icon input swdh11 swdh19">
+          <input
+            class="prompt srch_explore"
+            type="text"
+            name="account_number"
+            maxlength="10"
+            placeholder="Enter Account Number"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="lbel25 mt-30">
+        <label>Bank Name</label>
+        <select
+          class="ui hj145 dropdown cntry152 prompt srch_explore"
+          name="bank_name"
+          title="bank"
+        ></select>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="ui search focus mt-30 lbel25">
+        <label>FISK Code</label>
+        <div class="ui left icon input swdh11 swdh19">
+          <input
+            class="prompt srch_explore"
+            type="text"
+            name="account_fisk_code"
+            maxlength="10"
+            placeholder="Enter FISK Code"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

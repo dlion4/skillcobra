@@ -3,12 +3,12 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.utils.translation import gettext_lazy as _
+from unfold.admin import ModelAdmin
 
 from .forms import UserAdminChangeForm
 from .forms import UserAdminCreationForm
 from .models import Profile
 from .models import User
-from unfold.admin import ModelAdmin
 
 if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
     # Force the `admin` sign in process to go through the `django-allauth` workflow:
@@ -52,5 +52,5 @@ class UserAdmin(auth_admin.UserAdmin, ModelAdmin):
 
 
 @admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(ModelAdmin):
     list_display = ["user"]

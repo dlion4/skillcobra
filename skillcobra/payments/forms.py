@@ -1,21 +1,15 @@
 import contextlib
-import datetime as utcDate
-import re
-from datetime import datetime
-from django_countries.widgets import CountrySelectWidget
+
 from django import forms
-from django.core.exceptions import ValidationError
-from django.utils import timezone
+from django_countries.widgets import CountrySelectWidget
 
 from skillcobra.payments.choices import PayoutAccountChoices
-from skillcobra.payments.models import (
-    AirtelAccount,
-    BankAccount,
-    BillingAddress,
-    MpesaAccount,
-    PayoutAccount,
-    PaypalAccount,
-)
+from skillcobra.payments.models import AirtelAccount
+from skillcobra.payments.models import BankAccount
+from skillcobra.payments.models import BillingAddress
+from skillcobra.payments.models import MpesaAccount
+from skillcobra.payments.models import PayoutAccount
+from skillcobra.payments.models import PaypalAccount
 
 
 class CoursePurchasePaymentForm(forms.Form):
@@ -255,9 +249,7 @@ class PaypalPayoutAccountForm(forms.Form):
                 account_type=PayoutAccountChoices.PAYPAL,
             ).first():
                 account = PaypalAccount.objects.get(payout_account=payout_account)
-                self.fields["email_address"].initial = (
-                    account.email_address
-                )
+                self.fields["email_address"].initial = account.email_address
             else:
                 self.fields["email_address"].initial = self.user.email
 
@@ -351,3 +343,77 @@ class PayoutAccountForm(forms.Form):
     )
 
     account_type = forms.CharField(widget=forms.HiddenInput())
+
+
+class CreditDebitMembershipPaymentForm(forms.Form):
+    card_holder_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "prompt srch_explore py-3",
+                "id": "cardHolderName",
+                "placeholder": "Card Holder's Name",
+            },
+        ),
+    )
+    card_number = forms.CharField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "prompt srch_explore py-3",
+                "id": "cardNumber",
+                "placeholder": "Card Number",
+            },
+        ),
+    )
+    expiry_month = forms.ChoiceField(
+        choices=tuple(
+            zip(
+                range(1, 13),
+                [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                ],
+                strict=False,
+            ),
+        ),
+        widget=forms.Select(
+            attrs={
+                "class": "selectpicker",
+            }
+        ),
+    )
+    expiry_year = forms.CharField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "prompt srch_explore py-3",
+                "id": "expiryYear",
+                "placeholder": "Expiry Year",
+            },
+        ),
+    )
+    card_cvv_number = forms.CharField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "prompt srch_explore py-3",
+                "id": "cardCvvNumber",
+                "placeholder": "CVV",
+            },
+        ),
+    )
+    def __init__(self, *args, **kwargs):
+        self.profile = kwargs.pop("profile")
+        super().__init__(*args, **kwargs)
+        with contextlib.suppress(Exception):
+            captured = self.profile.profile_card_capture.first()
+            for field_name, field in self.fields.items():
+                if hasattr(captured, field_name):
+                    field.initial = getattr(captured, field_name)

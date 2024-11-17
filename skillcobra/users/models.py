@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 
 from roles.instructors.instructor.models import CourseSale
 from skillcobra.purchases.models import Cart
-from skillcobra.school.models import CourseSubscription
+from skillcobra.school.models import Course, CourseSubscription, Subscription
 
 from .managers import UserManager
 
@@ -93,7 +93,9 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to=upload_avatar_to_, blank=True, null=True)
     purchased_courses = models.ManyToManyField(
-        "school.Course", blank=True, related_name="purchased_courses",
+        "school.Course",
+        blank=True,
+        related_name="purchased_courses",
     )
 
     def __str__(self):
@@ -124,6 +126,7 @@ class Profile(models.Model):
 
     def get_all_courses(self):
         return self.course_tutor.all()
+
     def get_up_coming_courses(self):
         return self.course_tutor.filter(course_release_date__gte=timezone.now())
 
@@ -188,8 +191,27 @@ class Profile(models.Model):
         if sales["total_sales"] is None:
             return Decimal("0.00")
         return sales["total_sales"]
+
     def get_tutor_sales(self):
         return self.tutor_sales.courses.all()
+
+    def get_subscribed_courses_per_tutor(self):
+        if tutor_subscription := Subscription.objects.filter(
+            students=self,
+        ).first():
+            # Return the list of Course instances that the tutor is associated with
+            return len([
+                course_sub.course
+                for course_sub in CourseSubscription.objects.filter(
+                    subscription=tutor_subscription,
+                )
+            ])
+        return 0
+    def get_purchased_courses_by_student_per_tutor(self):
+        print(self.purchased_courses.all())  # Inspect the purchased courses
+        print(self.purchased_courses.filter(tutor=self))  # Inspect the filtered courses
+        # def get_purchased_courses_by_student_per_tutor(self):
+        return self.purchased_courses.filter(tutor=self).all()
 
 
 @receiver(post_save, sender=User)

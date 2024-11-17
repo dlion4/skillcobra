@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 
+from roles.instructors.instructor.forms import ScheduleClassForm
 from roles.instructors.instructor.models import CourseSale
 from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.school.forms import CourseCurriculumForm
@@ -148,8 +149,19 @@ class InstructorProfileUpdateView(TemplateViewMixin):
 class InstructorAnalyticsView(TemplateViewMixin):
     template_name = "analytics.html"
 
-class InstructorStreamingSetupView(TemplateViewMixin):
+class InstructorStreamingSetupView(TemplateViewMixin, FormView):
     template_name = "streaming_setup.html"
+    form_class = ScheduleClassForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class(profile=self.request.user.user_profile)
+        return context
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, profile=request.user.user_profile)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({}, status=200, safe=False)
+        return JsonResponse({"detail": "Invalid form data"}, status=400)
 
 class InstructorStreamingView(TemplateViewMixin):
     template_name = "stream.html"
@@ -162,9 +174,5 @@ class InstructorPayoutView(TemplateViewMixin):
     template_name = "payout.html"
 
 
-
 class InstructorPaymentStatementView(TemplateViewMixin):
     template_name = "statements.html"
-
-
-

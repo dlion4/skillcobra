@@ -1,17 +1,18 @@
 from django.urls import path
 
-from . import views
+from skillcobra.memberships.views import MembershipPaymentView
+from skillcobra.memberships.views import MembershipView
 
 app_name = "shared"
 urlpatterns = [
     path(
         "",
-        views.StudentMembershipView.as_view(),
+        MembershipView.as_view(),
         name="membership_view",
     ),
     path(
-        "payment/",
-        views.StudentMembershipPurchaseView.as_view(),
+        "payment/<pk>/<name>/",
+        MembershipPaymentView.as_view(),
         name="membership_payment_view",
     ),
 ]

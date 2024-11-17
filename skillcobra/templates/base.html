@@ -2,74 +2,42 @@
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
-  <head>
-    <!-- <meta charset="utf-8" /> -->
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>{% block title %} skillcobra {% endblock title %}</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=9"
-    />
-    <meta name="description" content="lms" />
-    <meta name="author" content="jeckonia,daniel" />
-    <meta name="csrf-token" content="{{ csrf_token }}" />
-    <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
-    {% block cssBlock %}
-    <link
-      href="{% static 'css/css' %}?family=Roboto:400,700,500"
-      rel="stylesheet"
-      type="text/stylesheet"
-    />
-    <link
-      href="{% static 'vendor/unicons-2.0.1/css/unicons.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'css/vertical-responsive-menu.min.css' %}"
-      rel="stylesheet"
-    />
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/night-mode.css' %}" rel="stylesheet" />
-    <!-- Vendor Stylesheets -->
-    <link
-      href="{% static 'vendor/fontawesome-free/css/all.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'vendor/OwlCarousel/assets/owl.carousel.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'vendor/OwlCarousel/assets/owl.theme.default.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      href="{% static 'vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css' %}"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'vendor/semantic/semantic.min.css' %}"
-    />
-    {% endblock cssBlock %}
-    <!--  -->
-    {% block css %}
-    <!-- Your stuff: Third-party CSS libraries go here -->
-    <!-- This file stores project-specific CSS -->
-    <!--  -->
-    {% endblock css %}
-    <!-- Le javascript
+    <head>
+        <!-- <meta charset="utf-8" /> -->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{% block title %} skillcobra {% endblock title %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=9">
+        <meta name="description" content="lms">
+        <meta name="author" content="jeckonia,daniel">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <!-- Favicon Icon -->
+        <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}">
+        {% block cssBlock %}
+        <link href="{% static 'css/css' %}?family=Roboto:400,700,500" rel="stylesheet" type="text/stylesheet">
+        <link href="{% static 'vendor/unicons-2.0.1/css/unicons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/vertical-responsive-menu.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+        <link href="{% static 'css/night-mode.css' %}" rel="stylesheet">
+        <!-- Vendor Stylesheets -->
+        <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/OwlCarousel/assets/owl.carousel.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/OwlCarousel/assets/owl.theme.default.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/semantic/semantic.min.css' %}">
+        {% endblock cssBlock %}
+        <!--  -->
+        {% block css %}
+        <!-- Your stuff: Third-party CSS libraries go here -->
+        <!-- This file stores project-specific CSS -->
+        <!--  -->
+        {% endblock css %}
+        <!-- Le javascript
     ================================================== -->
-    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
-    {# Placed at the top of the document so pages load faster with defer #}
-    <script defer="defer">
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        {# Placed at the top of the document so pages load faster with defer #}
+        <script defer="defer">
       $(document).ready(function () {
         var tutorPk = $("input[type=hidden][name=instructor_pk]").val() || 1;
 
@@ -79,7 +47,8 @@
 
         console.log($("input[type=hidden][name=instructor_pk]").val());
 
-        var currentProfile = "{{ profile.pk }}" || "{{ request.user.user_profile }}";
+        var currentProfile =
+          "{{ profile.pk }}" || "{{ request.user.user_profile }}";
 
         console.log(currentProfile);
 
@@ -163,12 +132,12 @@
             });
         }
       });
-    </script>
-    <!--  -->
-    {% block javascript %} {% endblock javascript %}
-    <!--  -->
-    {% block styles %} {% endblock styles %}
-    <style>
+        </script>
+        <!--  -->
+        {% block javascript %} {% endblock javascript %}
+        <!--  -->
+        {% block styles %} {% endblock styles %}
+        <style>
       /* Ensure button uses flex layout */
       .submit-main-btn-with-spinner {
         display: flex;
@@ -227,63 +196,67 @@
           transform: rotate(360deg);
         }
       }
-    </style>
-    <script
-      src="https://js.sentry-cdn.com/a359abfbe32f524e8dc5e5cf63e203dc.min.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    {% block body %}
-    <!-- header -->
-    {% block header %} {% include 'components/navbar/header.html' %}
-    <!--  -->
-    {% block sidebar %} {% include 'components/navbar/sidebar.html' %}
-    <!--  -->
-    {% endblock sidebar %}
-    <!--  -->
-    {% endblock header %}
-    <!-- /header -->
-    <!-- main content -->
-    {% block wrapper %}
-    <div class="wrapper">
-      <div class="sa4d25">{% block content %} {% endblock content %}</div>
-      <!-- footer -->
-      {% block footer %} {% include 'components/footer/main.html' %}
-      <!--  -->
-      {% endblock footer %}
-      <!-- /footer -->
-    </div>
-    {% endblock wrapper %}
-    <!-- /main content -->
-    {% endblock body %}
-    <!-- /container -->
-    {% block modal %} {% endblock modal %}
-    <!-- scripts -->
-    {% block inline_javascript %}
-    <script>
+        </style>
+        <script src="https://js.sentry-cdn.com/a359abfbe32f524e8dc5e5cf63e203dc.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
+         <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
+        <input type="hidden" name="location" value="Africa">
+    </head>
+    <body class="{% block bodyclass %}{% endblock bodyclass %}">
+        {% block body %}
+        <!-- header -->
+        {% block header %} {% include 'components/navbar/header.html' %}
+        <!--  -->
+        {% block sidebar %} {% include 'components/navbar/sidebar.html' %}
+        <!--  -->
+        {% endblock sidebar %}
+        <!--  -->
+        {% endblock header %}
+        <!-- /header -->
+        <!-- main content -->
+        {% block wrapper %}
+        <div class="wrapper">
+            <div class="sa4d25">{% block content %} {% endblock content %}</div>
+            <!-- footer -->
+            {% block footer %} {% include 'components/footer/main.html' %}
+            <!--  -->
+            {% endblock footer %}
+            <!-- /footer -->
+        </div>
+        {% endblock wrapper %}
+        <!-- /main content -->
+        {% endblock body %}
+        <!-- /container -->
+        {% block modal %} {% endblock modal %}
+        <!-- scripts -->
+        {% block inline_javascript %}
+        <script>
       window.addEventListener("DOMContentLoaded", () => {
         /* Run whatever you want */
       });
-    </script>
-    {% endblock inline_javascript %}
-    <!--  -->
-    {% csrf_token %} {% block js %}
-    <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
-    <script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js' %}"></script>
-    <script src="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
-    <script src="{% static 'js/night-mode.js' %}"></script>
-    <script src="{% static 'js/jquery-steps.min.js' %}"></script>
-    {% endblock js %}
-    <!-- block scripts -->
-    <!-- A button to trigger a test error -->
-    <script src="{% static 'worker/js/worker.js' %}"></script>
-    <script src="{% static 'worker/js/websocket.js' %}"></script>
-    <script>
+        </script>
+        {% endblock inline_javascript %}
+        <!--  -->
+        {% csrf_token %} {% block js %}
+        <script src="{% static 'js/vertical-responsive-menu.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
+        <script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js' %}"></script>
+        <script src="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script src="{% static 'js/night-mode.js' %}"></script>
+        <script src="{% static 'js/jquery-steps.min.js' %}"></script>
+        {% endblock js %}
+        <!-- block scripts -->
+        <!-- A button to trigger a test error -->
+        <script src="{% static 'worker/js/worker.js' %}"></script>
+        <script src="{% static 'worker/js/websocket.js' %}"></script>
+        <script>
       function getCookie(name) {
         const cookieValue = document.cookie
           .split(";")
@@ -291,9 +264,9 @@
           ?.split("=")[1];
         return cookieValue || "";
       }
-    </script>
-    {% block scripts %} {% endblock scripts %}
-    <script>
+        </script>
+        {% block scripts %} {% endblock scripts %}
+        <script>
       $(document).ready(function () {
         $(".signout-btn").each(function () {
           $(this).on("click", () => {
@@ -323,7 +296,45 @@
           });
         });
       });
-    </script>
-    {% block vite %} {% endblock vite %}
-  </body>
+        </script>
+        {% block vite %} {% endblock vite %}
+        <script>
+      $(document).ready(function () {
+        $(".address_form_update").on("submit", function (event) {
+          event.preventDefault();
+          const fd = new FormData(event.target);
+          const form = $(this);
+          const btn = form.find("button[type=submit].save_payout_btn");
+          btn.find(".spinner").show();
+          btn.prop("disabled", true);
+
+          $.ajax({
+            url: "{% url 'users:update_profile_address' %}",
+            method: "POST",
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              console.log(response);
+              $(".response").text(response.message);
+              $("input[name=address_id]").val(response.address_id);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.error(jqXHR, textStatus, errorThrown);
+              $(".response").text(
+                "An error occurred while updating your address."
+              );
+            },
+            complete: function () {
+              btn.find(".spinner").hide();
+              btn.prop("disabled", false);
+              setTimeout(() => {
+                $(".response").text("");
+              }, 2000);
+            },
+          });
+        });
+      });
+        </script>
+    </body>
 </html>

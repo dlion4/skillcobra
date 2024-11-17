@@ -16,7 +16,9 @@ from skillcobra.payments.utils import generate_reference_id
 class Transaction(models.Model):
     student = models.ForeignKey(
         "users.Profile",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
         related_name="student_transactions",
     )
     content_type = models.ForeignKey(

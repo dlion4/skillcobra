@@ -22,7 +22,8 @@
         <form action="" method="post" class="tutorMessageModalLabel">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="lectureModalLabel">Message
+                    <h5 class="modal-title" id="lectureModalLabel">
+                        Message
                         <strong>{{instructor.title}}. {{instructor.full_name}}</strong>
                     </h5>
                     <button
@@ -40,11 +41,15 @@
                             <div class="col-md-12">
                                 <div class="new-section">
                                     <div class="form_group d-flex flex-column">
-                                        <label class="label25" for="{{message_form.title.id_for_label}}">{{message_form.title.label}}*</label>
+                                        <label class="label25" for="{{message_form.title.id_for_label}}">{{message_form.title.label}}*
+                                        </label
+                    >
                                         {{message_form.title}}
                                     </div>
                                     <div class="form_group d-flex flex-column py-2">
-                                        <label class="label25" for="{{message_form.content.id_for_label}}">{{message_form.content.label}}*</label>
+                                        <label class="label25" for="{{message_form.content.id_for_label}}">{{message_form.content.label}}*
+                                        </label
+                    >
                                         {{message_form.content}}
                                     </div>
                                 </div>
@@ -54,7 +59,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="main-btn btn btn-danger">
-                      <span class="spinner" style="display: none;"></span>
+                        <span class="spinner" style="display: none"></span>
                         <span>send message</span>
                     </button>
                 </div>
@@ -193,9 +198,9 @@
                                     href="#nav-about"
                                     role="tab"
                                     aria-selected="true"
-                                >About
-                                </a
-                >
+                                >
+                                    About
+                                </a>
                                 <a
                                     class="nav-item nav-link"
                                     id="nav-courses-tab"
@@ -217,6 +222,17 @@
                                 >
                                     Discussion
                                     <sup>{{instructor.get_discussions.count}}</sup>
+                                </a>
+                                <a
+                                    class="nav-item nav-link"
+                                    id="nav-reviews-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-subscriptions"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Subscriptions
+                                    <sup>{{instructor.tutor_subscriptions.students.count}}</sup>
                                 </a>
                             </div>
                         </nav>
@@ -302,9 +318,9 @@
                                                                 {{item.created_at|timesince}} ago
                                                             </span>
                                                         </div>
-                                                        <a href="{{item.get_public_absolute_url}}" class="crse14s">{{item.title|truncatewords:"9"}}
-                                                        </a
-                            >
+                                                        <a href="{{item.get_public_absolute_url}}" class="crse14s">
+                                                            {{item.title|truncatewords:"9"}}
+                                                        </a>
                                                         <a href="#" class="crse-cate">
                                                             {{item.sub_category.category.name}} |
                               {{item.sub_category.name}}
@@ -312,9 +328,9 @@
                                                         <div class="auth1lnkprce">
                                                             <p class="cr1fot">
                                                                 By
-                                                                <a href="{{item.tutor.get_public_profile_url}}">{{item.tutor.full_name|title}}
-                                                                </a
-                                >
+                                                                <a href="{{item.tutor.get_public_profile_url}}">
+                                                                    {{item.tutor.full_name|title}}
+                                                                </a>
                                                             </p>
                                                             <div class="prce142">
                                                                 ${{item.payable_amount}}
@@ -456,6 +472,53 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- subscription -->
+                            <div class="tab-pane fade" id="nav-subscriptions" role="tabpanel">
+                                <div class="_htg451">
+                                    <div class="_htg452">
+                                        <div class="row">
+                                            {% for item in instructor.tutor_subscriptions.students.all %}
+                                            <div class="col-lg-3 col-md-4">
+                                                <div class="fcrse_1 mt-30">
+                                                    <div class="tutor_img">
+                                                        <a href="#">
+                                                            <img src="{% if itme.avatar %}{{item.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="{{item.full_name}}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="tutor_content_dt">
+                                                        <div class="tutor150">
+                                                            <a href="#" class="tutor_name">{{item.full_name|title}}</a>
+                                                            <div class="mef78" title="Verify">
+                                                                <i class="uil uil-check-circle"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tutor_cate">
+                                                            <!-- somenting else --></div>
+                                                        <ul class="tutor_social_links">
+                                                            <li>
+                                                                <button class="sbbc145">Subscribed</button>
+                                                            </li>
+                                                            <li>
+                                                                <button class="sbbc146">
+                                                                    <i class="uil uil-bell"></i>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tut1250">
+                                                            <span class="vdt15">{{student_purchased_courses.count}} Purchased</span>
+                                                            <!--  -->
+                                                            {% if item.get_subscribed_courses_per_tutor %}
+                                                                <span class="vdt15">{{item.get_subscribed_courses_per_tutor}} Subscribed</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -473,7 +536,6 @@
 <!-- -->
 <script>
   $(document).ready(function () {
-
     $(document).on(
       "click",
       ".unsave_course_btn, .save_course_btn",
@@ -564,9 +626,5 @@
       });
     });
   });
-
-
-
 </script>
-
 {% endblock scripts %}

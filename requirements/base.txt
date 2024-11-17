@@ -34,3 +34,4 @@ django-twilio
 channels_redis
 channels['daphne']
 django-countries
+hashids

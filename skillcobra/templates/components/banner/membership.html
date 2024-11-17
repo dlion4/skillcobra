@@ -1,14 +1,34 @@
 {% load static %}
-
 <div class="mt-2"></div>
-
 <div class="help-box rounded-3 py-3 px-3 text-center mt-auto shadow-sm m-3">
-  <img src="{% static 'images/upgrade-illustration.svg' %}" alt="upgrade" class="img-fluid mb-4" width="100" height="100"/>
-  <h6 style="color: #000000DE;" class="mb-2">
-    Upgrade to explore
-    <br/>
-    <span class="emphasize">premium</span> features
+  <img
+    src="{% static 'images/upgrade-illustration.svg' %}"
+    alt="upgrade"
+    class="img-fluid mb-4"
+    width="100"
+    height="100"
+  />
+  <h6 style="color: #000000de" class="mb-2">
+    {% if not request.user.user_profile.profile_membership %} Upgrade to explore
+    <br />
+    <span class="emphasize">premium</span>
+    features {% else %} You now have access to
+    <br />
+    <span class="emphasize">all</span>
+    features {% endif %}
   </h6>
+  {% if not request.user.user_profile.profile_membership %}
   <!-- Button -->
-  <a class="btn1542" style="background-color:#26384c" href="{% url 'payments:shared:membership_view' %}">Upgrade to Business</a>
+  <a
+    class="btn1542"
+    style="background-color: #26384c"
+    href="{% url 'payments:shared:membership_view' %}"
+  >
+    Upgrade to Business
+  </a>
+  {% else %}
+  <button class="btn1542" style="background-color: #ea2164" type="button">
+    Subscription Active
+  </button>
+  {% endif %}
 </div>

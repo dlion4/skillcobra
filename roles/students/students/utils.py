@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from skillcobra.users.models import Profile
+
 
 class TemplateViewMixin(LoginRequiredMixin, TemplateView):
     template_name = ""
@@ -21,7 +23,7 @@ class TemplateViewMixin(LoginRequiredMixin, TemplateView):
             return redirect(reverse(f"{request.user.role.lower()}s:dashboard"))
         return super().dispatch(request, *args, **kwargs)
 
-    def get_profile(self):
+    def get_profile(self)->Profile:
         return self.request.user.user_profile
 
     def get_dashboard_url(self):

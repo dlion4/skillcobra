@@ -1,7 +1,9 @@
 from datetime import timedelta
-from django.contrib.contenttypes.models import ContentType
+
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -18,6 +20,11 @@ class Plan(models.Model):
     def __str__(self):
         return f"{self.get_name_display()} Plan"
 
+    def get_absolute_url(self):
+        return reverse(
+            "payments:shared:membership_payment_view",
+            kwargs={"pk": self.pk, "name": self.name.lower()},
+        )
 
 
 class PlanFeature(models.Model):
@@ -33,16 +40,20 @@ class PlanFeature(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["plan", "feature"], name="unique_plan_feature"),
+                fields=["plan", "feature"], name="unique_plan_feature"
+            ),
         ]
+
     def __str__(self):
         return f"{self.plan.get_name_display()} Plan Feature"
 
 
 # Create your models here.
 class MemberShip(models.Model):
-    profile = models.ForeignKey(
-        "users.Profile", on_delete=models.CASCADE, related_name="profile_membership",
+    profile = models.OneToOneField(
+        "users.Profile",
+        on_delete=models.CASCADE,
+        related_name="profile_membership",
     )
     plan = models.ForeignKey(
         Plan,
@@ -63,7 +74,7 @@ class MemberShip(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user.username}'s Subscription"
+        return f"{self.profile.full_name()}'s Subscription"
 
     def is_expired(self):
         return timezone.now() > self.end_date
@@ -100,7 +111,9 @@ class MemberShipPayment(models.Model):
     )
 
     def __str__(self):
-        return f"Payment of {self.amount} by {self.user.username} on {self.date_paid}"
+        return (
+            f"Payment of {self.amount} by {self.user.full_name()} on {self.date_paid}"
+        )
 
 
 class Feature(models.Model):
@@ -123,6 +136,7 @@ class FeatureAccess(models.Model):
 
 class Question(models.Model):
     """Model definition for Question."""
+
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     parent = GenericForeignKey("content_type", "object_id")
@@ -132,6 +146,7 @@ class Question(models.Model):
 
     class Meta:
         """Meta definition for Question."""
+
         verbose_name = "Question"
         verbose_name_plural = "Questions"
 
@@ -139,3 +154,47 @@ class Question(models.Model):
         """Unicode representation of Question."""
         return f"{self.question} <{self.parent.__class__.__name__.lower()}>"
 
+
+class MembershipCardCapture(models.Model):
+    """Model definition for CardCapture"""
+
+    profile = models.ForeignKey(
+        "users.Profile",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="profile_card_capture",
+    )
+    card_number = models.CharField(max_length=24)
+    card_holder_name = models.CharField(max_length=100)
+    card_cvv_number = models.CharField(max_length=200)
+    expiry_month = models.CharField(
+        max_length=2,
+        choices=tuple(
+            zip(
+                range(1, 13),
+                [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                ],
+                strict=False,
+            ),
+        ),
+    )
+    expiry_year = models.CharField(
+        max_length=4,
+    )
+
+    def __str__(self):
+        """Unicode representation of CardCapture"""
+        return str(self.card_holder_name)

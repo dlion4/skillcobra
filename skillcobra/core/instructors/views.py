@@ -44,4 +44,11 @@ class InstructorProfileView(InstructorTemplateViewMixin):
         )
         context["profile"] = get_user(self.request).user_profile
         context["message_form"] = self.message_form(profile=context["profile"])
+        context[
+            "student_purchased_courses"
+        ] = self.get_profile().purchased_courses.filter(
+            tutor=Profile.objects.get(
+                pk=kwargs.get("pk"),
+            ),
+        )
         return context

@@ -56,3 +56,24 @@ def create_student_success_payment_transaction(
         if  parent.pk not in student.purchased_courses.values_list("pk", flat=True):
             student.purchased_courses.add(parent)
             student.save()
+
+
+@transaction.atomic
+def create_membership_purchase_success_payment_transaction(
+    parent: type[models.Model],
+    payment_details: dict,
+):
+    """
+    CP: course purchase
+    """
+    Transaction.objects.create(
+        content_type=ContentType.objects.get_for_model(parent),
+        object_id=parent.id,
+        status=TransactionStatus.SUCCESS,
+        payment_intent=TransactionIntentChoices.MP,
+        amount=payment_details.get("amount"),
+        currency=payment_details.get("currency", "USD"),
+        payment_method=payment_details.get("payment_method", "CARD"),
+        payment_reference=payment_details.get("payment_reference"),
+        account_type=payment_details.get("account_type"),
+    )

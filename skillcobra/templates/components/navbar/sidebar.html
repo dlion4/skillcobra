@@ -11,7 +11,8 @@
         </li>
         {% if request.user.role == "student" %}
         <li class="menu--item">
-          <a href="live_streams.html" class="menu--link" title="Live Streams">
+          <a href="{% url 'students:lessons' %}" class="menu--link {% if request.resolver_match.view_name == 'students:lessons' %}active{% endif %}" 
+          title="Live Streams">
             <i class="uil uil-kayak menu--icon"></i>
             <span class="menu--label">Live Streams</span>
             <div class="alrt_dot"></div>
@@ -45,8 +46,7 @@
           </label>
           <ul class="sub_menu">
             <li class="sub_menu--item">
-              <a href="certification_center.html" class="sub_menu--link">Certification Center
-              </a>
+              <a href="" class="sub_menu--link">Certification Center</a>
             </li>
           </ul>
         </li>
@@ -64,25 +64,18 @@
             <span class="menu--label">More</span>
           </label>
           <ul class="sub_menu">
+    
             <li class="sub_menu--item">
-              <a href="checkout_membership.html" class="sub_menu--link">Checkout
-              </a>
+              <a href="" class="sub_menu--link">Invoices</a>
             </li>
             <li class="sub_menu--item">
-              <a href="invoice.html" class="sub_menu--link">Invoice</a>
+              <a href="" class="sub_menu--link">Career</a>
             </li>
             <li class="sub_menu--item">
-              <a href="career.html" class="sub_menu--link">Career</a>
+              <a href="" class="sub_menu--link">Latest</a>
             </li>
             <li class="sub_menu--item">
-              <a href="our_blog.html" class="sub_menu--link">Latest</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="press.html" class="sub_menu--link">Press</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="live_output.html" class="sub_menu--link">Live Stream View
-              </a>
+              <a href="" class="sub_menu--link">Press</a>
             </li>
           </ul>
         </li>

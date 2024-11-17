@@ -1,80 +1,126 @@
 {% extends "instructors/base.html" %}
 <!-- -->
-{% load webpack_loader %}
-<!-- -->
-{% load static %}
+{% load webpack_loader %} {% load static %}
 <!-- -->
 <!-- -->
 {% block content %}
 
 <div class="row justify-content-md-center">
-  <div class="col-lg-8 col-md-10">
+  <div class="col-lg-8 col-md-9">
     <div class="section3125 stream_tabs">
-      <ul class="nav nav-tabs slive_tabs justify-content-center" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="add-streaming-tab" data-bs-toggle="tab" href="#add-straming" role="tab" aria-controls="add-straming" aria-selected="true">Add Streaming</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="setting-tab" data-bs-toggle="tab" href="#setting" role="tab" aria-controls="setting" aria-selected="false">Setting</a>
-        </li>
-      </ul>
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="add-straming" role="tabpanel">
+        <div
+          class="tab-pane fade show active"
+          id="add-straming"
+          role="tabpanel"
+        >
           <div class="add_stream_content">
             <h4 class="strm_title">Connect your live stream to the Live API</h4>
-            <div class="sf475">Use live-streaming software or a hardware encoder.
+            <div class="sf475">
+              We are currently building our live streaming API. Please check
+              back soon for more information..
               <a href="#">Learn More</a>
             </div>
-            <div class="stm_key">Preview your broadcast with a stream key or paired encoder.</div>
-            <div class="live_form">
-              <div class="group-form">
-                <label>Server URL*</label>
-                <input class="_dlor1" type="text" data-testid="server_url" placeholder="Stream URL" disabled="" value="rtmps://live-api-s.edututs+.com:443/rtmp/">
-                <button class="_6tf7s" type="submit" value="1">Copy</button>
-              </div>
-              <div class="group-form">
-                <label>Persistent stream key*</label>
-                <input class="_dlor1" type="text" data-testid="server_url" placeholder="Stream URL" disabled="" value="592030151361629?s_bl=1&s_ps=1&s_sw=065&s_vt=api-s&a=AbzB7xYk7XdnKpBf">
-                <button class="_6tf7s" type="submit" value="1">Copy</button>
-              </div>
-              <button class="_145d1" onclick="window.location.href='{% url "instructors:streaming_live_view" %}'">
-                <i class='uil uil-video'></i>Go Live</button>
+            <div class="stm_key">
+              Meanwhile just share your google meet or zoom link here for your
+              student
             </div>
+            <small
+              >This link will only be available for those students who have paid
+              for the course</small
+            >
+            <form class="live_form">
+              {% csrf_token %}
+              {{form.media}}
+
+              <div class="group-form">
+                <label>Course</label>
+                {{form.courses}}
+                <small>This is the course your want to teach</small>
+              </div>
+
+              <div class="group-form">
+                <label>Classroom link*</label>
+                {{form.class_live_link}}
+              </div>
+
+              <div class="cogs-toggle group-form">
+                <label class="switch">
+                  {{form.login_required}}
+                  <span></span>
+                </label>
+                <label
+                  for="{{form.login_required.id_for_label}}"
+                  class="lbl-quiz"
+                  >{{form.login_required.label}}</label
+                >
+              </div>
+
+              <div class="group-form credentials" style="display: none">
+                {{form.credentials}}
+              </div>
+
+              <div class="group-form">
+                <div class="d-flex align-items-center justify-content-between">
+                  <label>Time of the lesson*</label>
+                  <small>Lesson in :<span id="lesson-future"></span></small>
+                </div>
+                <div class="form-group">{{form.class_time}}</div>
+                <small
+                  >When is the class. We use this to schedule the and alert your
+                  students accordingly</small
+                >
+              </div>
+
+              <button class="_145d1">Save changes &amp; schedule class</button>
+            </form>
           </div>
         </div>
-        <div class="tab-pane fade" id="setting" role="tabpanel">
-          <div class="add_stream_content">
-            <h4 class="strm_title1">Live Streaming Setting</h4>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss1" checked="">
-              <label>Publish this as a continuous live video</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div
+      class="section3125 sticky-lg-top"
+      style="margin-top: 2rem; z-index: -100"
+    >
+      <div class="la5lo1">
+        <div class="fcrse_1">
+          <div class="fcrse_content">
+            <h6 class="crsedt8145">Current subscribers</h6>
+            <h3 class="subcribe_title">856</h3>
+            <div class="allvperf">
+              <div class="crse-perf-left">View</div>
+              <div class="crse-perf-right">
+                17k<span class="analyics_pr">
+                  <i class="uil uil-arrow-to-bottom"></i>75%</span
+                >
+              </div>
             </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss2">
-              <label>Allow embedding
-              </label>
+            <div class="allvperf">
+              <div class="crse-perf-left">
+                Purchased<span class="per_text">(per hour)</span>
+              </div>
+              <div class="crse-perf-right">
+                1<span class="analyics_pr">
+                  <i class="uil uil-top-arrow-from-top"></i>100%</span
+                >
+              </div>
             </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss3">
-              <label>Unpublish after live video ends</label>
+            <div class="allvperf">
+              <div class="crse-perf-left">
+                Enroll<span class="per_text">(per hour)</span>
+              </div>
+              <div class="crse-perf-right">
+                50<span class="analyics_pr">
+                  <i class="uil uil-top-arrow-from-top"></i>70%</span
+                >
+              </div>
             </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss4" checked="">
-              <label>Allow viewers to rewind</label>
+            <div class="auth1lnkprce">
+              <a href="#" class="cr1fot50">Go to profile analytics</a>
             </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss5" checked="">
-              <label>End broadcast when stream ends</label>
-            </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss6">
-              <label>Publish as a test broadcast</label>
-            </div>
-            <div class="ui toggle checkbox _1457s2">
-              <input type="checkbox" name="stream_ss7">
-              <label>Turn off live commentary</label>
-            </div>
-            <button class="_145d1" onclick="window.location.href='{% url "instructors:streaming_live_view" %}'">Save changes &amp; Go Live</button>
           </div>
         </div>
       </div>
@@ -84,4 +130,94 @@
 
 {% endblock content %}
 <!-- -->
-{% block scripts %}{% endblock scripts %}
+{% block scripts %}
+
+<!-- -->
+<!--  -->
+{% include 'instructors/components/create_course/datepicker.html' %}
+<!--  -->
+<!-- -->
+
+<script>
+  $(document).ready(function () {
+
+
+    $("form.live_form").submit(function(event){
+      event.preventDefault();
+      console.log(event.target);
+      const fd = new FormData(event.target);
+      console.log(Object.fromEntries(fd));
+
+      // AJAX request to save the form data
+      $.ajax({
+        url: "{% url 'instructors:streaming_setup' %}",
+        type: "POST",
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    })
+
+
+    $("input[type=checkbox]").change(function () {
+      if ($(this).is(":checked")) {
+        $(document)
+          .find("textarea[name=credentials]")
+          .parent(".credentials")
+          .fadeIn(500);
+      } else {
+        $(document)
+          .find("textarea[name=credentials]")
+          .parent(".credentials")
+          .fadeOut(500);
+      }
+    });
+
+    // Get the current date and time
+    const currentDateTime = new Date();
+    const formattedDateTime = currentDateTime
+      .toISOString()
+      .slice(0, 16)
+      .replace("T", " ");
+
+    // Set the default value for the datepicker
+    $("#id_class_time").val(formattedDateTime);
+
+    // Initialize the datetimepicker
+    $("#id_class_time").datetimepicker({
+      format: "Y-m-d H:i",
+      minDate: 0, // Disallow past dates
+      maxDate: "+1M", // Allow dates within the next month
+      step: 10, // Step in minutes
+      inline: false,
+    });
+
+    // Calculate the difference when the user picks a date
+    $("#id_class_time").on("change", function () {
+      const selectedDateTime = new Date($("#id_class_time").val());
+
+      // Calculate the difference in milliseconds
+      const timeDifference = selectedDateTime - currentDateTime;
+      // Check if the selected date is in the future
+      if (timeDifference > 0) {
+        // Calculate the difference in various units
+        const seconds = Math.floor(timeDifference / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        // Display the difference
+        $("#lesson-future").text(`${days} days, ${hours % 24} hours, ${minutes % 60} minutes`)
+      }
+      else{
+        $("#lesson-future").text("Error: Please select a date in the future")
+      }
+    });
+  });
+</script>
+{% endblock scripts %}

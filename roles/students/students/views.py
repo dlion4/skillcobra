@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db.models import Count
 from django.utils import timezone
 
+from roles.instructors.instructor.models import ScheduleClass
 from skillcobra.payments.forms import CoursePurchasePaymentForm
 from skillcobra.school.models import Course
 from skillcobra.school.models import CourseSubscription
@@ -97,4 +98,11 @@ class StudentShoppingCartView(TemplateViewMixin):
         return context
 
 
-
+class LessonHomeView(TemplateViewMixin):
+    template_name = "lessons.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["schedule_classes"] = ScheduleClass.objects.filter(
+            courses_id__in=self.get_profile().purchased_courses.all(),
+        )
+        return context
