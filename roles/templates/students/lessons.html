@@ -3,6 +3,7 @@
 {% block title %} {{ block.super }} Lessons {% endblock title %}
 <!--  -->{% load static %}<!--  -->
 {% block content %}
+
 <div class="row">
   <div class="col-xl-9 col-lg-8">
     <div class="section3125">
@@ -10,13 +11,36 @@
       <div class="la5lo1">
         <div class="row">
           {% for item in schedule_classes %}
-          <div class="col-md-3 lesson_item" data-class-time="{{item.get_class_time_formatted}}" data-counter-id="{{item.pk}}">
+          <div
+            class="col-md-3 lesson_item"
+            data-class-time="{{ item.get_class_time_formatted }}"
+            data-counter-id="{{ item.pk }}"
+          >
             <div class="stream_1 mb-4">
-              <a href="{{item.get_short_url}}" class="stream_bg">
-                <img src="{% if item.courses.tutor.avatar %}{{item.courses.tutor.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="{{item.courses.title}}" />
-                <h4>{{item.courses.tutor.full_name|title}}</h4>
-                <p>{{item.get_lesson_status|safe|title}}</p>
+              <a href="{{ item.get_short_url }}" class="stream_bg">
+                <img
+                  src="{% if item.courses.tutor.avatar %}{{ item.courses.tutor.avatar.url }}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}"
+                  alt="{{ item.courses.title }}"
+                />
+                <h4>{{ item.courses.tutor.full_name|title }}</h4>
+                <p>{{ item.get_lesson_status|safe|title }}</p>
               </a>
+              <!-- Hidden overlay for credentials -->
+               <br />
+               
+               {% if item.login_required %}
+                <div class="credentials_overlay">
+                    <div class="overlay_content">{{ item.credentials|safe }}</div>
+                </div>
+               {% endif %}
+                
+            </div>
+          </div>
+
+          {% empty %}
+          <div class="m-auto">
+            <div class="col-md-12">
+              <p>No upcoming or live session at or completed at the moment!</p>
             </div>
           </div>
           {% endfor %}
@@ -47,38 +71,32 @@
 {% endblock content %}
 <!--  -->
 
-
-
 {% block scripts %}
-    <script>
-        $(document).ready(function(){
-            $(".lesson_item").each(function(){
-                let classTime = $(this).data("class-time");
-                const counterId = $(this).data("counter-id");
-                const targetDate = new Date(classTime);
-                const upcomingTimeCounter = $(`#Upcoming_Time_Counter_${counterId}`)
-                const now = new Date();
-                function updateCountdown() {
-                    const timeDiff = targetDate - now;
-                    if (timeDiff > 0) {
-                        const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
-                        const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-                        const seconds = Math.floor((timeDiff / 1000) % 60);
-                        upcomingTimeCounter.html(`${hours} Hr, ${minutes} Min, ${seconds} Seconds`);
-                    } else {
-                        upcomingTimeCounter.html("Time is up!");
-                        clearInterval(countdownInterval);
-                    }
-                }
-                const countdownInterval = setInterval(updateCountdown, 1000);
-                updateCountdown();
-            })
-
-
-        })
-    </script>
+<script>
+  $(document).ready(function () {
+    $(".lesson_item").each(function () {
+      let classTime = $(this).data("class-time");
+      const counterId = $(this).data("counter-id");
+      const targetDate = new Date(classTime);
+      const upcomingTimeCounter = $(`#Upcoming_Time_Counter_${counterId}`);
+      function updateCountdown() {
+        const now = new Date();
+        const timeDiff = targetDate - now;
+        if (timeDiff > 0) {
+          const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+          const seconds = Math.floor((timeDiff / 1000) % 60);
+          upcomingTimeCounter.html(
+            `${hours} Hr, ${minutes} Min, ${seconds} Seconds`
+          );
+        } else {
+          upcomingTimeCounter.html("Time is up!");
+          clearInterval(countdownInterval);
+        }
+      }
+      const countdownInterval = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    });
+  });
+</script>
 {% endblock scripts %}
-        
-
-
-        

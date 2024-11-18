@@ -133,6 +133,7 @@ class ScheduleClass(models.Model):
                 "course_pk": self.courses.pk,
                 "course_slug": self.courses.slug,
                 "short_url": self.short_url,
+                "schedule_pk": self.pk,
             },
         )
 

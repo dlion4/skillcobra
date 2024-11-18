@@ -35,7 +35,7 @@ urlpatterns = [
         name="remove_course_from_cart",
     ),
     path(
-        "<course_pk>/<course_slug>/<short_url>/live-class/",
+        "<course_pk>/<course_slug>/<schedule_pk>/<short_url>/live-class/",
         live_class_short_url_redirect,
         name="live_class_view",
     ),

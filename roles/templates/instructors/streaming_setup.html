@@ -157,9 +157,24 @@
         processData: false,
         success: function (response) {
           console.log(response);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Schedule created and student notified of schedule",
+            showConfirmButton: false,
+            timer: 6000
+          });
+
         },
-        error: function (error) {
+        error: function (xhr, statusCode, error) {
           console.error(error);
+          const detail = xhr.responseJSON.detail || "Something went wrong!";
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: detail,
+            footer: '<a href="{% url "contact" %}">Contact support if the issue persist?</a>'
+          });
         },
       });
     })
@@ -213,9 +228,11 @@
         const days = Math.floor(hours / 24);
         // Display the difference
         $("#lesson-future").text(`${days} days, ${hours % 24} hours, ${minutes % 60} minutes`)
+         $("button._145d1").prop("disabled", false)
       }
       else{
         $("#lesson-future").text("Error: Please select a date in the future")
+        $("button._145d1").prop("disabled",true)
       }
     });
   });

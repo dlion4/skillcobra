@@ -30,6 +30,7 @@ class TemplateViewMixin(TemplateView):
 
     def get_template_names(self):
         return [f"instructors/{self.template_name}"]
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         if (
@@ -42,6 +43,7 @@ class TemplateViewMixin(TemplateView):
 
     def get_profile(self):
         return get_user(self.request).user_profile
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["profile"] = self.get_profile()
@@ -91,11 +93,13 @@ class InstructorCreatedCourseView(TemplateViewMixin, FormView):
         context = {"form": form}
         return render(request, self.get_template_names(), context)
 
+
 class InstructorCourseDetailView(TemplateViewMixin, FormView):
-    
+
     template_name = "course_detail.html"
     form_class = CourseCurriculumForm
     lecture_form = CreateCourseCurriculumLectureForm
+
     def get_course_item(self):
         return get_object_or_404(
             Course,
@@ -109,6 +113,7 @@ class InstructorCourseDetailView(TemplateViewMixin, FormView):
         context["course"] = self.get_course_item()
         context["lecture_form"] = self.lecture_form()
         return context
+
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -128,16 +133,19 @@ class InstructorCourseDetailView(TemplateViewMixin, FormView):
                     },
                     status=500,
                 )
-        error_messages:list[str] = []
+        error_messages: list[str] = []
         for field, errors in form.errors.items():
             error_messages.extend(
-                {"field": field, "message": error} for error in errors)
+                {"field": field, "message": error} for error in errors
+            )
         return JsonResponse({"errors": error_messages}, status=400)
+
 
 class InstructorProfileUpdateView(TemplateViewMixin):
     template_name = "profile_update.html"
     account_basic_form = UpdateAccountProfileBasicDataForm
     billing_form = BillingAddressForm
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["account_basic_update_form"] = self.account_basic_form(
@@ -146,22 +154,29 @@ class InstructorProfileUpdateView(TemplateViewMixin):
         context["billing_form"] = self.billing_form(profile=self.get_profile())
         return context
 
+
 class InstructorAnalyticsView(TemplateViewMixin):
     template_name = "analytics.html"
+
 
 class InstructorStreamingSetupView(TemplateViewMixin, FormView):
     template_name = "streaming_setup.html"
     form_class = ScheduleClassForm
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = self.form_class(profile=self.request.user.user_profile)
         return context
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, profile=request.user.user_profile)
         if form.is_valid():
             form.save()
             return JsonResponse({}, status=200, safe=False)
-        return JsonResponse({"detail": "Invalid form data"}, status=400)
+        return JsonResponse(
+            {"detail": "Failed creating schedule. Try later"}, status=400,
+        )
+
 
 class InstructorStreamingView(TemplateViewMixin):
     template_name = "stream.html"
@@ -169,6 +184,7 @@ class InstructorStreamingView(TemplateViewMixin):
 
 class InstructorEarningView(TemplateViewMixin):
     template_name = "earnings.html"
+
 
 class InstructorPayoutView(TemplateViewMixin):
     template_name = "payout.html"

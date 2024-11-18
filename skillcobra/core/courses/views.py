@@ -40,7 +40,8 @@ class CourseDetailView(DetailView):
             self.get_profile().get_all_cart_items().values_list("pk", flat=True)
         )
         purchased_courses = self.get_profile().purchased_courses.values_list(
-            "pk", flat=True,
+            "pk",
+            flat=True,
         )
         context["cart_course_items"] = cart_course_items
         context["purchased_courses"] = purchased_courses
@@ -127,6 +128,14 @@ def remove_course_from_cart(request, course_pk, course_slug):
 
 @login_required
 @csrf_exempt
-def live_class_short_url_redirect(request, short_url):
-    schedule_class = get_object_or_404(ScheduleClass, short_url=short_url)
+def live_class_short_url_redirect(
+    request, course_pk, course_slug, schedule_pk, short_url,
+):
+    schedule_class = get_object_or_404(
+        ScheduleClass,
+        courses__pk=course_pk,
+        courses__slug=course_slug,
+        pk=schedule_pk,
+        short_url=short_url,
+    )
     return redirect(schedule_class.class_live_link)

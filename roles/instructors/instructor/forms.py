@@ -11,7 +11,7 @@ class ScheduleClassForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "selectpicker"}),
     )
     credentials = forms.CharField(
-        initial="Login credentials for the lesson",
+        initial="credentials: <br />",
         widget=FroalaEditor(),
     )
     login_required = forms.BooleanField(
