@@ -18,7 +18,7 @@ from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.payments.forms import PayoutAccountForm
 from skillcobra.payments.models import BillingAddress
 from skillcobra.payments.models import PayoutAccount
-from skillcobra.users.models import Profile
+from skillcobra.users.models import Profile, User
 
 from .forms import UpdateAccountProfileBasicDataForm
 from .forms import UserLoginForm
@@ -38,16 +38,18 @@ class LoginView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            user = User.objects.all()
+            print(user)
             user = authenticate(
                 request,
-                email=form.cleaned_data.get("email"),
+                username=form.cleaned_data.get("email"),
                 password=form.cleaned_data.get("password"),
             )
             if user is not None and user.is_active:
                 login(request, user)
                 return JsonResponse({"url": str(reverse("home"))}, status=200)
             return JsonResponse(
-                {"detail": "No user with the provided credentials"}, status=404
+                {"detail": "No user with the provided credentials"}, status=404,
             )
         return JsonResponse({"detail": "Invalid request or server"}, status=500)
 

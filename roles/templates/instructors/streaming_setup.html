@@ -9,11 +9,7 @@
   <div class="col-lg-8 col-md-9">
     <div class="section3125 stream_tabs">
       <div class="tab-content" id="myTabContent">
-        <div
-          class="tab-pane fade show active"
-          id="add-straming"
-          role="tabpanel"
-        >
+        <div class="tab-pane fade show active" id="add-straming" role="tabpanel">
           <div class="add_stream_content">
             <h4 class="strm_title">Connect your live stream to the Live API</h4>
             <div class="sf475">
@@ -21,57 +17,65 @@
               back soon for more information..
               <a href="#">Learn More</a>
             </div>
-            <div class="stm_key">
-              Meanwhile just share your google meet or zoom link here for your
-              student
-            </div>
-            <small
-              >This link will only be available for those students who have paid
-              for the course</small
-            >
+            <p class="stream-key-info pt-3">
+              Meanwhile just fill in the form below and will generate and manage
+              for you and your student the live link
+            </p>
+
+            <style>
+              .stream-key-info {
+                color: #011223;
+                /* Dark blue color */
+                font-family: "Sans-Serif", Arial, Helvetica;
+                /* Smooth and clean font */
+                line-height: 1.6;
+                /* Improved readability */
+              }
+            </style>
+
+            <small>This link will only be available for those students who have paid
+              for the course</small>
+
             <form class="live_form">
-              {% csrf_token %}
-              {{form.media}}
+              {% csrf_token %} {{form.media}}
 
               <div class="group-form">
                 <label>Course</label>
                 {{form.courses}}
-                <small>This is the course your want to teach</small>
-              </div>
-
-              <div class="group-form">
-                <label>Classroom link*</label>
-                {{form.class_live_link}}
-              </div>
-
-              <div class="cogs-toggle group-form">
-                <label class="switch">
-                  {{form.login_required}}
-                  <span></span>
-                </label>
-                <label
-                  for="{{form.login_required.id_for_label}}"
-                  class="lbl-quiz"
-                  >{{form.login_required.label}}</label
-                >
-              </div>
-
-              <div class="group-form credentials" style="display: none">
-                {{form.credentials}}
-              </div>
-
-              <div class="group-form">
-                <div class="d-flex align-items-center justify-content-between">
-                  <label>Time of the lesson*</label>
-                  <small>Lesson in :<span id="lesson-future"></span></small>
+                <div class="mt-2">
+                  <small>This is the course your want to teach</small>
                 </div>
-                <div class="form-group">{{form.class_time}}</div>
-                <small
-                  >When is the class. We use this to schedule the and alert your
-                  students accordingly</small
-                >
               </div>
 
+
+
+              <div class="group-form credentials">{{form.lesson_overview}}</div>
+
+              <div class="group-form" style="transform: translateY(-20px);">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="group-form">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <label>Lesson Start Time*</label>
+                      </div>
+                      <div class="form-group">{{form.class_start_time}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="group-form">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <label>Lesson End Time*</label>
+                      </div>
+                      <div class="form-group">{{form.class_end_time}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <small class="mt-3">When is the class. We use this to schedule your lessons and
+                    alert your students accordingly</small>
+                  <div id="lesson-future"></div>
+                </div>
+              </div>
               <button class="_145d1">Save changes &amp; schedule class</button>
             </form>
           </div>
@@ -81,10 +85,7 @@
   </div>
 
   <div class="col-lg-4">
-    <div
-      class="section3125 sticky-lg-top"
-      style="margin-top: 2rem; z-index: -100"
-    >
+    <div class="section3125 sticky-lg-top" style="margin-top: 2rem; z-index: -100">
       <div class="la5lo1">
         <div class="fcrse_1">
           <div class="fcrse_content">
@@ -94,8 +95,7 @@
               <div class="crse-perf-left">View</div>
               <div class="crse-perf-right">
                 17k<span class="analyics_pr">
-                  <i class="uil uil-arrow-to-bottom"></i>75%</span
-                >
+                  <i class="uil uil-arrow-to-bottom"></i>75%</span>
               </div>
             </div>
             <div class="allvperf">
@@ -104,8 +104,7 @@
               </div>
               <div class="crse-perf-right">
                 1<span class="analyics_pr">
-                  <i class="uil uil-top-arrow-from-top"></i>100%</span
-                >
+                  <i class="uil uil-top-arrow-from-top"></i>100%</span>
               </div>
             </div>
             <div class="allvperf">
@@ -114,8 +113,7 @@
               </div>
               <div class="crse-perf-right">
                 50<span class="analyics_pr">
-                  <i class="uil uil-top-arrow-from-top"></i>70%</span
-                >
+                  <i class="uil uil-top-arrow-from-top"></i>70%</span>
               </div>
             </div>
             <div class="auth1lnkprce">
@@ -140,15 +138,14 @@
 
 <script>
   $(document).ready(function () {
-
-
-    $("form.live_form").submit(function(event){
+    $("form.live_form").submit(function (event) {
       event.preventDefault();
-      console.log(event.target);
       const fd = new FormData(event.target);
-      console.log(Object.fromEntries(fd));
+      const btn = $(this).find("button[type='submit']._145d1");
 
-      // AJAX request to save the form data
+      btn.prop("disabled", true);
+      btn.text("Loading...");
+
       $.ajax({
         url: "{% url 'instructors:streaming_setup' %}",
         type: "POST",
@@ -162,9 +159,8 @@
             icon: "success",
             title: "Schedule created and student notified of schedule",
             showConfirmButton: false,
-            timer: 6000
+            timer: 6000,
           });
-
         },
         error: function (xhr, statusCode, error) {
           console.error(error);
@@ -173,68 +169,75 @@
             icon: "error",
             title: "Oops...",
             text: detail,
-            footer: '<a href="{% url "contact" %}">Contact support if the issue persist?</a>'
+            footer:
+              '<a href="{% url "contact" %}">Contact support if the issue persist?</a>',
           });
         },
+
+        complete: function () {
+          btn.prop("disabled", false);
+        }
       });
-    })
 
-
-    $("input[type=checkbox]").change(function () {
-      if ($(this).is(":checked")) {
-        $(document)
-          .find("textarea[name=credentials]")
-          .parent(".credentials")
-          .fadeIn(500);
-      } else {
-        $(document)
-          .find("textarea[name=credentials]")
-          .parent(".credentials")
-          .fadeOut(500);
-      }
     });
 
-    // Get the current date and time
-    const currentDateTime = new Date();
-    const formattedDateTime = currentDateTime
-      .toISOString()
-      .slice(0, 16)
-      .replace("T", " ");
 
-    // Set the default value for the datepicker
-    $("#id_class_time").val(formattedDateTime);
+    function handleLessonManagementTime() {
+      const startDateTime = new Date();
+      const formattedStartDateTime = startDateTime.toISOString().slice(0, 16).replace("T", " ");
+      $("#id_class_start_time").val(formattedStartDateTime);
 
-    // Initialize the datetimepicker
-    $("#id_class_time").datetimepicker({
-      format: "Y-m-d H:i",
-      minDate: 0, // Disallow past dates
-      maxDate: "+1M", // Allow dates within the next month
-      step: 10, // Step in minutes
-      inline: false,
-    });
+      const endDateTime = new Date(startDateTime.getTime() + 2 * 60 * 60 * 1000);
+      const formattedEndDateTime = endDateTime.toISOString().slice(0, 16).replace("T", " ");
+      $("#id_class_end_time").val(formattedEndDateTime);
 
-    // Calculate the difference when the user picks a date
-    $("#id_class_time").on("change", function () {
-      const selectedDateTime = new Date($("#id_class_time").val());
+      const dateOptions = {
+        format: "Y-m-d H:i",
+        minDate: 0,
+        maxDate: "+1M",
+        step: 10,
+        inline: false,
+      };
 
-      // Calculate the difference in milliseconds
-      const timeDifference = selectedDateTime - currentDateTime;
-      // Check if the selected date is in the future
-      if (timeDifference > 0) {
-        // Calculate the difference in various units
-        const seconds = Math.floor(timeDifference / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        // Display the difference
-        $("#lesson-future").text(`${days} days, ${hours % 24} hours, ${minutes % 60} minutes`)
-         $("button._145d1").prop("disabled", false)
+      $("#id_class_start_time").datetimepicker(dateOptions);
+      $("#id_class_end_time").datetimepicker(dateOptions);
+
+      function validateAndCalculateDuration() {
+        const startDateTime = new Date($("#id_class_start_time").val());
+        const endDateTime = new Date($("#id_class_end_time").val());
+        if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
+          $("#lesson-future").text("Error: Invalid date selection");
+          $("button._145d1").prop("disabled", true);
+          return;
+        }
+
+        const timeDifference = endDateTime - startDateTime;
+        const minutesDifference = timeDifference / (60 * 1000);
+
+        if (timeDifference <= 0) {
+          $("#lesson-future").text("Error: End time must be after start time");
+          $("button._145d1").prop("disabled", true);
+        } else if (minutesDifference < 30) {
+          $("#lesson-future").text("Error: Duration must be at least 30 minutes");
+          $("button._145d1").prop("disabled", true);
+        } else if (minutesDifference > 240) {
+          $("#lesson-future").text("Error: Duration cannot exceed 4 hours");
+          $("button._145d1").prop("disabled", true);
+        } else {
+          const hours = Math.floor(minutesDifference / 60);
+          const minutes = Math.floor(minutesDifference % 60);
+          $("#lesson-future").text(`Duration: ${hours} hours, ${minutes} minutes`);
+          $("button._145d1").prop("disabled", false);
+        }
       }
-      else{
-        $("#lesson-future").text("Error: Please select a date in the future")
-        $("button._145d1").prop("disabled",true)
-      }
-    });
+      $("#id_class_start_time, #id_class_end_time").on("change", validateAndCalculateDuration);
+
+      validateAndCalculateDuration();
+
+    }
+
+    handleLessonManagementTime();
+
   });
 </script>
 {% endblock scripts %}

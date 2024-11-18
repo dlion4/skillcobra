@@ -19,7 +19,7 @@ class InstructorTemplateViewMixin(TemplateViewMixin):
         return get_object_or_404(
             Profile,
             pk=self.kwargs.get("pk"),
-            user__username=self.kwargs.get("username"),
+            username=self.kwargs.get("username"),
         )
 
     def get_context_data(self, **kwargs):
@@ -40,7 +40,7 @@ class InstructorProfileView(InstructorTemplateViewMixin):
         context["discussion_form"] = self.discussion_form()
         context["discussion_reply_form"] = self.discussion_reply_form()
         context["instructor_subscription_ids"] = list(
-            self.get_profile().tutor_subscriptions.students.values_list("pk", flat=True)
+            self.get_profile().get_subscribed_tutor_ids()
         )
         context["profile"] = get_user(self.request).user_profile
         context["message_form"] = self.message_form(profile=context["profile"])

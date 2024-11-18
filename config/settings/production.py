@@ -22,7 +22,8 @@ DEBUG=True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["example.com"])
+# ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["example.com", ""])
+ALLOWED_HOSTS = ["93ac-41-90-70-133.ngrok-free.app", "127.0.0.1:8002", "localhost"]
 
 # DATABASES
 # ------------------------------------------------------------------------------

@@ -42,7 +42,7 @@
         var tutorPk = $("input[type=hidden][name=instructor_pk]").val() || 1;
 
         const messageWebsocket = new WebSocket(
-          `ws://${window.location.host}/ws/message/${tutorPk}`
+          `wss://${window.location.host}/ws/message/${tutorPk}`
         );
 
         console.log($("input[type=hidden][name=instructor_pk]").val());

@@ -1,21 +1,24 @@
-from decimal import Decimal
 import time
-from typing import ClassVar
-from django.db.models import Sum
-from django.utils import timezone
 from datetime import timedelta
-from django.contrib.auth.models import AbstractUser
+from decimal import Decimal
+from typing import ClassVar
+
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import EmailField
+from django.db.models import Sum
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from roles.instructors.instructor.models import CourseSale
 from skillcobra.purchases.models import Cart
-from skillcobra.school.models import Course, CourseSubscription, Subscription
+from skillcobra.school.models import Course
+from skillcobra.school.models import CourseSubscription
+from skillcobra.school.models import Subscription
 
 from .managers import UserManager
 
@@ -26,10 +29,9 @@ class User(AbstractUser):
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
-
     # First and last name do not cover name patterns around the globe
     email = EmailField(_("email address"), unique=True)
-    username = models.CharField(_("username"), max_length=100, blank=True)
+    username = None
     ROLE_CHOICES = [
         ("student", "Student"),
         ("instructor", "Instructor"),
@@ -48,14 +50,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
-
-    def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = self.email[: self.email.index("@")]
-        super().save(*args, **kwargs)
-
-    def get_username(self):
-        return self.email[: self.email.index("@")]
 
 
 # models.py
@@ -97,6 +91,7 @@ class Profile(models.Model):
         blank=True,
         related_name="purchased_courses",
     )
+    username = models.CharField(max_length=255, blank=True, null=True)  # noqa: DJ001
 
     def __str__(self):
         return self.user.email
@@ -104,17 +99,16 @@ class Profile(models.Model):
     def full_name(self):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
-        return self.user.username or self.user.get_username()
+        return self.username
 
     def get_public_profile_url(self):
         return reverse(
             "profile_instructors:instructor_view",
             kwargs={
                 "pk": self.pk,
-                "username": self.user.username,
+                "username": self.username,
             },
         )
-
     def get_create_discussion_url(self):
         return reverse(
             "profile_instructors:create_discussion_view",
@@ -149,7 +143,8 @@ class Profile(models.Model):
         try:
             return Cart.objects.get(student=self).courses.all()
         except ObjectDoesNotExist:
-            return []
+            print("No Cart object found; returning empty QuerySet.")
+            return Course.objects.none()
 
     def get_subscription_url(self):
         return reverse(
@@ -208,13 +203,12 @@ class Profile(models.Model):
             ])
         return 0
     def get_purchased_courses_by_student_per_tutor(self):
-        print(self.purchased_courses.all())  # Inspect the purchased courses
-        print(self.purchased_courses.filter(tutor=self))  # Inspect the filtered courses
-        # def get_purchased_courses_by_student_per_tutor(self):
         return self.purchased_courses.filter(tutor=self).all()
 
 
 @receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
+def create_or_update_user_profile(sender, instance:User, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        profile = Profile.objects.create(user=instance)
+        profile.username =  instance.email[: instance.email.index("@")]
+        profile.save()

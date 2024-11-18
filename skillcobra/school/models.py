@@ -23,6 +23,9 @@ COURSE_LEVEL_CHOICES = [
 class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+        verbose_name = "Category"
     def __str__(self):
         return self.name
 
@@ -53,7 +56,7 @@ class CourseManager(models.Manager):
         return (
             super()
             .get_queryset()
-            .filter(status="approved", course_release_date__lt=timezone.now())
+            .filter(status="approved")
         )
 
 

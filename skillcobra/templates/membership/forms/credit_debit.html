@@ -60,7 +60,7 @@
 <script>
   $(document).ready(function () {
     const socket = new WebSocket(
-      `ws://${window.location.host}/ws/membership/completed/checkout`
+      `wss://${window.location.host}/ws/membership/completed/checkout`
     );
     socket.onopen = function () {
       console.log("WebSocket connection established.");

@@ -283,3 +283,9 @@ webpack-stats.json
 !.envs/.local/
 
 s3_.json
+
+
+# jsons
+
+credential1.jsons
+google-keys.jsons

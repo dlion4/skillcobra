@@ -30,13 +30,7 @@ class HomeView(AuthorizedHomeViewMixin):
     course = Course
     def get_newest_course(self):
         last_seven_days = timezone.now() - timedelta(days=7)
-        return (
-            Course.objects.filter(created_at__gte=last_seven_days)
-            .filter(status="approved")
-            .order_by(
-                "-created_at",
-            )
-        )
+        return (Course.objects.filter(created_at__gt=last_seven_days))
     def get_courses(self):
         return Course.objects.filter(status="approved").order_by("?")
     def get_context_data(self, **kwargs):
@@ -45,6 +39,7 @@ class HomeView(AuthorizedHomeViewMixin):
         context["featured_courses"] = self.get_newest_course()
         context["courses"] = self.get_courses()
         context["popular_tutors"] = self.get_popular_tutors()
+        print(context)
         return context
     def get_popular_tutors(self):
         return Profile.objects.filter(user__role="instructor").order_by("?")

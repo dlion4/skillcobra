@@ -13,6 +13,8 @@ from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 from .views import custom_upload_function, serve_s3_file
 
+from roles.shared import views as shared_views
+
 
 urlpatterns = [
     path("", include("skillcobra.core.urls")),
@@ -28,7 +30,7 @@ urlpatterns = [
     path("upload/", custom_upload_function, name="custom_upload_file"),
     # ...
     path("ckeditor5/", include("django_ckeditor_5.urls")),
-    # Freolar ediotr
+    # Freolar editor
     path("froala_editor/", include("froala_editor.urls")),
     # path("serve-s3-file/<file_key>/", serve_file, name="serve_s3_file"),
     re_path(r"^serve-s3-file/(?P<file_key>.+)/$", serve_s3_file, name="serve_s3_file"),
@@ -36,6 +38,23 @@ urlpatterns = [
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
     # payments
     path("payments/", include("skillcobra.payments.urls", namespace="payments")),
+    
+    # Google calender oauth
+    path(
+        "google-calendar/auth/",
+        shared_views.google_calendar_auth,
+        name="google_calendar_auth",
+    ),
+    path(
+        "google-calendar/callback/",
+        shared_views.google_calendar_callback,
+        name="google_calendar_callback",
+    ),
+    path(
+        "google-calendar/create-event/",
+        shared_views.create_google_meet_event,
+        name="create_google_meet_event",
+    ),
 ]
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

@@ -91,8 +91,12 @@ class UserRegistrationForm(forms.ModelForm):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])  # Set the hashed password
         user.role = self.cleaned_data.get("role")
+        email = self.cleaned_data.get("email")
+        user.username = email[:email.index("@")]
         if commit:
             user.save()
+        print(user.email)
+        print(user.username)
         return user
 
 

@@ -61,7 +61,7 @@ class CourseModelAdmin(ModelAdmin):
         queryset.update(status="draft")
 
     def get_queryset(self, request):
-        return self.model.all_objects().all()
+        return self.model.all_objects.all()
 
 class DiscussionReplyInlineModel(StackedInline):
     model = DiscussionReply

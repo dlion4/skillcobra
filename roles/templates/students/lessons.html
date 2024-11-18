@@ -4,99 +4,109 @@
 <!--  -->{% load static %}<!--  -->
 {% block content %}
 
-<div class="row">
-  <div class="col-xl-9 col-lg-8">
-    <div class="section3125">
-      <h4 class="item_title"></h4>
-      <div class="la5lo1">
-        <div class="row">
-          {% for item in schedule_classes %}
-          <div
-            class="col-md-3 lesson_item"
-            data-class-time="{{ item.get_class_time_formatted }}"
-            data-counter-id="{{ item.pk }}"
-          >
-            <div class="stream_1 mb-4">
-              <a href="{{ item.get_short_url }}" class="stream_bg">
-                <img
-                  src="{% if item.courses.tutor.avatar %}{{ item.courses.tutor.avatar.url }}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}"
-                  alt="{{ item.courses.title }}"
-                />
-                <h4>{{ item.courses.tutor.full_name|title }}</h4>
-                <p>{{ item.get_lesson_status|safe|title }}</p>
-              </a>
-              <!-- Hidden overlay for credentials -->
-               <br />
-               
-               {% if item.login_required %}
-                <div class="credentials_overlay">
-                    <div class="overlay_content">{{ item.credentials|safe }}</div>
-                </div>
-               {% endif %}
-                
-            </div>
-          </div>
 
-          {% empty %}
-          <div class="m-auto">
-            <div class="col-md-12">
-              <p>No upcoming or live session at or completed at the moment!</p>
+
+<div class="row">
+    <div class="col-xl-9 col-lg-8">
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <ul class="more_options_tt">
+                    <li><button class="more_items_14 active">Live Lessons</button></li>
+                    <li><button class="more_items_14">Up coming Lessons</button></li>
+                    <li><button class="more_items_14">Past Lessons</button></li>
+                    <li class="w-full">
+                        <div class="explore_search w-full">
+                            <div class="ui search focus">
+                                <div class="ui left icon input swdh11 swdh15">
+                                    <input class="prompt srch_explore flex-grow-1 w-full" type="text" placeholder="Document Number" />
+                                    <i class="uil uil-search-alt icon icon8"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-          </div>
-          {% endfor %}
         </div>
-      </div>
+
+        <div class="section3125 mt-50">
+            <h4 class="item_title"></h4>
+            <div class="la5lo1">
+                <div class="row">
+                    {% for item in schedule_classes %}
+                    <div class="col-md-3 lesson_item" data-class-time="{{ item.get_class_time_formatted }}" data-counter-id="{{ item.pk }}">
+                        <div class="stream_1 mb-4">
+                            <a href="{{ item.get_short_url }}" class="stream_bg">
+                                <img src="{% if item.courses.tutor.avatar %}{{ item.courses.tutor.avatar.url }}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="{{ item.courses.title }}" />
+                                <h4>{{ item.courses.tutor.full_name|title }}</h4>
+                                <p>{{ item.get_lesson_status|safe|lower }}</p>
+                            </a>
+                            <br />
+                            {% if item.login_required %}
+                            <div class="credentials_overlay">
+                                <div class="overlay_content">{{ item.credentials|safe }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="m-auto">
+                        <div class="col-md-12">
+                            <p>No upcoming or live session at or completed at the moment!</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-xl-3 col-lg-4 sticky-lg-top">
-    <div class="right_side">
-      <div class="fcrse_3">
-        <div class="cater_ttle">
-          <h4>Live Streaming</h4>
+    <div class="col-xl-3 col-lg-4 sticky-lg-top">
+        <div class="right_side">
+            <div class="fcrse_3">
+                <div class="cater_ttle">
+                    <h4>Live Streaming</h4>
+                </div>
+                <div class="live_text">
+                    <div class="live_icon"><i class="uil uil-kayak"></i></div>
+                    <div class="live-content">
+                        <p>Set up your channel and stream live to your students</p>
+                        <button class="live_link" type="button">Get Started</button>
+                        <span class="livinfo">Info : This feature only for 'Instructors'.</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="live_text">
-          <div class="live_icon"><i class="uil uil-kayak"></i></div>
-          <div class="live-content">
-            <p>Set up your channel and stream live to your students</p>
-            <button class="live_link" type="button">Get Started</button>
-            <span class="livinfo"
-              >Info : This feature only for 'Instructors'.</span
-            >
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock content %}
 <!--  -->
 
 {% block scripts %}
 <script>
-  $(document).ready(function () {
-    $(".lesson_item").each(function () {
-      let classTime = $(this).data("class-time");
-      const counterId = $(this).data("counter-id");
-      const targetDate = new Date(classTime);
-      const upcomingTimeCounter = $(`#Upcoming_Time_Counter_${counterId}`);
-      function updateCountdown() {
-        const now = new Date();
-        const timeDiff = targetDate - now;
-        if (timeDiff > 0) {
-          const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
-          const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-          const seconds = Math.floor((timeDiff / 1000) % 60);
-          upcomingTimeCounter.html(
-            `${hours} Hr, ${minutes} Min, ${seconds} Seconds`
-          );
-        } else {
-          upcomingTimeCounter.html("Time is up!");
-          clearInterval(countdownInterval);
-        }
-      }
-      const countdownInterval = setInterval(updateCountdown, 1000);
-      updateCountdown();
+    $(document).ready(function () {
+        $(".lesson_item").each(function () {
+            let classTime = $(this).data("class-time");
+            const counterId = $(this).data("counter-id");
+            const targetDate = new Date(classTime);
+            const upcomingTimeCounter = $(`#upcoming_time_counter_${counterId}`);
+            function updateCountdown() {
+                const now = new Date();
+                const timeDiff = targetDate - now;
+                if (timeDiff > 0) {
+                    const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+                    const seconds = Math.floor((timeDiff / 1000) % 60);
+                    upcomingTimeCounter.html(
+                        `${hours} Hr, ${minutes} Min, ${seconds} Seconds`
+                    );
+                } else {
+                    upcomingTimeCounter.html("Time is up!");
+                    clearInterval(countdownInterval);
+                }
+            }
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
     });
-  });
 </script>
 {% endblock scripts %}

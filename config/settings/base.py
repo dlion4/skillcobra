@@ -406,7 +406,11 @@ WEBPACK_LOADER = {
 # CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_ALL_ORIGINS=True # TODO remove on production server
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:8002"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8002",
+    "https://*.ngrok-free.app",
+]
 
 CORS_ALLOW_METHODS = (
     *default_methods,
@@ -423,6 +427,7 @@ CORS_ALLOW_HEADERS = (
 TWILIO_ACCOUNT_SID = env.str("TWILIO_ACCOUNT_SSID")
 TWILIO_AUTH_TOKEN = env.str("TWILIO_ACCOUNT_AUTH_TOKEN")
 TWILIO_ACCOUNT_PHONE_NUMBER = env.str("TWILIO_ACCOUNT_PHONE_NUMBER")
+
 DJANGO_TWILIO_FORGERY_PROTECTION=False
 DJANGO_TWILIO_BLACKLIST_CHECK = False
 

@@ -10,34 +10,23 @@ class ScheduleClassForm(forms.ModelForm):
         queryset=Course.objects.none(),
         widget=forms.Select(attrs={"class": "selectpicker"}),
     )
-    credentials = forms.CharField(
-        initial="credentials: <br />",
+    lesson_overview = forms.CharField(
+        initial="<h2>Lesson Overview</h2><br />",
         widget=FroalaEditor(),
-    )
-    login_required = forms.BooleanField(
-        label="Require login credentials",
-        required=False,
-        initial=False,
-        widget=forms.CheckboxInput(),
     )
     class Meta:
         model = ScheduleClass
         fields = [
             "courses",
-            "class_live_link",
-            "login_required",
-            "credentials",
-            "class_time",
+            "lesson_overview",
+            "class_start_time",
+            "class_end_time",
         ]
         widgets = {
-            "class_live_link": forms.TextInput(
-                attrs={
-                    "class": "_dlor1 prompt srch_explore py-2",
-                    "placeholder": "https://stream.live.skillcobra.com/lessons",
-                    "required": True,
-                },
+            "class_start_time": forms.DateTimeInput(
+                attrs={"class": "_dlor1 prompt srch_explore py-2", "required": True},
             ),
-            "class_time": forms.DateTimeInput(
+            "class_end_time": forms.DateTimeInput(
                 attrs={"class": "_dlor1 prompt srch_explore py-2", "required": True},
             ),
         }
@@ -47,7 +36,4 @@ class ScheduleClassForm(forms.ModelForm):
         if self.profile:
             self.fields["courses"].queryset = Course.objects.filter(
                 tutor=self.profile,
-            )
-            self.fields["class_live_link"].initial = (
-                "https://stream.live.skillcobra.com/lessons"
             )

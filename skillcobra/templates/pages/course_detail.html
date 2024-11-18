@@ -325,7 +325,7 @@
 <script>
     const courseId = "{{ course.pk }}";
 
-    const courseNotification = new WebSocket(`ws://${window.location.host}/ws/notifications/${courseId}`)
+    const courseNotification = new WebSocket(`wss://${window.location.host}/ws/notifications/${courseId}`)
 
     courseNotification.onopen = () => {
       console.log('websocket connection established');

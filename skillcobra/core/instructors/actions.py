@@ -28,7 +28,7 @@ def create_discussion(request, tutor_pk=None, tutor__user_username=None):
     tutor = get_object_or_404(
         Profile,
         pk=tutor_pk,
-        user__username=tutor__user_username,
+        username=tutor__user_username,
     )
     profile = get_user(request).user_profile
     form = DiscussionForm(request.POST)

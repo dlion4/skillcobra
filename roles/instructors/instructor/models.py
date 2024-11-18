@@ -95,16 +95,22 @@ class ScheduleClass(models.Model):
         related_name="course_live_links",
     )
     class_live_link = models.CharField(max_length=255)
-    login_required = models.BooleanField(default=True)
+    login_required = models.BooleanField(default=False)
+    lesson_overview = FroalaField(
+        help_text="Login credentials for the lesson",
+    )
     credentials = FroalaField(
         help_text="Login credentials for the lesson",
     )
-    class_time = models.DateTimeField()
+    class_start_time = models.DateTimeField()
+    class_end_time = models.DateTimeField()
     short_url = models.CharField(max_length=27, blank=True)
 
     class Meta:
         verbose_name = _("ScheduleClass")
         verbose_name_plural = _("ScheduleClasses")
+        ordering = ["-class_start_time"]
+        get_latest_by = "class_start_time"
 
     def __str__(self):
         return self.class_live_link
@@ -117,7 +123,7 @@ class ScheduleClass(models.Model):
 
     def get_remaining_time_to_class(self):
         current_time = timezone.now()
-        remaining_time = self.class_time - current_time
+        remaining_time = self.class_start_time - current_time
         if remaining_time.total_seconds() <= 0:
             return "Class time has already passed"
         total_seconds = int(remaining_time.total_seconds())
@@ -139,10 +145,10 @@ class ScheduleClass(models.Model):
 
     def get_lesson_status(self):
         current_time = timezone.now()
-        remaining_time = self.class_time - current_time
+        remaining_time = self.class_start_time - current_time
         if remaining_time.total_seconds() > 0:
             time_remaining = self.get_remaining_time_to_class()
-            return f"Upcoming in <br /> <div id='upcoming_time_counter_{self.pk}'>{time_remaining}</div>"  # noqa: E501
+            return f"Upcoming <br /> <div id='upcoming_time_counter_{self.pk}'>{time_remaining}</div>"  # noqa: E501
         courses_limit = 10800
         return (
             "live<span></span>"
@@ -150,4 +156,4 @@ class ScheduleClass(models.Model):
             else "Ended"
         )
     def get_class_time_formatted(self):
-        return self.class_time.strftime("%Y-%m-%d %H:%M:%S")
+        return self.class_start_time.strftime("%Y-%m-%d %H:%M:%S")

@@ -1,3 +1,4 @@
+import uuid
 from datetime import timedelta
 from decimal import Decimal
 
@@ -14,6 +15,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 
 from roles.instructors.instructor.forms import ScheduleClassForm
 from roles.instructors.instructor.models import CourseSale
@@ -159,25 +162,6 @@ class InstructorAnalyticsView(TemplateViewMixin):
     template_name = "analytics.html"
 
 
-class InstructorStreamingSetupView(TemplateViewMixin, FormView):
-    template_name = "streaming_setup.html"
-    form_class = ScheduleClassForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = self.form_class(profile=self.request.user.user_profile)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, profile=request.user.user_profile)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({}, status=200, safe=False)
-        return JsonResponse(
-            {"detail": "Failed creating schedule. Try later"}, status=400,
-        )
-
-
 class InstructorStreamingView(TemplateViewMixin):
     template_name = "stream.html"
 
@@ -192,3 +176,81 @@ class InstructorPayoutView(TemplateViewMixin):
 
 class InstructorPaymentStatementView(TemplateViewMixin):
     template_name = "statements.html"
+
+
+class InstructorStreamingSetupView(TemplateViewMixin, FormView):
+    template_name = "streaming_setup.html"
+    form_class = ScheduleClassForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class(profile=self.request.user.user_profile)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, profile=request.user.user_profile)
+        if form.is_valid():
+            class_data = form.cleaned_data
+            try:
+                return self._handle_google_meet_session_creation(
+                    request, class_data, form,
+                )
+            except Exception as e:  # noqa: BLE001
+                return JsonResponse(
+                    {"detail": f"Failed to create Google Meet event. {e!s}"},
+                    status=400,
+                )
+        return JsonResponse({"detail": "Invalid form data."}, status=400)
+
+    def _handle_google_meet_session_creation(self, request, class_data, form):
+        google_meet_link = self.create_google_meet_event(request, class_data)
+        response_data = {
+            "detail": "Class scheduled successfully.",
+            "google_meet_link": google_meet_link,
+        }
+        instance = form.save()
+        instance.class_live_link = google_meet_link
+        instance.save()
+        form.save()
+        response_data["course_id"] = instance.courses.pk
+        return JsonResponse(response_data, status=200)
+
+    def create_google_meet_event(self, request, class_data):
+        """
+        Creates a Google Meet event and returns the Meet link.
+        """
+        credentials_info = request.session.get("google_credentials")
+        if not credentials_info:
+            return redirect("google_calendar_auth")
+
+        credentials = Credentials(**credentials_info)
+        service = build("calendar", "v3", credentials=credentials)
+
+        start_time = class_data["class_start_time"].isoformat()
+        end_time = class_data["class_end_time"].isoformat()
+        event_summary = class_data.get("title", "Scheduled Class")
+        event_description = class_data.get("lesson_overview", "Class Description")
+
+        event = {
+            "summary": event_summary,
+            "description": event_description,
+            "start": {"dateTime": start_time, "timeZone": "UTC"},
+            "end": {"dateTime": end_time, "timeZone": "UTC"},
+            "conferenceData": {
+                "createRequest": {
+                    "requestId": str(uuid.uuid4()),
+                    "conferenceSolutionKey": {"type": "hangoutsMeet"},
+                },
+            },
+        }
+
+        created_event = (
+            service.events()
+            .insert(
+                calendarId="primary",
+                body=event,
+                conferenceDataVersion=1,
+            )
+            .execute()
+        )
+        return created_event.get("hangoutLink")
