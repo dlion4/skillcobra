@@ -9,6 +9,11 @@ urlpatterns = [
         name="dashboard",
     ),
     path(
+        "attendance/",
+        views.InstructorCourseAttendanceView.as_view(),
+        name="attendance_view",
+    ),
+    path(
         "courses/",
         views.InstructorCoursesView.as_view(),
         name="courses_view",

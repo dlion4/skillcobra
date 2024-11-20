@@ -1,19 +1,28 @@
 import time
+from decimal import ROUND_HALF_UP
+from decimal import Decimal
 
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import FieldError
+from django.db import DatabaseError
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.shortcuts import render
+from django.template.exceptions import TemplateDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
 
 from roles.instructors.instructor.models import ScheduleClass
 from skillcobra.core.courses.decorators import object_item_available
+from skillcobra.core.courses.decorators import verify_student_coupon
+from skillcobra.filters.index import CourseFilter
 from skillcobra.purchases.models import Cart
+from skillcobra.purchases.models import Coupon
 from skillcobra.school.models import Course
 
 channel_layer = get_channel_layer()
@@ -129,7 +138,11 @@ def remove_course_from_cart(request, course_pk, course_slug):
 @login_required
 @csrf_exempt
 def live_class_short_url_redirect(
-    request, course_pk, course_slug, schedule_pk, short_url,
+    request,
+    course_pk,
+    course_slug,
+    schedule_pk,
+    short_url,
 ):
     schedule_class = get_object_or_404(
         ScheduleClass,
@@ -139,3 +152,66 @@ def live_class_short_url_redirect(
         short_url=short_url,
     )
     return redirect(schedule_class.class_live_link)
+
+
+@login_required
+@csrf_exempt
+def courses_live_search_view(request):
+    template_name = "searches/explore/courses.html"
+    try:
+        result = Course.objects.filter(
+            title__icontains=request.GET.get("search_query", "")
+        )
+        return render(request, template_name, {"courses": result})
+    except (FieldError, TemplateDoesNotExist, Exception, DatabaseError) as e:
+        return HttpResponse(f"Error: {e!s}", status=500)
+
+
+@login_required
+@csrf_exempt
+def apply_coupon_code_to_cart_item_view(request, *args, **kwargs):
+    code = request.POST.get("coupon_code")
+    if not code:
+        return JsonResponse({"message": "Coupon code is required."}, status=400)
+    try:
+        profile_cart = Cart.objects.get(student=request.user.user_profile)
+    except Cart.DoesNotExist:
+        return JsonResponse({"message": "Cart not found for the student."}, status=404)
+    coupon_object = Coupon.objects.filter(code=code).first()
+    if not coupon_object:
+        return JsonResponse({"message": "Invalid coupon code."}, status=404)
+    student = request.user.user_profile
+    course_with_code = coupon_object.course
+    if student in coupon_object.students.all() and coupon_object.is_valid_for_course(
+        course_with_code,
+    ):
+        return JsonResponse(
+            {
+                "message": "You've already used this coupon code",
+                "newPrice": profile_cart.total_price.quantize(
+                    Decimal("0.01"),
+                    rounding=ROUND_HALF_UP,
+                ),
+            },
+            status=400,
+        )
+    if coupon_object.is_valid_for_course(course_with_code):
+        coupon_object.students.add(student)
+        new_price = Decimal(coupon_object.course.payable_amount) * Decimal(
+            1 - (coupon_object.discount_percent / 100),
+        )
+        profile_cart.total_price = new_price
+        profile_cart.save()
+        return JsonResponse(
+            {
+                "message": "Coupon applied successfully.",
+                "newPrice": profile_cart.total_price.quantize(
+                    Decimal("0.01"),
+                    rounding=ROUND_HALF_UP,
+                ),
+                "discount": coupon_object.discount_percent,
+            },
+            status=200,
+        )
+
+    return JsonResponse({"message": "Coupon is not valid for this cart."}, status=400)

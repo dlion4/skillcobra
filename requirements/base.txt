@@ -41,3 +41,5 @@ google-auth
 google-auth-httplib2
 google-auth-oauthlib
 pywebpush
+django-filter==24.3
+scikit-learn

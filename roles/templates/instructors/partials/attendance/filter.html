@@ -1,0 +1,13 @@
+{% for item in courses %}
+<tr class="tbody">
+    <td>{{item.course_attendance.attendance_date|default:item.created_at|date:"Y M d"}}</td>
+    <td>{{item.title|truncatewords:"5"}}</td>
+    <td>{{item.course_attendance.attendance_counter|default:"0"}}</td>
+</tr>
+{% empty %}
+<tr class="tbody">
+    <td>No data available for the selection</td>
+    <td></td>
+    <td></td>
+</tr>
+{% endfor %}

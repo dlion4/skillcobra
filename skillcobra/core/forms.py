@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Message as MessageModel
+from .models import Message as MessageModel, Review
 
 
 class MessageForm(forms.ModelForm):
@@ -29,6 +29,18 @@ class MessageForm(forms.ModelForm):
             "content": "Message content",
         }
 
+    def __init__(self, *args, **kwargs):
+        self.profile = kwargs.pop("profile", None)
+        super().__init__(*args, **kwargs)
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = [
+            "rating",
+            "content",
+        ]
     def __init__(self, *args, **kwargs):
         self.profile = kwargs.pop("profile", None)
         super().__init__(*args, **kwargs)

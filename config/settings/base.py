@@ -104,6 +104,7 @@ THIRD_PARTY_APPS = [
     "django_twilio",
     "channels",
     "django_countries",
+    "django_filters",
 ]
 
 LOCAL_APPS = [

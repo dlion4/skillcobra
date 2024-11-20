@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="prfledt1">
                                         <h2>{{instructor.full_name}}</h2>
-                                        <span>Web Developer</span>
+                                        <span>{{instructor.headline}}</span>
                                     </div>
                                 </div>
                                 <ul class="_ttl120">
@@ -111,8 +111,8 @@
                                     </li>
                                     <li>
                                         <div class="_ttl121">
-                                            <div class="_ttl122">Reviews</div>
-                                            <div class="_ttl123">115K</div>
+                                            <div class="_ttl122">Review{{reviews.count|pluralize}}</div>
+                                            <div class="_ttl123">{{reviews.count}}</div>
                                         </div>
                                     </li>
                                     <li>
@@ -216,7 +216,7 @@
                                     class="nav-item nav-link"
                                     id="nav-reviews-tab"
                                     data-bs-toggle="tab"
-                                    href="#nav-reviews"
+                                    href="#nav-discussions"
                                     role="tab"
                                     aria-selected="false"
                                 >
@@ -233,6 +233,17 @@
                                 >
                                     Subscriptions
                                     <sup>{{instructor.tutor_subscriptions.students.count}}</sup>
+                                </a>
+                                <a
+                                    class="nav-item nav-link"
+                                    id="nav-reviews-tab"
+                                    data-bs-toggle="tab"
+                                    href="#nav-reviews"
+                                    role="tab"
+                                    aria-selected="false"
+                                >
+                                    Reviews
+                                    <sup>{{reviews.count}}</sup>
                                 </a>
                             </div>
                         </nav>
@@ -348,7 +359,7 @@
                                 </div>
                             </div>
                             <!-- discussion -->
-                            <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
+                            <div class="tab-pane fade" id="nav-discussions" role="tabpanel">
                                 <div class="student_reviews">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -515,6 +526,143 @@
                                                 </div>
                                             </div>
                                             {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- reviews -->
+                            <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
+                                <div class="_htg451">
+                                    <div class="_htg452">
+                                        <div class="row">
+                                           
+
+
+                                            <div class="col-lg-5">
+                                                <div class="reviews_left">
+                                                    <h3>All Student Feedback</h3>
+                                                    <div class="total_rating">
+                                                        <div class="_rate001">4.6</div>
+                                                        <div class="rating-box">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star half-star"></span>
+                                                        </div>
+                                                        <div class="_rate002">All Rating</div>
+                                                    </div>
+                                                    <div class="_rate003">
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-70" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">70%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">40%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-5" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">5%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-2" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">1%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-1" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">1%</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-7">
+                                                <div class="review_right">
+                                                    <div class="review_right_heading">
+                                                        <h3></h3>
+                                                        <div class="review_search">
+                                                            <input class="rv_srch py-3" style="padding: 17px 10px !important;" type="text" placeholder="Search reviews...">
+                                                            <button class="rvsrch_btn" style="transform: translateY(3px) !important;"><i class="uil uil-search"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="review_all120">
+                                                    <div class="review_item_course_title">
+                                                        <a href="#">Course Title Here</a>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">John Doe</h4>
+                                                                <span class="time_145">2 hour ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star half-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">
+                                                            Nam gravida elit a velit rutrum, eget dapibus 
+                                                            ex elementum. Interdum et malesuada fames ac ante 
+                                                            ipsum primis in faucibus. Fusce lacinia, nunc sit 
+                                                            amet tincidunt venenatis.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>

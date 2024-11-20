@@ -1,0 +1,146 @@
+{% extends "instructors/base.html" %}
+<!-- -->
+{% block title %}
+{{ block.super }}
+course attendance
+{% endblock title %}
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="earning_steps">
+            <p>Total course{{profile.get_all_courses.count|pluralize}}</p>
+            <h2>{{profile.get_all_courses.count}}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="earning_steps">
+            <p>Total Attendance</p>
+            <h2>{{profile.get_all_courses_attendance}}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="earning_steps">
+            <p>% Attendance</p>
+            <h2>12</h2>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12">
+        <div class="top_countries mt-50">
+            <div class="top_countries_title">
+                <h2>Attendance per course</h2>
+            </div>
+            <ul class="country_list">
+                
+                {% with profile.get_all_courses as courses %}
+                <!--  -->
+                    {% for course in courses %}
+                    <li>
+                        <div class="country_item">
+                            <div class="country_item_left">
+                                <span>{{course.sub_category.category.name|title}} | {{course.title|truncatewords:"1"}}</span>
+                                
+                                {% if course.status == 'completed' %}
+                                <sup style="padding:3px; border: 1px solid crimson; border-radius: 10px; background-color:crimson; outline:none;color:#fff; text-transform:lowercase;">completed</sup>
+                                {% else %}
+                                <sup style="padding:3px; border: 1px solid crimson; border-radius: 10px; background-color:crimson; outline:none;color:#fff; text-transform:lowercase;">ongoing</sup>
+                                {% endif %}
+
+                            </div>
+    
+                            <div class="country_item_right">
+                                <span>{{course.course_attendance.attendance_counter}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <!--  -->
+                {% endwith %}
+                    
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-md-12">
+        <div class="date_selector">
+            <div class="ui selection dropdown skills-search vchrt-dropdown">
+                <input name="attendance_date_filter" type="hidden" value="default">
+                <i class="dropdown icon d-icon"></i>
+                <div class="text">Filter courses</div>
+                <div class="menu filter_course_current_year">
+                    <div class="item" data-value="0">All courses</div>
+                </div>
+            </div>
+            <div class="date_list152">
+                <a href="#">All courses</a> /
+                <a href="#">2020</a> /
+                <a href="#">April</a>
+            </div>
+        </div>
+
+
+            <div class="table-responsive mt-30">
+                <table class="table ucp-table earning__table">
+                    <thead class="thead-s">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">course</th>
+                            <th scope="col">attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody class="attendance_body">
+                       {% include 'instructors/partials/attendance/filter.html' %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total</td>
+                            <td class="course_total">{{courses}}</td>
+                            <td>percentage (%)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+    </div>
+
+
+</div>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+    $(document).ready(function(){
+        const currentYear = new Date().getFullYear();
+        const years = Array.from({length: 5}, (_, i)=> currentYear - i);
+        years.forEach(year => {
+            $(".filter_course_current_year").append(
+                `<div class='item' data-value='${year}'>${year}</div>`
+            )
+        })
+
+
+        function handleAttendanceFilter(q="0"){
+            $.get(`{% url 'partials:filter_attendance_view' %}?q=${q}`).done(function(response){
+                $(".attendance_body").html(response)
+            }).fail(function(response){
+                $(".attendance_body").html(response);
+            });
+        }
+        handleAttendanceFilter()
+
+        $("input[name=attendance_date_filter]").change(function(){
+            handleAttendanceFilter($(this).val())
+        })
+    })
+</script>
+{% endblock scripts %}

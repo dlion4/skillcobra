@@ -1,0 +1,63 @@
+{% load static %} 
+<!--  -->
+{% for item in courses %}
+<div class="col-lg-3 col-md-4">
+  <div class="fcrse_1 mt-30">
+    <a href="{{item.get_public_absolute_url}}" class="fcrse_img">
+      <img
+        src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-1.jpg' %}{% endif %}"
+        alt="{{item.title}}"
+      />
+      <div class="course-overlay">
+        <div class="badge_seller">Bestseller</div>
+        <div class="crse_reviews">
+          <i class="uil uil-star"></i>{{item.get_random_rating}}
+        </div>
+        <span class="play_btn1"><i class="uil uil-play"></i></span>
+        <div class="crse_timer">{{item.course_duration}}</div>
+      </div>
+    </a>
+    <div class="fcrse_content">
+      <div class="eps_dots more_dropdown">
+        <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+        <div class="dropdown-content">
+          <span><i class="uil uil-share-alt"></i>Share</span>
+          <span><i class="uil uil-heart"></i>Save</span>
+          <span><i class="uil uil-ban"></i>Not Interested</span>
+          <span><i class="uil uil-windsock"></i>Report</span>
+        </div>
+      </div>
+      <div class="vdtodt">
+        <span class="vdt14">{{item.views}} views</span>
+        <span class="vdt14">{{item.created_at|timesince}} ago</span>
+      </div>
+      <a href="{{item.get_public_absolute_url}}" class="crse14s"
+        >{{item.title}}</a
+      >
+      <a href="#" class="crse-cate"
+        >{{item.sub_category.category.name|title}} |
+        {{item.sub_category.name|title}}</a
+      >
+      <div class="auth1lnkprce">
+        <p class="cr1fot">By <a href="#">{{item.tutor.first_name|title}}</a></p>
+        <div class="prce142">
+          <span class="cr1fot2"
+            >$
+            <del>{{item.regular_price}}</del>
+          </span>
+          <span class="cr1fot2"> ${{item.payable_amount}} </span>
+        </div>
+        <button class="shrt-cart-btn" title="cart">
+          <i class="uil uil-shopping-cart-alt"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% empty %}
+  <div class="col-lg-12 col-md-12 text-center empty_courses_result p-4">
+    <div class="fcrse_1 mt-30">
+    <p class="p-5">No courses found.</p>
+    </div>
+  </div>
+{% endfor %}

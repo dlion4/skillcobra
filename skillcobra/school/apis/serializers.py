@@ -10,13 +10,13 @@ class SubCategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 class CategorySerializer(serializers.ModelSerializer):
-    options = SubCategorySerializer(many=True, read_only=True)
+    subcategories = SubCategorySerializer(many=True, read_only=True)
     class Meta:
         model = Category
         fields = [
             "id",
             "name",
-            "options",
+            "subcategories",
         ]
 
 class CourseCurriculumSerializer(serializers.ModelSerializer):

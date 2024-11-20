@@ -142,23 +142,74 @@ Shipping courses {% endblock title %}
                 </div>
               </div>
               <div class="coupon_code">
-                <p>Learn now is applied.</p>
+                <p id="response_code_message">Learn now is applied.</p>
                 <div class="coupon_input">
                   <div class="ui search focus mt-15">
                     <div class="ui icon input swdh11 swdh19">
                       <input
-                        class="prompt srch_explore"
+                        class="prompt srch_explore py-3"
                         type="text"
                         name="couponcode"
-                        value=""
                         id="id_coupon_code"
                         required=""
-                        maxlength="6"
                         placeholder="Enter Coupon Code"
                       />
                     </div>
-                    <button class="code-apply-btn" type="submit">Apply</button>
+                    <button class="code-apply-btn py-2" type="button" style="transform: translateY(3px) translateX(-2px);">
+                      <span class="spinner" style="display: none;"></span>
+                      <span class="coupon_text">Apply coupon</span>
+                    </button>
+
+                    <script>
+                      $(document).ready(function () {
+                        const btn = $(".code-apply-btn");
+                        const spinner = btn.find("span.spinner");
+                        const originalPrice = parseFloat($(".order_price5 span").text()).toFixed(2)
+                        btn.prop("disabled", true);
+                        $("#id_coupon_code").keyup(function () {
+                          if ($(this).val()) {
+                            btn.prop("disabled", false);
+                          } else {
+                            btn.prop("disabled", true);
+                          }
+                        });
+
+                        btn.click(function () {
+                          spinner.show();
+                          btn.prop("disabled", true);
+                          btn.find(".coupon_text").text("applying ...");
+                          const couponCode = $("#id_coupon_code").val();
+                          $.ajax({
+                            type: "POST",
+                            url: "{% url 'courses:apply_coupon_code_view' %}",
+                            data: {
+                              coupon_code: couponCode,
+                            },
+                            success: function (response) {
+                              const {message, newPrice} = response;
+                              $("#response_code_message").text(message);
+                              $(".order_price5 span").text(newPrice);
+                            },
+                            error: function (xhr, status, error) {
+                              $("#response_code_message").text(xhr.responseJSON.message || error.toString());
+                              if (xhr.responseJSON.newPrice){
+                                $(".order_price5 span").text(xhr.responseJSON.newPrice)
+                              }else{
+                                $(".order_price5 span").text(originalPrice);
+                              }
+                            },
+                            complete: function () {
+                              spinner.hide();
+                              btn.prop("disabled", false);
+                              btn.find(".coupon_text").text("Apply coupon");
+                            }
+                          })
+                          
+                        });
+                      });
+                    </script>
                   </div>
+                  
                 </div>
               </div>
               <a
@@ -337,7 +388,7 @@ Shipping courses {% endblock title %}
 
     const df = new FormData(this)
     df.append("coupon", $("#id_coupon_code").val())
-    df.append("amount", parseFloat($(".order_price5").find("span").text()))
+    df.append("amount", parseFloat($(".order_price5 span").text()).toFixed(2))
     df.append("courses_ids", JSON.stringify(courseIds));
     btn.prop("disabled", true);
     btn.find("span").show();
@@ -376,7 +427,6 @@ Shipping courses {% endblock title %}
       const intervalId = setInterval(function () {
         $.get(`/payments/process/status/${studentId}/`)
           .done(function (response) {
-
             console.log(`Payment Status: ${response.status}`);
             if (response.status !== "Pending") {
               clearInterval(intervalId); // Stop checking once done

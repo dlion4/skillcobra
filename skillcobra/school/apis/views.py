@@ -20,7 +20,8 @@ class CategoryApiView(
     permission_classes = [permissions.AllowAny]
     serializer_class = CategorySerializer
     def list(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.queryset, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):

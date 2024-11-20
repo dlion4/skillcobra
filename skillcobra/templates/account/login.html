@@ -12,20 +12,18 @@
     {% csrf_token %}
     <div class="ui search focus mt-15">
       <div class="ui left icon input swdh95">
-       {{form.email}}
+        {{form.email}}
         <i class="uil uil-envelope icon icon2"></i>
       </div>
     </div>
     <div class="ui search focus mt-15">
       <div class="ui left icon input swdh95">
-       {{form.password}}
+        {{form.password}}
         <i class="uil uil-key-skeleton-alt icon icon2"></i>
       </div>
     </div>
     <div class="ui form mt-30 checkbox_sign">
-      <div
-        class="inline field d-flex align-items-center justify-content-between"
-      >
+      <div class="inline field d-flex align-items-center justify-content-between">
         <div class="ui checkbox mncheck">
           <input title="name" type="checkbox" tabindex="0" class="hidden" />
           <label>Remember Me</label>
@@ -37,10 +35,10 @@
         </div>
       </div>
     </div>
-      <button class="login-btn" type="submit">
-    <span class="spinner" style="display: none;"></span>  <!-- Spinner initially hidden -->
-    Student Sign Up Now
-  </button>
+    <button class="login-btn" type="submit">
+      <span class="spinner" style="display: none;"></span> <!-- Spinner initially hidden -->
+      Sign In
+    </button>
   </form>
   <p class="mb-0 mt-30 hvsng145">
     <hr />
@@ -56,23 +54,23 @@
 {% block scripts %}
 
 <script>
-  $(document).ready(function(){
-    $("#loginForm").submit(function(event){
+  $(document).ready(function () {
+    $("#loginForm").submit(function (event) {
       event.preventDefault();
 
       var form = $(this);
-      
+
       var email = $("#id_email").val();
       var password = $("#id_password").val();
 
 
-        // Show the spinner and disable the button
-        let submitButton = form.find("button[type='submit']");
-        let spinner = submitButton.find(".spinner");
-        submitButton.prop("disabled", true); // Disable the button to prevent multiple submissions
-        spinner.show(); // Show the spinner
+      // Show the spinner and disable the button
+      let submitButton = form.find("button[type='submit']");
+      let spinner = submitButton.find(".spinner");
+      submitButton.prop("disabled", true); // Disable the button to prevent multiple submissions
+      spinner.show(); // Show the spinner
 
-        let errorField = form.find(".error_field");
+      let errorField = form.find(".error_field");
 
       $.ajax({
         url: $(this).attr("action"),
@@ -81,13 +79,13 @@
           'email': email,
           'password': password
         },
-        success: function(response){
+        success: function (response) {
           submitButton.html("success. Redirecting ...")
-          setTimeout(()=>{
+          setTimeout(() => {
             window.location.href = response.url;
           }, 2000)
         },
-        error: function(xhr, status, error){
+        error: function (xhr, status, error) {
           try {
             let response = JSON.parse(xhr.responseText);
             errorField.html(response.detail);
@@ -95,7 +93,7 @@
             errorField.html("An unknown error occurred. Please try again.");
           }
         },
-        complete: function(){
+        complete: function () {
           submitButton.prop("disabled", false); // Enable the button after the request completes
           spinner.hide(); // Hide the spinner
         }

@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal
+import random
 
 from django.db import models
 from django.urls import reverse
@@ -229,6 +230,8 @@ class Course(models.Model):
 
     def get_remove_from_cart_url(self):
         return self._object_url("courses:remove_course_from_cart")
+    def get_random_rating(self):
+        return round(random.uniform(3,5), 1)  # noqa: S311
 
 
 class CourseCurriculum(models.Model):

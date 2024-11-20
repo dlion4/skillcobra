@@ -12,7 +12,7 @@ module.exports = merge(commonConfig, {
     proxy: [
       {
         context: ['/'],
-        target: 'http://127.0.0.1:8002',
+        target: 'http://localhost:8002',
         secure: false, // Set to false if using HTTP
         changeOrigin: true, // Adjust the origin to match the target (Django server
       },

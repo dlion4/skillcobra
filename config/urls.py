@@ -38,7 +38,8 @@ urlpatterns = [
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
     # payments
     path("payments/", include("skillcobra.payments.urls", namespace="payments")),
-    
+    #  data filtration
+    path("partials/", include("skillcobra.partials.urls", namespace="partials")),
     # Google calender oauth
     path(
         "google-calendar/auth/",

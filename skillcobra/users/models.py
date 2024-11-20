@@ -3,9 +3,12 @@ from datetime import timedelta
 from decimal import Decimal
 from typing import ClassVar
 
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Count
 from django.db.models import EmailField
 from django.db.models import Sum
 from django.db.models.signals import post_save
@@ -15,6 +18,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from roles.instructors.instructor.models import CourseSale
+from roles.students.students.models import Attendance
 from skillcobra.purchases.models import Cart
 from skillcobra.school.models import Course
 from skillcobra.school.models import CourseSubscription
@@ -120,6 +124,16 @@ class Profile(models.Model):
 
     def get_all_courses(self):
         return self.course_tutor.all()
+    def get_all_courses_attendance(self):
+        courses = self.get_all_courses()
+        return Attendance.objects.filter(course__in=courses).aggregate(
+            total=Sum("attendance_counter"),
+        )["total"] or 0
+    def get_courses_with_attendance(self):
+        courses = self.get_all_courses()
+        return courses.annotate(attendance=Count("course_attendance")).order_by(
+            "-attendance_date",
+        )
 
     def get_up_coming_courses(self):
         return self.course_tutor.filter(course_release_date__gte=timezone.now())
@@ -143,7 +157,6 @@ class Profile(models.Model):
         try:
             return Cart.objects.get(student=self).courses.all()
         except ObjectDoesNotExist:
-            print("No Cart object found; returning empty QuerySet.")
             return Course.objects.none()
 
     def get_subscription_url(self):

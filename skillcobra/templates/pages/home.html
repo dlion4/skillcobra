@@ -24,10 +24,18 @@
             <div class="tutor_cate">
               {{profile.headline|default:"Headline unset yet"}}
             </div>
+
+            {% if profile.user.role == 'instructor' %}
             <div class="tut1250">
               <span class="vdt15">0 completed</span>
-              <span class="vdt15">12 Courses</span>
+              <span class="vdt15">{{profile.get_all_courses.count}} Course{{profile.get_all_courses.count|pluralize}}</span>
             </div>
+            {% else %}
+            <div class="tut1250">
+              <span class="vdt15">0 Enrolled</span>
+              <span class="vdt15">completed</span>
+            </div>
+            {% endif %}
             <a href="{{dashboard_url}}" class="prfle12link">Go To Profile</a>
           </div>
         </div>
@@ -44,8 +52,7 @@
               <button class="live_link instructor_to_live_channel">
                 Get Started
               </button>
-              <span class="livinfo"
-                >Info : This feature only for 'Instructors'.
+              <span class="livinfo">Info : This feature only for 'Instructors'.
               </span>
             </div>
             {% if request.user.role == 'instructor' %}

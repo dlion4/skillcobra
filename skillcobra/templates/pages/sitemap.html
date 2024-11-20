@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+<!--  -->
+{% load render_bundle from webpack_loader %}
+
+<!--  -->
+
+{% block css %}
+
+
+{% endblock css %}
+
+<!--  -->
+<!--  -->
+<!--  -->
+
+{% block title %} {{ block.super }} | Sitemap {% endblock title %}
+
+<!--  -->
+{% load static %} {% block content %}
+<!--  -->
+<div id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 col-lg-8">
+                <div class="section3125">
+                    <div class="explore_search">
+                        <div class="ui search focus">
+                            <div class="ui left icon input swdh11">
+                                <input class="prompt srch_explore" type="text" placeholder="Search categories..">
+                                <i class="uil uil-search-alt icon icon2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="section3125 mt-50">
+                    <h4 class="item_title  mb-0">Categories</h4>
+                    {% for item in categories %}
+                    <div class="la5lo1 cate_521">
+                        <div class="_cate101">
+                            <i class="uil uil-arrow cate_icon1"></i>{{item.name}}
+                        </div>
+                        <div class="_1frstcate">
+                            <div class="row">
+                                {% for sub in item.get_all_subcategories %}
+                                <div class="col-lg-3 col-md-4">
+                                    <h4>{{sub.name}}</h4>
+                                    <ul class="cate_option">
+                                        {% for topic in sub.get_all_topics %}
+                                        <li><a href="#">{{topic.title|title}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+<!--  -->
+{% block scripts %}
+<script src="{% static 'js/home.js' %}"></script> 
+
+{% endblock scripts %}
+
+<!--  -->
+{% block vite %}
+
+
+
+
+{% endblock vite %}
+<!--  -->

@@ -38,6 +38,7 @@
         "Pesa",
         "pixrem",
         "prepopulate",
+        "proba",
         "selectpicker",
         "signout",
         "skillcobra",
@@ -50,6 +51,7 @@
         "SYNCPAY",
         "twiml",
         "unsave",
+        "vectorizer",
         "whitenoise",
         "youtu"
     ],

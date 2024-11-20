@@ -254,3 +254,8 @@ class InstructorStreamingSetupView(TemplateViewMixin, FormView):
             .execute()
         )
         return created_event.get("hangoutLink")
+
+
+
+class InstructorCourseAttendanceView(TemplateViewMixin):
+    template_name = "attendance.html"

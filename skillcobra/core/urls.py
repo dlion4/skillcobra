@@ -10,6 +10,11 @@ urlpatterns = [
         name="home",
     ),
     path(
+        "site-maps",
+        views.SiteMapView.as_view(),
+        name="sitemap",
+    ),
+    path(
         "explore/",
         views.HomeExploreView.as_view(),
         name="explore",

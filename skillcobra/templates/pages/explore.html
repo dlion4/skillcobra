@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 <!--  -->
+
+{% block title %} {{ block.super }} | Explore Courses {% endblock title %}
+
+<!--  -->
 {% load static %}
 
 <!--  -->
@@ -25,135 +29,14 @@
 
     <div class="col-md-12">
       <div class="_14d25">
-        <div class="row">
-          <div class="col-lg-3 col-md-4">
-            <div class="fcrse_1 mt-30">
-              <a href="course_detail_view.html" class="fcrse_img">
-                <img src="{% static 'images/courses/img-1.jpg' %}" alt="" />
-                <div class="course-overlay">
-                  <div class="badge_seller">Bestseller</div>
-                  <div class="crse_reviews">
-                    <i class="uil uil-star"></i>4.5
-                  </div>
-                  <span class="play_btn1"><i class="uil uil-play"></i></span>
-                  <div class="crse_timer">25 hours</div>
-                </div>
-              </a>
-              <div class="fcrse_content">
-                <div class="eps_dots more_dropdown">
-                  <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                  <div class="dropdown-content">
-                    <span><i class="uil uil-share-alt"></i>Share</span>
-                    <span><i class="uil uil-heart"></i>Save</span>
-                    <span><i class="uil uil-ban"></i>Not Interested</span>
-                    <span><i class="uil uil-windsock"></i>Report</span>
-                  </div>
-                </div>
-                <div class="vdtodt">
-                  <span class="vdt14">109k views</span>
-                  <span class="vdt14">15 days ago</span>
-                </div>
-                <a href="course_detail_view.html" class="crse14s"
-                  >Complete Python Bootcamp: Go from zero to hero in Python 3</a
-                >
-                <a href="#" class="crse-cate">Web Development | Python</a>
-                <div class="auth1lnkprce">
-                  <p class="cr1fot">By <a href="#">John Doe</a></p>
-                  <div class="prce142">$10</div>
-                  <button class="shrt-cart-btn" title="cart">
-                    <i class="uil uil-shopping-cart-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-4">
-            <div class="fcrse_1 mt-30">
-              <a href="course_detail_view.html" class="fcrse_img">
-                <img src="{% static 'images/courses/img-2.jpg' %}" alt="" />
-                <div class="course-overlay">
-                  <div class="badge_seller">Bestseller</div>
-                  <div class="crse_reviews">
-                    <i class="uil uil-star"></i>4.5
-                  </div>
-                  <span class="play_btn1"><i class="uil uil-play"></i></span>
-                  <div class="crse_timer">28 hours</div>
-                </div>
-              </a>
-              <div class="fcrse_content">
-                <div class="eps_dots more_dropdown">
-                  <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                  <div class="dropdown-content">
-                    <span><i class="uil uil-share-alt"></i>Share</span>
-                    <span><i class="uil uil-heart"></i>Save</span>
-                    <span><i class="uil uil-ban"></i>Not Interested</span>
-                    <span><i class="uil uil-windsock"></i>Report</span>
-                  </div>
-                </div>
-                <div class="vdtodt">
-                  <span class="vdt14">5M views</span>
-                  <span class="vdt14">15 days ago</span>
-                </div>
-                <a href="course_detail_view.html" class="crse14s"
-                  >The Complete JavaScript Course 2020: Build Real Projects!</a
-                >
-                <a href="#" class="crse-cate">Development | JavaScript</a>
-                <div class="auth1lnkprce">
-                  <p class="cr1fot">By <a href="#">Jassica William</a></p>
-                  <div class="prce142">$5</div>
-                  <button class="shrt-cart-btn" title="cart">
-                    <i class="uil uil-shopping-cart-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-4">
-            <div class="fcrse_1 mt-30">
-              <a href="course_detail_view.html" class="fcrse_img">
-                <img src="{% static 'images/courses/img-20.jpg' %}" alt="" />
-                <div class="course-overlay">
-                  <div class="crse_reviews">
-                    <i class="uil uil-star"></i>5.0
-                  </div>
-                  <span class="play_btn1"><i class="uil uil-play"></i></span>
-                  <div class="crse_timer">21 hours</div>
-                </div>
-              </a>
-              <div class="fcrse_content">
-                <div class="eps_dots more_dropdown">
-                  <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                  <div class="dropdown-content">
-                    <span><i class="uil uil-share-alt"></i>Share</span>
-                    <span><i class="uil uil-heart"></i>Save</span>
-                    <span><i class="uil uil-ban"></i>Not Interested</span>
-                    <span><i class="uil uil-windsock"></i>Report</span>
-                  </div>
-                </div>
-                <div class="vdtodt">
-                  <span class="vdt14">200 Views</span>
-                  <span class="vdt14">4 days ago</span>
-                </div>
-                <a href="course_detail_view.html" class="crse14s"
-                  >WordPress Development - Themes, Plugins &amp; Gutenberg</a
-                >
-                <a href="#" class="crse-cate">Design | Wordpress</a>
-                <div class="auth1lnkprce">
-                  <p class="cr1fot">By <a href="#">Joy Dua</a></p>
-                  <div class="prce142">$14</div>
-                  <button class="shrt-cart-btn" title="cart">
-                    <i class="uil uil-shopping-cart-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="row courses_response">
+          {% include "searches/explore/courses.html" %}
         </div>
       </div>
     </div>
 
     <div class="col-md-12">
-      <div class="main-loader mt-50">
+      <div class="main-loader mt-50" style="display: none">
         <div class="spinner">
           <div class="bounce1"></div>
           <div class="bounce2"></div>
@@ -163,4 +46,31 @@
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock content %} {% block scripts %}
+<script>
+  $(document).ready(function () {
+    $(".prompt.srch_explore").keyup(function () {
+      var input = $(this).val();
+      console.log(input);
+
+      const loader = $(".main-loader");
+      loader.show();
+
+      $.ajax({
+        url: "{% url 'courses:search_courses' %}",
+        type: "GET",
+        data: { search_query: input },
+        success: function (response) {
+          $(".courses_response").html(response);
+        },
+        error: function (xhr, status, error) {
+          $(".empty_courses_result").find("p").text(xhr.responseText);
+        },
+        complete: function () {
+          loader.hide();
+        },
+      });
+    });
+  });
+</script>
+{% endblock scripts %}

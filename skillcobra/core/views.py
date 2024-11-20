@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from skillcobra.school.models import Course, CourseSubscription, Subscription
+from skillcobra.school.models import Category, Course, CourseSubscription, Subscription
 from skillcobra.users.models import Profile
 
 
@@ -17,10 +17,14 @@ class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
             return str(reverse("students:dashboard"))
         return str(reverse("instructors:dashboard"))
 
+    def get_courses(self):
+        return Course.objects.filter(status="approved").order_by("?")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["profile"] = self.get_profile()
         context["dashboard_url"] = self.get_dashboard_url()
+        context["courses"] = self.get_courses()
         return context
 
 
@@ -31,15 +35,11 @@ class HomeView(AuthorizedHomeViewMixin):
     def get_newest_course(self):
         last_seven_days = timezone.now() - timedelta(days=7)
         return (Course.objects.filter(created_at__gt=last_seven_days))
-    def get_courses(self):
-        return Course.objects.filter(status="approved").order_by("?")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["newest_courses"] = self.get_newest_course()
         context["featured_courses"] = self.get_newest_course()
-        context["courses"] = self.get_courses()
         context["popular_tutors"] = self.get_popular_tutors()
-        print(context)
         return context
     def get_popular_tutors(self):
         return Profile.objects.filter(user__role="instructor").order_by("?")
@@ -47,6 +47,8 @@ class HomeView(AuthorizedHomeViewMixin):
 
 class HomeExploreView(AuthorizedHomeViewMixin):
     template_name = "pages/explore.html"
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
 
 class HomeHelpView(AuthorizedHomeViewMixin):
@@ -87,3 +89,12 @@ class HomeComingSoonView(AuthorizedHomeViewMixin):
 
 class HomeTermsOfUseView(AuthorizedHomeViewMixin):
     template_name = "pages/terms.html"
+
+
+class SiteMapView(AuthorizedHomeViewMixin):
+    template_name = "pages/sitemap.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+
