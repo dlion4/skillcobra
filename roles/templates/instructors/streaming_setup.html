@@ -141,10 +141,10 @@
     $("form.live_form").submit(function (event) {
       event.preventDefault();
       const fd = new FormData(event.target);
-      const btn = $(this).find("button[type='submit']._145d1");
+      const btn = $(this).find("button._145d1");
 
       btn.prop("disabled", true);
-      btn.text("Loading...");
+      btn.text("generating your class link..");
 
       $.ajax({
         url: "{% url 'instructors:streaming_setup' %}",
@@ -163,15 +163,19 @@
           });
         },
         error: function (xhr, statusCode, error) {
-          console.error(error);
           const detail = xhr.responseJSON.detail || "Something went wrong!";
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: detail,
             footer:
-              '<a href="{% url "contact" %}">Contact support if the issue persist?</a>',
+              '<a href="{% url "contact" %}">Contact support if the issue persist</a>',
           });
+          setTimeout(()=>{
+            if(xhr.responseJSON.url){
+              window.location.href = xhr.responseJSON.url;
+            }
+          }, 3000)
         },
 
         complete: function () {

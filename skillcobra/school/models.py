@@ -117,6 +117,8 @@ class Course(models.Model):
         decimal_places=2,
         default=0.00,
     )
+    paid = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     allow_student_submission = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

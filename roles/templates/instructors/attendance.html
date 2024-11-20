@@ -10,6 +10,40 @@ course attendance
 {% block content %}
 
 
+
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submitModalLabel">Confirm Submission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="publish-block">
+                    <i class="far fa-edit"></i>
+                    <p>
+                        Your course is in a draft state. Students cannot view, purchase or
+                        enroll in this course. For students that are already enrolled, this
+                        course will not appear on their student Dashboard.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="confirmSubmitBtn">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-4">
         <div class="earning_steps">
@@ -36,7 +70,6 @@ course attendance
                 <h2>Attendance per course</h2>
             </div>
             <ul class="country_list">
-                
                 {% with profile.get_all_courses as courses %}
                 <!--  -->
                     {% for course in courses %}
@@ -61,7 +94,6 @@ course attendance
                     {% endfor %}
                     <!--  -->
                 {% endwith %}
-                    
             </ul>
         </div>
     </div>
@@ -71,15 +103,13 @@ course attendance
             <div class="ui selection dropdown skills-search vchrt-dropdown">
                 <input name="attendance_date_filter" type="hidden" value="default">
                 <i class="dropdown icon d-icon"></i>
-                <div class="text">Filter courses</div>
+                <div class="text py-1">Filter courses</div>
                 <div class="menu filter_course_current_year">
                     <div class="item" data-value="0">All courses</div>
                 </div>
             </div>
-            <div class="date_list152">
-                <a href="#">All courses</a> /
-                <a href="#">2020</a> /
-                <a href="#">April</a>
+            <div class="date_list152" style="transform: translateY(-5px);">
+                <button href="#" class="btn">update attendance</button>
             </div>
         </div>
 

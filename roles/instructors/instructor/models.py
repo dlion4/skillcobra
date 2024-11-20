@@ -157,3 +157,5 @@ class ScheduleClass(models.Model):
         )
     def get_class_time_formatted(self):
         return self.class_start_time.strftime("%Y-%m-%d %H:%M:%S")
+    def get_class_end_time(self):
+        return self.class_end_time.strftime("%Y-%m-%d %H:%M:%S")

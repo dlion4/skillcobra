@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -188,22 +189,43 @@ class InstructorStreamingSetupView(TemplateViewMixin, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, profile=request.user.user_profile)
+        if "form_data_class_link" not in request.session:
+            request.session["form_data_class_link"] = request.POST.dict()
+        form = self.form_class(
+            data=request.session.get("form_data_class_link"),
+            profile=request.user.user_profile,
+        )
+        credentials_info = request.session.get("google_credentials")
+        if not credentials_info:
+            return JsonResponse(
+                {
+                    "url": str(reverse("google_calendar_auth")),
+                    "detail": """
+                    Failed, but you'll be redirected to Google.
+                    Use your registered email to auto-generate the class link,
+                    when redirected to google page""",
+                },
+                status=403,
+            )
         if form.is_valid():
             class_data = form.cleaned_data
             try:
                 return self._handle_google_meet_session_creation(
-                    request, class_data, form,
+                    request,
+                    class_data,
+                    form,
+                    credentials_info,
                 )
             except Exception as e:  # noqa: BLE001
                 return JsonResponse(
                     {"detail": f"Failed to create Google Meet event. {e!s}"},
                     status=400,
                 )
+        del request.session["form_data_class_link"]
         return JsonResponse({"detail": "Invalid form data."}, status=400)
 
-    def _handle_google_meet_session_creation(self, request, class_data, form):
-        google_meet_link = self.create_google_meet_event(request, class_data)
+    def _handle_google_meet_session_creation(self, request, class_data, form, creds):
+        google_meet_link = self.create_google_meet_event(request, class_data, creds)
         response_data = {
             "detail": "Class scheduled successfully.",
             "google_meet_link": google_meet_link,
@@ -215,15 +237,12 @@ class InstructorStreamingSetupView(TemplateViewMixin, FormView):
         response_data["course_id"] = instance.courses.pk
         return JsonResponse(response_data, status=200)
 
-    def create_google_meet_event(self, request, class_data):
+    def create_google_meet_event(self, request, class_data, creds):
         """
         Creates a Google Meet event and returns the Meet link.
         """
-        credentials_info = request.session.get("google_credentials")
-        if not credentials_info:
-            return redirect("google_calendar_auth")
 
-        credentials = Credentials(**credentials_info)
+        credentials = Credentials(**creds)
         service = build("calendar", "v3", credentials=credentials)
 
         start_time = class_data["class_start_time"].isoformat()
@@ -254,7 +273,6 @@ class InstructorStreamingSetupView(TemplateViewMixin, FormView):
             .execute()
         )
         return created_event.get("hangoutLink")
-
 
 
 class InstructorCourseAttendanceView(TemplateViewMixin):

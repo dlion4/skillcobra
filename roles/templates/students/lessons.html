@@ -89,16 +89,17 @@
             const counterId = $(this).data("counter-id");
             const targetDate = new Date(classTime);
             const upcomingTimeCounter = $(`#upcoming_time_counter_${counterId}`);
+            console.log(upcomingTimeCounter)
+/*
             function updateCountdown() {
                 const now = new Date();
                 const timeDiff = targetDate - now;
+                console.log("timeDiff: " + timeDiff)
                 if (timeDiff > 0) {
                     const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
                     const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
                     const seconds = Math.floor((timeDiff / 1000) % 60);
-                    upcomingTimeCounter.html(
-                        `${hours} Hr, ${minutes} Min, ${seconds} Seconds`
-                    );
+                    upcomingTimeCounter.html(`${hours} Hr, ${minutes} Min, ${seconds} Seconds`);
                 } else {
                     upcomingTimeCounter.html("Time is up!");
                     clearInterval(countdownInterval);
@@ -106,6 +107,7 @@
             }
             const countdownInterval = setInterval(updateCountdown, 1000);
             updateCountdown();
+            */
         });
     });
 </script>

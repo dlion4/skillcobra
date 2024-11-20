@@ -53,9 +53,14 @@ urlpatterns = [
     ),
     path(
         "google-calendar/create-event/",
-        shared_views.create_google_meet_event,
+        shared_views.CreateGoogleMeetEventView.as_view(),
         name="create_google_meet_event",
     ),
+    # path(
+    #     "google-calendar/create-event/",
+    #     shared_views.create_google_meet_event,
+    #     name="create_google_meet_event",
+    # ),
 ]
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

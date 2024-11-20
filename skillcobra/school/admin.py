@@ -17,19 +17,26 @@ class SubCategoryInline(StackedInline):
     model = SubCategory
     extra = 0
 
+
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin):
     inlines = [SubCategoryInline]
 
+
 class LectureInline(StackedInline):
     model = Lecture
     extra = 0
+
+
 @admin.register(CourseCurriculum)
 class CourseCurriculumAdmin(ModelAdmin):
     inlines = [LectureInline]
+
+
 class CourseCurriculumInline(StackedInline):
     model = CourseCurriculum
     extra = 0
+
 
 @admin.register(Course)
 class CourseModelAdmin(ModelAdmin):
@@ -49,9 +56,12 @@ class CourseModelAdmin(ModelAdmin):
         "views",
         "likes",
         "un_likes",
+        "paid",
+        "balance",
     ]
     actions = ["approve_course", "disapprove_course"]
     inlines = [CourseCurriculumInline]
+
     @admin.action(description="Approve Course")
     def approve_course(self, request, queryset):
         queryset.update(status="approved")
@@ -63,13 +73,15 @@ class CourseModelAdmin(ModelAdmin):
     def get_queryset(self, request):
         return self.model.all_objects.all()
 
+
 class DiscussionReplyInlineModel(StackedInline):
     model = DiscussionReply
     extra = 0
 
+
 @admin.register(Discussion)
 class DiscussionAdmin(ModelAdmin):
     inlines = [DiscussionReplyInlineModel]
+
     def get_queryset(self, request):
         return self.model.all_objects().all()
-

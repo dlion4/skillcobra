@@ -184,3 +184,22 @@ class AirtelAccount(models.Model):
 
     def __str__(self):
         return f"{self.payout_account.owner.full_name} - Airtel Account"
+
+
+class PaymentBalance(models.Model):
+    profile = models.ForeignKey(
+        "users.Profile",
+        on_delete=models.CASCADE,
+        related_name="payment_balance",
+    )
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    parent = GenericForeignKey("content_type", "object_id")
+    balance = models.DecimalField(
+        max_digits=16, decimal_places=2, default=0.00,
+    )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    source_choice = models.CharField(max_length=100, blank=True)
+    cleared = models.BooleanField(default=False)
+    def __str__(self):
+        return f"{self.profile.full_name()} - Payment Balance"
