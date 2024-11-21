@@ -58,4 +58,9 @@ urlpatterns = [
         views.StudentShoppingCartView.as_view(),
         name="shopping_courses",
     ),
+    path(
+        "profile/update/",
+        views.StudentProfileUpdateView.as_view(),
+        name="profile_update",
+    ),
 ]

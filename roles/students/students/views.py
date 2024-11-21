@@ -9,6 +9,7 @@ from skillcobra.school.models import Course
 from skillcobra.school.models import CourseSubscription
 from skillcobra.school.models import SavedCourse
 from skillcobra.school.models import Subscription
+from skillcobra.users.forms import UpdateAccountProfileBasicDataForm
 
 from .utils import TemplateViewMixin
 
@@ -50,6 +51,17 @@ class StudentDashboardView(TemplateViewMixin):
             return subscriptions["tutor_count"]
         except Subscription.DoesNotExist:
             return "0"
+
+
+class StudentProfileUpdateView(TemplateViewMixin):
+    template_name = "profile.html"
+    account_basic_form = UpdateAccountProfileBasicDataForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["account_basic_update_form"] = self.account_basic_form(
+            instance=self.get_profile(),
+        )
+        return context
 
 
 class StudentPurchasedCoursesView(TemplateViewMixin):

@@ -12,6 +12,7 @@
         "chars",
         "corsheaders",
         "csrfmiddlewaretoken",
+        "currenly",
         "curriculumn",
         "datetimepicker",
         "dlor",

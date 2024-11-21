@@ -94,7 +94,7 @@
             {% endfor %}
             <!--  -->
             {% if profile.get_all_received_messages.count > 4 %}
-            <a class="vbm_btn" href="instructor_messages.html"
+            <a class="vbm_btn" href=""
               >View All <i class="uil uil-arrow-right"></i>
             </a>
             {% endif %}
@@ -147,7 +147,7 @@
               </div>
             </div>
           </a>
-          <a class="vbm_btn" href="instructor_notifications.html"
+          <a class="vbm_btn" href=""
             >View All <i class="uil uil-arrow-right"></i
           ></a>
         </div>
@@ -160,12 +160,12 @@
           data-bs-auto-close="outside"
           aria-expanded="false"
         >
-          <img src="{% static 'images/hd_dp.jpg' %}" alt="" />
+          <img src="{% if request.user.user_profile.avatar %}{{request.user.user_profile.avatar.url}}{% else %}{% static 'images/hd_dp.jpg' %}{% endif %}" alt="" />
         </a>
         <div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
           <div class="channel_my">
             <div class="profile_link">
-              <img src="{% static 'images/hd_dp.jpg' %}" alt="" />
+              <img src="{% if request.user.user_profile.avatar %}{{request.user.user_profile.avatar.url}}{% else %}{% static 'images/hd_dp.jpg' %}{% endif %}" alt="" />
               <div class="pd_content">
                 <div class="rhte85">
                   <h6>{{request.user.user_profile.full_name|title}}</h6>
@@ -191,8 +191,8 @@
           >
             Dashboard
           </a>
-          <a href="membership.html" class="item channel_item">Memberships</a>
-          <a href="{% if request.user.role == 'student' %}#{% else %}{% url 'instructors:update_profile' %}{% endif %}" class="item channel_item">Setting</a>
+          <a href="" class="item channel_item">Memberships</a>
+          <a href="{% if request.user.role == 'student' %}{% url 'students:profile_update' %}{% else %}{% url 'instructors:update_profile' %}{% endif %}" class="item channel_item">Setting</a>
           <a href="{% url 'help' %}" class="item channel_item">Help</a>
           <a href="{% url 'feedback' %}" class="item channel_item"
             >Send Feedback</a

@@ -13,7 +13,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic import TemplateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.payments.forms import PayoutAccountForm
 from skillcobra.payments.models import BillingAddress
@@ -178,3 +179,4 @@ class CreatePayoutAccountView(View):
                     status=200,
                 )
         return JsonResponse({"detail": "Something went terribly wrong"}, status=400)
+

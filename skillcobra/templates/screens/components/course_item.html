@@ -33,10 +33,10 @@
       <a href="#" class="crse-cate">{{item.sub_category.category.name}} | {{item.sub_category.name}}</a>
       <div class="auth1lnkprce">
         <p class="cr1fot">By <a href="{{item.tutor.get_public_profile_url}}">{{item.tutor.full_name|title}}</a></p>
-        <div class="prce142">${{item.payable_amount}}</div>
-        <button class="shrt-cart-btn" title="cart">
-          <i class="uil uil-shopping-cart-alt"></i>
-        </button>
+        <div class="prce142">
+          <span>$<del>{{item.regular_price}}</del></span>
+          <span>${{item.payable_amount}}</span>
+        </div>
       </div>
     </div>
   </div>
