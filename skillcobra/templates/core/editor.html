@@ -1,0 +1,434 @@
+{% extends "core/layout.html" %}
+<!--  -->
+{% load static %}
+<!--  -->
+{% block title %} {{ block.super }} skillcobra Web Editor with Terminal
+<!--  -->
+{% endblock title %}
+<!--  -->
+
+{% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %} {% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+{% endblock javascript %}
+<!--  -->
+{% block styles %}
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        height: 100vh;
+    }
+
+
+    #language-selector {
+        padding: 10px;
+        background: #f3f3f3;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #editor-container {
+        flex: 2;
+    }
+
+    #terminal-container {
+        flex: 1;
+        background: black;
+        color: white;
+        padding: 10px;
+        overflow-y: auto;
+        font-family: monospace;
+        border-top: 2px solid #333;
+    }
+
+    #file-manager {
+        width: 200px;
+        background: #f0f0f0;
+        border-right: 2px solid #ddd;
+        padding: 10px;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #file-manager ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    #file-manager li {
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    #file-manager li:hover {
+        background-color: #ddd;
+    }
+
+    button {
+        margin: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+        .select-language {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .fileManager {
+            display: none !important;
+        }
+
+        .fileManager #editor-container {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .editor-container {
+            width: 100% !important;
+            display: block !important;
+        }
+    }
+
+
+
+    /* Style for the floating button */
+    #floating-run-btn {
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    #floating-run-btn:hover {
+        background-color: #0056b3;
+    }
+
+
+
+    /* Responsive Floating Controls */
+    #floating-buttons {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+
+
+    #floating-language {
+        background-color: #ffffff;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 8px 20px;
+        font-size: 14px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Show floating buttons on small screens */
+    @media (max-width: 768px) {
+        #floating-buttons {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        #language-selector {
+            display: none;
+            /* Hide the top selector on small screens */
+        }
+    }
+</style>
+
+
+<style>
+    #notification-popup {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    #notification-popup p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    #notification-popup button {
+        margin-top: 10px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #007BFF;
+        color: white;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    #notification-popup button:hover {
+        background-color: #0056b3;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
+{% endblock styles %} {% block wrapper %}
+<!--  -->
+
+{% block main %}
+
+<!-- Language Selector & File Management -->
+
+<div id="language-selector">
+    <div>
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+        </select>
+    </div>
+    <div>
+        <button id="run-code">Run Code</button>
+    </div>
+</div>
+
+<!-- Monaco Editor & File Manager -->
+<div style="display: flex; flex: 1">
+    <div id="file-manager" class="fileManager">
+        <h3>Files</h3>
+        <ul id="file-list"></ul>
+        <div class="select-language">
+            <label for="language">Select Language:</label>
+            <select id="language" name="language">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+            </select>
+        </div>
+        <div>
+            <button class="run-code">Run Code</button>
+        </div>
+    </div>
+    <div id="editor-container"></div>
+</div>
+<!-- Terminal Output -->
+<div id="terminal-container">
+    <p>Terminal Output:</p>
+</div>
+
+<!-- Floating Run Button -->
+
+<!-- Floating Buttons (Small Screens) -->
+<div id="floating-buttons">
+    <button id="floating-run-btn" title="Run Code">▶️</button>
+    <select id="floating-language" aria-label="Select Language" name="language">
+        <option value="javascript">JavaScript</option>
+        <option value="python">Python</option>
+    </select>
+</div>
+
+<div id="notification-popup" style="display: none;">
+    <p>This editor is under active development so some stuff might no work as expected.</p>
+    <button id="close-popup">Close</button>
+</div>
+
+
+<!-- Monaco Editor Script -->
+{% endblock main %} {% endblock wrapper %} {% block scripts %}
+<script>
+    $(document).ready(function () {
+        require.config({
+            paths: {
+                vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs",
+            },
+        });
+
+        require(["vs/editor/editor.main"], function () {
+            let currentFontSize = 14;
+            function calculatePadding() {
+                const screenHeight = window.innerHeight;
+
+                if (screenHeight > 1080) {
+                    return { top: 15, bottom: 20 };
+                } else if (screenHeight > 720) {
+                    return { top: 30, bottom: 15 };
+                } else {
+                    return { top: 60, bottom: 10 };
+                }
+            }
+            const editor = monaco.editor.create(
+                document.getElementById("editor-container"),
+                {
+                    value: "// Write your code here\n",
+                    language: "javascript",
+                    theme: "vs-dark",
+                    automaticLayout: true,
+                    fontSize: currentFontSize,
+                    padding: calculatePadding(),
+                }
+            );
+
+            window.addEventListener('resize', function () {
+                const newPadding = calculatePadding();
+                editor.updateOptions({ padding: newPadding });
+            });
+
+            $("select[name=language]").on("change", function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            const terminal = $("#terminal-container");
+
+            function clearTerminal() {
+                terminal.html("<p>Terminal Output:</p>");
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p>${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight);
+            }
+
+            function sendCodeToBackend(code, language, filename) {
+                $.ajax({
+                    url: "{% url 'shared:execute_code_view' %}", // Backend URL to execute the code
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        code: code,
+                        language: language,
+                        filename: filename,
+                    }),
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(
+                            `Error: ${xhr.responseText || "Failed to execute code."}`
+                        );
+                    },
+                });
+            }
+
+            $("button.run-code, button#floating-run-btn").on("click", function () {
+                const code = editor.getValue();
+                const language = $("select[name=language]").val();
+                clearTerminal();
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(code, language, currentFile);
+            });
+
+
+
+            function runCodeFromTerminal(command) {
+                const commandParts = command.trim().split(" ");
+                if (commandParts[0] === "run" && commandParts[1]) {
+                    const filename = commandParts[1];
+                    if (files[filename]) {
+                        loadFile(filename);
+                        const code = editor.getValue();
+                        const language = $("#language").val();
+                        sendCodeToBackend(code, language, filename);
+                    } else {
+                        writeToTerminal(`Error: File ${filename} not found.`);
+                    }
+                } else {
+                    writeToTerminal("Error: Invalid command.");
+                }
+            }
+
+            document.addEventListener("keydown", function (event) {
+                if (event.ctrlKey || event.metaKey) {
+                    if (event.key === "=") {
+                        currentFontSize = Math.min(currentFontSize + 1, 40);
+                        editor.updateOptions({ fontSize: currentFontSize });
+                        event.preventDefault();
+                    } else if (event.key === "-") {
+                        currentFontSize = Math.max(currentFontSize - 1, 10);
+                        editor.updateOptions({ fontSize: currentFontSize });
+                        event.preventDefault();
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    function shouldShowPopup() {
+        const lastShown = localStorage.getItem('notificationLastShown');
+        const now = new Date().getTime();
+
+        if (!lastShown || now - lastShown > 1 * 24 * 60 * 60 * 1000) {
+            return true;
+        }
+        return false;
+    }
+
+    function showPopup() {
+        $('#notification-popup').fadeIn(300);
+    }
+
+    function closePopup() {
+        $('#notification-popup').fadeOut(300, function () {
+            localStorage.setItem('notificationLastShown', new Date().getTime());
+        });
+    }
+
+    $(document).ready(function () {
+        if (shouldShowPopup()) {
+            showPopup();
+        }
+        $('#close-popup').on('click', function () {
+            closePopup();
+        });
+    });
+
+</script>
+
+{% endblock scripts %}

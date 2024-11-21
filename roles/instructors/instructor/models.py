@@ -159,3 +159,13 @@ class ScheduleClass(models.Model):
         return self.class_start_time.strftime("%Y-%m-%d %H:%M:%S")
     def get_class_end_time(self):
         return self.class_end_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    def has_class_ended(self):
+        current_time = timezone.now()
+        return current_time > self.class_end_time
+    def is_class_not_started(self):
+        current_time = timezone.now()
+        return current_time < self.class_start_time
+    def is_class_live(self):
+        current_time = timezone.now()
+        return current_time > self.class_start_time and not self.has_class_ended()

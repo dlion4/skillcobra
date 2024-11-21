@@ -44,6 +44,11 @@ urlpatterns = [
         name="streaming_setup",
     ),
     path(
+        "stream/",
+        views.InstructorStreamSessionView.as_view(),
+        name="steam_live_status",
+    ),
+    path(
         "stream/live/",
         views.InstructorStreamingView.as_view(),
         name="streaming_live_view",

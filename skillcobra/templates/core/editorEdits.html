@@ -1,0 +1,1192 @@
+<!-- 1 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Editor with Terminal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+        }
+
+        #language-selector {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #editor-container {
+            flex: 2;
+        }
+
+        #terminal-container {
+            flex: 1;
+            background: black;
+            color: white;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: monospace;
+            border-top: 2px solid #333;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Selector -->
+    <div id="language-selector">
+        <button id="single-line-comment">Single Line Comment</button>
+        <button id="multi-line-comment">Multi Line Comment</button>
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+        </select>
+        <button id="run-code">Run Code</button>
+    </div>
+
+    <!-- Monaco Editor Container -->
+    <div id="editor-container"></div>
+
+    <!-- Terminal Container -->
+    <div id="terminal-container">
+        <p>Terminal Output:</p>
+    </div>
+
+    <!-- Monaco Editor Script -->
+    <script>
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        require(['vs/editor/editor.main'], function () {
+            // Create the Monaco Editor instance
+            const editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript", // Default language
+                theme: "vs-dark",
+                automaticLayout: true
+            });
+
+            // Language Selection Handler
+            $('#language').on('change', function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            // Terminal Output
+            const terminal = $('#terminal-container');
+
+            function clearTerminal() {
+                terminal.html('<p>Terminal Output:</p>');
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p>${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight); // Auto-scroll to bottom
+            }
+
+            // Send Code to Backend
+            function sendCodeToBackend(code, language) {
+                $.ajax({
+                    url: "{% url 'shared:execute_code_view' %}", // Your backend endpoint
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ code: code, language: language }),
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(`Error: ${xhr.responseText || "Failed to execute code."}`);
+                    }
+                });
+            }
+
+            // "Run Code" Button Handler
+            $('#run-code').on('click', function () {
+                const code = editor.getValue();
+                const language = $('#language').val();
+
+                clearTerminal(); // Clear terminal for new output
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(code, language);
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- 2 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor with Commenting</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+        }
+
+        #editor-toolbar {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #editor-container {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="editor-toolbar">
+        <button id="single-line-comment">Single Line Comment</button>
+        <button id="multi-line-comment">Multi Line Comment</button>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+        </select>
+    </div>
+    <div id="editor-container"></div>
+
+    <script>
+        const commentSyntax = {
+            javascript: { singleLine: "//", multiLine: ["/*", "*/"] },
+            python: { singleLine: "#", multiLine: ["'''", "'''"] },
+            typescript: { singleLine: "//", multiLine: ["/*", "*/"] },
+            go: { singleLine: "//", multiLine: ["/*", "*/"] },
+            rust: { singleLine: "//", multiLine: ["/*", "*/"] },
+        };
+
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        require(['vs/editor/editor.main'], function () {
+            const editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript", // Default language
+                theme: "vs-dark",
+                automaticLayout: true
+            });
+
+            $('#single-line-comment').on('click', function () {
+                const language = $('#language').val();
+                const editorModel = editor.getModel();
+                const selections = editor.getSelections();
+                const commentStyle = commentSyntax[language].singleLine;
+
+                editor.executeEdits(null, selections.map(selection => {
+                    const range = new monaco.Range(
+                        selection.startLineNumber,
+                        1,
+                        selection.startLineNumber,
+                        selection.endColumn
+                    );
+                    const lineContent = editorModel.getLineContent(selection.startLineNumber);
+
+                    if (lineContent.trim().startsWith(commentStyle)) {
+                        return {
+                            range,
+                            text: lineContent.replace(commentStyle, '').trimStart()
+                        };
+                    } else {
+                        return {
+                            range,
+                            text: `${commentStyle} ${lineContent}`
+                        };
+                    }
+                }));
+            });
+
+            $('#multi-line-comment').on('click', function () {
+                const language = $('#language').val();
+                const editorModel = editor.getModel();
+                const selections = editor.getSelections();
+                const [startComment, endComment] = commentSyntax[language].multiLine;
+
+                selections.forEach(selection => {
+                    const range = new monaco.Range(
+                        selection.startLineNumber,
+                        1,
+                        selection.endLineNumber,
+                        editorModel.getLineMaxColumn(selection.endLineNumber)
+                    );
+                    const selectedText = editorModel.getValueInRange(range);
+
+                    const commentedText = `${startComment}\n${selectedText}\n${endComment}`;
+                    editor.executeEdits(null, [{ range, text: commentedText }]);
+                });
+            });
+
+            $('#language').on('change', function () {
+                const language = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), language);
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+<!-- 3 More adveanced -->
+
+
+<!-- 1 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Editor with Terminal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+        }
+
+        #language-selector {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #editor-container {
+            flex: 2;
+        }
+
+        #terminal-container {
+            flex: 1;
+            background: black;
+            color: white;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: monospace;
+            border-top: 2px solid #333;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Selector -->
+    <div id="language-selector">
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+        </select>
+        <button id="run-code">Run Code</button>
+    </div>
+
+    <!-- Monaco Editor Container -->
+    <div id="editor-container"></div>
+
+    <!-- Terminal Container -->
+    <div id="terminal-container">
+        <p>Terminal Output:</p>
+    </div>
+
+    <!-- Monaco Editor Script -->
+    <script>
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        require(['vs/editor/editor.main'], function () {
+            // Create the Monaco Editor instance
+            const editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript", // Default language
+                theme: "vs-dark",
+                automaticLayout: true,
+                rules: [
+                    { token: 'comment', foreground: 'aaaaaa', fontStyle: 'italic' },
+                    { token: 'keyword', foreground: 'ff00ff' },
+                    { token: 'string', foreground: '00ff00' },
+                ],
+            });
+
+            $('#language').on('change', function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            const terminal = $('#terminal-container');
+
+            function clearTerminal() {
+                terminal.html('<p>Terminal Output:</p>');
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p>${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight);
+            }
+
+            function sendCodeToBackend(code, language) {
+                $.ajax({
+                    url: "{% url 'shared:execute_code_view' %}",
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ code: code, language: language }),
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(`Error: ${xhr.responseText || "Failed to execute code."}`);
+                    }
+                });
+            }
+
+            $('#run-code').on('click', function () {
+                const code = editor.getValue();
+                const language = $('#language').val();
+
+                clearTerminal();
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(code, language);
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- with files creations -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Editor with Terminal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+        }
+
+        #language-selector {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #editor-container {
+            flex: 2;
+        }
+
+        #terminal-container {
+            flex: 1;
+            background: black;
+            color: white;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: monospace;
+            border-top: 2px solid #333;
+        }
+
+        #file-manager {
+            width: 200px;
+            background: #f0f0f0;
+            border-right: 2px solid #ddd;
+            padding: 10px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #file-manager ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        #file-manager li {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        #file-manager li:hover {
+            background-color: #ddd;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Selector & File Management -->
+    <div id="language-selector">
+        <div>
+            <label for="language">Select Language:</label>
+            <select id="language">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="typescript">TypeScript</option>
+                <option value="go">Go</option>
+                <option value="rust">Rust</option>
+            </select>
+        </div>
+        <div>
+            <button id="run-code">Run Code</button>
+            <button id="create-file">Create New File</button>
+        </div>
+    </div>
+
+    <!-- Monaco Editor & File Manager -->
+    <div style="display: flex; flex: 1;">
+        <div id="file-manager">
+            <h3>Files</h3>
+            <ul id="file-list"></ul>
+        </div>
+        <div id="editor-container"></div>
+    </div>
+
+    <!-- Terminal Output -->
+    <div id="terminal-container">
+        <p>Terminal Output:</p>
+    </div>
+
+    <!-- Monaco Editor Script -->
+    <script>
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        let editor;
+        let files = {};
+        let currentFile = null;
+
+        require(['vs/editor/editor.main'], function () {
+            // Create the Monaco Editor instance
+            editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript", // Default language
+                theme: "vs-dark",
+                automaticLayout: true,
+            });
+
+            // Change language based on selection
+            $('#language').on('change', function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            // Terminal functions
+            const terminal = $('#terminal-container');
+
+            function clearTerminal() {
+                terminal.html('<p>Terminal Output:</p>');
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p>${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight);
+            }
+
+            // Function to send code to the backend
+            function sendCodeToBackend(code, language, filename) {
+                $.ajax({
+                    url: "/execute_code", // Backend URL to execute the code
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ code: code, language: language, filename: filename }),
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(`Error: ${xhr.responseText || "Failed to execute code."}`);
+                    }
+                });
+            }
+
+            // Run Code Button Handler
+            $('#run-code').on('click', function () {
+                const code = editor.getValue();
+                const language = $('#language').val();
+                if (!currentFile) {
+                    alert('No file selected.');
+                    return;
+                }
+                clearTerminal();
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(code, language, currentFile);
+            });
+
+            // Create New File Button Handler
+            $('#create-file').on('click', function () {
+                const fileName = prompt("Enter the new file name:", `file${Date.now()}.js`);
+                if (fileName && !files[fileName]) {
+                    files[fileName] = "// Write your code here";
+                    addFileToFileList(fileName);
+                    currentFile = fileName;
+                    loadFile(fileName);
+                    alert(`Created new file: ${fileName}`);
+                }
+            });
+
+            // Add file to the list of files in the file manager
+            function addFileToFileList(fileName) {
+                const li = document.createElement('li');
+                li.textContent = fileName;
+                li.addEventListener('click', () => loadFile(fileName));
+                $('#file-list').append(li);
+            }
+
+            // Load file content into Monaco editor
+            function loadFile(fileName) {
+                const fileContent = files[fileName] || "";
+                editor.setValue(fileContent);
+                currentFile = fileName;
+
+                // Set the language based on the file extension
+                const ext = fileName.split('.').pop();
+                let language = 'javascript'; // Default language
+                if (ext === 'py') language = 'python';
+                else if (ext === 'ts') language = 'typescript';
+                else if (ext === 'go') language = 'go';
+                else if (ext === 'rs') language = 'rust';
+                else if (ext === 'sh') language = 'shell';
+
+                monaco.editor.setModelLanguage(editor.getModel(), language);
+            }
+
+            // Run code from the terminal (e.g., "run <filename>")
+            function runCodeFromTerminal(command) {
+                const commandParts = command.trim().split(' ');
+                if (commandParts[0] === 'run' && commandParts[1]) {
+                    const filename = commandParts[1];
+                    if (files[filename]) {
+                        loadFile(filename);
+                        const code = editor.getValue();
+                        const language = $('#language').val();
+                        sendCodeToBackend(code, language, filename);
+                    } else {
+                        writeToTerminal(`Error: File ${filename} not found.`);
+                    }
+                } else {
+                    writeToTerminal("Error: Invalid command.");
+                }
+            }
+
+            // Listen for terminal input (simple simulation)
+            $(document).on('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    const terminalInput = $('#terminal-container').text().trim();
+                    runCodeFromTerminal(terminalInput);
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- more advanced -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Editor with Terminal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #language-selector {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #editor-container {
+            flex: 2;
+            height: 50%;
+        }
+
+        #terminal-container {
+            flex: 1;
+            background: #1e1e1e;
+            color: white;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: monospace;
+            border-top: 2px solid #333;
+            height: 50%;
+        }
+
+        #file-list {
+            background: #333;
+            color: white;
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            height: 100%;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .file-item {
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #00ff00;
+        }
+
+        .file-item:hover {
+            background: #444;
+        }
+
+        #terminal-input {
+            width: 100%;
+            padding: 5px;
+            font-family: monospace;
+            background: none;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .terminal-output {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Selector -->
+    <div id="language-selector">
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+        </select>
+        <button id="run-code">Run Code</button>
+    </div>
+
+    <!-- Editor and File List -->
+    <div style="display: flex; height: 100%;">
+        <!-- File List Panel -->
+        <div style="width: 250px; background-color: #2b2b2b; color: white; padding: 10px;">
+            <h3>Files</h3>
+            <ul id="file-list">
+                <!-- Dynamically filled file list -->
+            </ul>
+        </div>
+
+        <!-- Monaco Editor Container -->
+        <div id="editor-container" style="flex-grow: 1;"></div>
+    </div>
+
+    <!-- Terminal Container -->
+    <div id="terminal-container">
+        <p>Terminal Output:</p>
+        <div id="terminal-prompt">$ </div>
+        <input type="text" id="terminal-input" placeholder="Type your command and press Enter" />
+    </div>
+
+    <script>
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        let files = {};
+        let currentFile = null;
+
+        require(['vs/editor/editor.main'], function () {
+            // Create the Monaco Editor instance
+            const editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript", // Default language
+                theme: "vs-dark",
+                automaticLayout: true,
+            });
+
+            $('#language').on('change', function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            const terminal = $('#terminal-container');
+            const terminalInput = $('#terminal-input');
+            const terminalPrompt = $('#terminal-prompt');
+            const fileList = $('#file-list');
+
+            function clearTerminal() {
+                terminal.html('<p>Terminal Output:</p>');
+                terminal.append('<div id="terminal-prompt">$ </div>');
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p class="terminal-output">${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight);
+            }
+
+            function createFile(fileName) {
+                if (files[fileName]) {
+                    writeToTerminal(`File '${fileName}' already exists.`);
+                } else {
+                    files[fileName] = "// New file\n";
+                    writeToTerminal(`File '${fileName}' created.`);
+                    updateFileList();
+                }
+            }
+
+            function listFiles() {
+                writeToTerminal('Listing Files:');
+                Object.keys(files).forEach(file => {
+                    writeToTerminal(file);
+                });
+            }
+
+            function openFile(fileName) {
+                if (files[fileName]) {
+                    currentFile = fileName;
+                    editor.setValue(files[fileName]);
+                    writeToTerminal(`Opened file: ${fileName}`);
+                } else {
+                    writeToTerminal(`File '${fileName}' not found.`);
+                }
+            }
+
+            function runCodeFromTerminal(command) {
+                const parts = command.split(' ');
+                const cmd = parts[0];
+                const arg = parts[1];
+
+                switch (cmd) {
+                    case 'create':
+                        if (arg) createFile(arg);
+                        else writeToTerminal('Usage: create <filename>');
+                        break;
+                    case 'list':
+                        listFiles();
+                        break;
+                    case 'open':
+                        if (arg) openFile(arg);
+                        else writeToTerminal('Usage: open <filename>');
+                        break;
+                    case 'run':
+                        if (arg) {
+                            // Execute the file (simulate backend execution)
+                            writeToTerminal(`Running file: ${arg}`);
+                            sendCodeToBackend(arg);
+                        } else {
+                            writeToTerminal('Usage: run <filename>');
+                        }
+                        break;
+                    default:
+                        writeToTerminal('Unknown command. Try "create <filename>", "list", "open <filename>", or "run <filename>"');
+                        break;
+                }
+            }
+
+            function sendCodeToBackend(fileName) {
+                $.ajax({
+                    url: "{% url 'shared:execute_code_view' %}",
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ file: fileName }), // Send file name to backend for execution
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(`Error: ${xhr.responseText || "Failed to execute code."}`);
+                    }
+                });
+            }
+
+            function updateFileList() {
+                fileList.empty();
+                Object.keys(files).forEach(file => {
+                    const fileItem = $('<li>').addClass('file-item').text(file).on('click', function () {
+                        openFile(file);
+                    });
+                    fileList.append(fileItem);
+                });
+            }
+
+            // Handle terminal input
+            terminalInput.on('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    const command = terminalInput.val().trim();
+                    if (command) {
+                        writeToTerminal(`<strong>$ ${command}</strong>`); // Display entered command in terminal
+                        runCodeFromTerminal(command);
+                    }
+                    terminalInput.val(''); // Clear input field
+                    e.preventDefault(); // Prevent default form submit behavior
+                }
+            });
+
+            // Handle "Run Code" button
+            $('#run-code').on('click', function () {
+                const code = editor.getValue();
+                const language = $('#language').val();
+                clearTerminal();
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(currentFile || "unsaved file");
+            });
+        });
+    </script>
+</body>
+
+</html>
+
+
+<!-- complete -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Editor with Terminal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        #language-selector {
+            padding: 10px;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #editor-container {
+            flex: 2;
+            height: 50%;
+            padding: 10px;
+        }
+
+        #file-list-container {
+            width: 250px;
+            background-color: #2b2b2b;
+            color: white;
+            padding: 10px;
+            overflow-y: auto;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        #file-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .file-item {
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #00ff00;
+        }
+
+        .file-item:hover {
+            background: #444;
+        }
+
+        #terminal-container {
+            flex: 1;
+            background: #1e1e1e;
+            color: white;
+            padding: 10px;
+            font-family: monospace;
+            overflow-y: auto;
+            border-top: 2px solid #333;
+            height: 50%;
+        }
+
+        #terminal-input {
+            width: 100%;
+            padding: 5px;
+            font-family: monospace;
+            background: none;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .terminal-output {
+            padding: 5px 0;
+        }
+
+        #terminal-prompt {
+            color: #00ff00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Selector -->
+    <div id="language-selector">
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+        </select>
+        <button id="run-code">Run Code</button>
+    </div>
+
+
+
+    <!-- Monaco Editor Container -->
+    <div id="editor-container" style="flex-grow: 1; margin-left: 250px;">
+    </div>
+
+    <!-- Terminal Container -->
+    <div id="terminal-container">
+        <p>Terminal Output:</p>
+        <div id="terminal-prompt">$ </div>
+        <input type="text" id="terminal-input" placeholder="Type your command and press Enter" />
+    </div>
+
+    <script>
+        require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs' } });
+
+        let files = {};
+        let currentFile = null;
+
+        require(['vs/editor/editor.main'], function () {
+            const editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Write your code here\n",
+                language: "javascript",
+                theme: "vs-dark",
+                automaticLayout: true,
+            });
+
+            // Language switch
+            $('#language').on('change', function () {
+                const selectedLanguage = $(this).val();
+                monaco.editor.setModelLanguage(editor.getModel(), selectedLanguage);
+            });
+
+            // Terminal setup
+            const terminal = $('#terminal-container');
+            const terminalInput = $('#terminal-input');
+            const terminalPrompt = $('#terminal-prompt');
+            const fileList = $('#file-list');
+
+            function clearTerminal() {
+                terminal.html('<p>Terminal Output:</p>');
+                terminal.append('<div id="terminal-prompt">$ </div>');
+            }
+
+            function writeToTerminal(output) {
+                terminal.append(`<p class="terminal-output">${output}</p>`);
+                terminal.scrollTop(terminal[0].scrollHeight);
+            }
+
+            function createFile(fileName) {
+                if (files[fileName]) {
+                    writeToTerminal(`File '${fileName}' already exists.`);
+                } else {
+                    files[fileName] = "// New file\n";
+                    writeToTerminal(`File '${fileName}' created.`);
+                    updateFileList();
+                }
+            }
+
+            function listFiles() {
+                writeToTerminal('Listing Files:');
+                Object.keys(files).forEach(file => {
+                    writeToTerminal(file);
+                });
+            }
+
+            function openFile(fileName) {
+                if (files[fileName]) {
+                    currentFile = fileName;
+                    editor.setValue(files[fileName]);
+                    writeToTerminal(`Opened file: ${fileName}`);
+                } else {
+                    writeToTerminal(`File '${fileName}' not found.`);
+                }
+            }
+
+            function runCodeFromTerminal(command) {
+                const parts = command.split(' ');
+                const cmd = parts[0];
+                const arg = parts[1];
+
+                switch (cmd) {
+                    case 'create':
+                        if (arg) createFile(arg);
+                        else writeToTerminal('Usage: create <filename>');
+                        break;
+                    case 'list':
+                        listFiles();
+                        break;
+                    case 'open':
+                        if (arg) openFile(arg);
+                        else writeToTerminal('Usage: open <filename>');
+                        break;
+                    case 'run':
+                        if (arg) {
+                            writeToTerminal(`Running file: ${arg}`);
+                            sendCodeToBackend(arg);
+                        } else {
+                            writeToTerminal('Usage: run <filename>');
+                        }
+                        break;
+                    default:
+                        writeToTerminal('Unknown command. Try "create <filename>", "list", "open <filename>", or "run <filename>"');
+                        break;
+                }
+            }
+
+            function sendCodeToBackend(fileName) {
+                $.ajax({
+                    url: "{% url 'shared:execute_code_view' %}",
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ file: fileName }),
+                    success: function (response) {
+                        writeToTerminal(response.output || "Execution completed.");
+                    },
+                    error: function (xhr) {
+                        writeToTerminal(`Error: ${xhr.responseText || "Failed to execute code."}`);
+                    }
+                });
+            }
+
+            function updateFileList() {
+                fileList.empty();
+                Object.keys(files).forEach(file => {
+                    const fileItem = $('<li>').addClass('file-item').text(file).on('click', function () {
+                        openFile(file);
+                    });
+                    fileList.append(fileItem);
+                });
+            }
+
+            // Handle terminal input
+            terminalInput.on('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    const command = terminalInput.val().trim();
+                    if (command) {
+                        writeToTerminal(`<strong>$ ${command}</strong>`); // Display entered command
+                        runCodeFromTerminal(command);
+                    }
+                    terminalInput.val(''); // Clear input field
+                    e.preventDefault();
+                }
+            });
+
+            // Handle "Run Code" button
+            $('#run-code').on('click', function () {
+                const code = editor.getValue();
+                const language = $('#language').val();
+                clearTerminal();
+                writeToTerminal(`Running ${language} code...\n`);
+                sendCodeToBackend(currentFile || "unsaved file");
+            });
+        });
+    </script>
+</body>
+
+</html>

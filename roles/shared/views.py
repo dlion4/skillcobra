@@ -1,13 +1,22 @@
+import json
+import os
+import subprocess
+import tempfile
 import uuid
 import zoneinfo
 
+from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
-from django.contrib import messages
+
 from config.settings.base import BASE_DIR
 from roles.instructors.instructor.forms import ScheduleClassForm
 
@@ -202,3 +211,93 @@ class CreateGoogleMeetEventView(View):
         response_data["course_id"] = instance.courses.pk
         messages.success(request, "successfully created class link")
         return redirect("instructors:dashboard")
+class WebEditorView(TemplateView):
+    template_name = "core/editor.html"
+
+
+@csrf_exempt
+def execute_code(request):
+    if request.method != "POST":
+        return JsonResponse({"output": "Invalid request method."}, status=405)
+    try:
+        data = json.loads(request.body)
+        code = data.get("code")
+        language = data.get("language")
+        # Define interpreters for supported languages
+        interpreters = {
+            "python": ["python3", "-c"],
+            "javascript": ["node", "-e"],
+            "typescript": ["ts-node", "-e"],
+            "go": ["go", "run"],
+            "rust": ["cargo", "run"],
+        }
+
+        if language not in interpreters:
+            return JsonResponse(
+                {"output": f"Language '{language}' is not supported."}, status=400,
+            )
+
+        # Prepare the subprocess call
+        interpreter = interpreters[language]
+        process = subprocess.Popen(
+            [*interpreter, code],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        stdout, stderr = process.communicate()
+        if process.returncode == 0:
+            return JsonResponse({"output": stdout})
+        return JsonResponse({"output": stderr}, status=400)
+    except Exception as e:
+        print(e)
+        return JsonResponse({"output": str(e)}, status=500)
+
+
+def save_code_to_temp_file(code, extension):
+    temp_dir = tempfile.gettempdir()
+    file_path = os.path.join(temp_dir, f"temp_code.{extension}")
+    with open(file_path, "w") as f:
+        f.write(code)
+    return file_path
+
+
+def run_typescript_code(file_path):
+    # First, compile TypeScript to JavaScript
+    compile_process = subprocess.run(["tsc", file_path], capture_output=True, text=True)  # noqa: S607
+    if compile_process.returncode != 0:
+        return compile_process.stderr
+
+    # Then, run the compiled JavaScript code
+    js_file = file_path.replace(".ts", ".js")
+    run_process = subprocess.run(["node", js_file], capture_output=True, text=True)
+    return run_process.stdout if run_process.returncode == 0 else run_process.stderr
+
+
+def run_go_code(file_path):
+    # Run the Go file directly
+    run_process = subprocess.run(
+        ["go", "run", file_path], capture_output=True, text=True
+    )
+    return run_process.stdout if run_process.returncode == 0 else run_process.stderr
+
+
+def run_rust_code(file_path):
+    # Compile the Rust code
+    compile_process = subprocess.run(
+        ["rustc", file_path], capture_output=True, text=True,
+    )
+    if compile_process.returncode != 0:
+        return compile_process.stderr
+
+    # Run the compiled Rust executable
+    executable_file = file_path.replace(".rs", "")
+    run_process = subprocess.run([executable_file], capture_output=True, text=True)
+    return run_process.stdout if run_process.returncode == 0 else run_process.stderr
+
+
+def run_javascript_code(code):
+    # Run the JavaScript code via Node.js
+    temp_file = save_code_to_temp_file(code, "js")
+    run_process = subprocess.run(["node", temp_file], capture_output=True, text=True)
+    return run_process.stdout if run_process.returncode == 0 else run_process.stderr

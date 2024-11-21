@@ -41,6 +41,7 @@ urlpatterns = [
     #  data filtration
     path("partials/", include("skillcobra.partials.urls", namespace="partials")),
     # Google calender oauth
+    path("editor/", include("roles.shared.urls", namespace="shared")),
     path(
         "google-calendar/auth/",
         shared_views.google_calendar_auth,

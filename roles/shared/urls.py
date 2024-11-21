@@ -1,10 +1,9 @@
 from django.urls import path
 
-from roles.shared.views import create_google_meet_event
 from skillcobra.memberships.views import MembershipPaymentView
 from skillcobra.memberships.views import MembershipView
-from . import views
 
+from . import views
 
 app_name = "shared"
 urlpatterns = [
@@ -18,5 +17,6 @@ urlpatterns = [
         MembershipPaymentView.as_view(),
         name="membership_payment_view",
     ),
-   
+    path("ide/", views.WebEditorView.as_view(), name="web_editor_view"),
+    path("ide/execute", views.execute_code, name="execute_code_view"),
 ]

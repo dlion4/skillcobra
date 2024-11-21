@@ -26,7 +26,8 @@
       {
         "ignore": [
           "flex-direction",
-          "gap"
+          "gap",
+          "justify-content"
         ]
       }
     ],
@@ -53,6 +54,12 @@
         "nested-interactive": "off"
       }
     ],
-    "axe/forms": "off"
-  }
+    "axe/forms": "off",
+    "axe/text-alternatives": "off"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not ie <= 10"
+  ]
 }

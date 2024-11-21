@@ -1,0 +1,127 @@
+{% extends "instructors/base.html" %}
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+<div class="row">
+    <div class="col-xl-8 col-lg-8">
+        <div class="section3125">
+            <div class="live1452">
+                <iframe src="https://www.youtube.com/embed/35ZPHnvjjAg" title="Stay Calm, Think Smart: The Art Of Critical Thinking In Difficult Situations (Audiobook)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen"></iframe>
+            </div>
+            <div class="user_dt5">
+                <div class="user_dt_left">
+                    <div class="live_user_dt">
+                        <!-- TODO Update with proper content later -->
+                    </div>
+                </div>
+                <div class="user_dt_right">
+                    <ul>
+                        <li>
+                            <a href="#" class="lkcm152">
+                                <i class="uil uil-eye"></i>
+                                <span>1452</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="lkcm152">
+                                <i class="uil uil-thumbs-up"></i>
+                                <span>100</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="lkcm152">
+                                <i class="uil uil-thumbs-down"></i>
+                                <span>20</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="lkcm152">
+                                <i class="uil uil-share-alt"></i>
+                                <span>9</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4">
+        <div class="right_side">
+            <div class="fcrse_3">
+                <div class="cater_ttle">
+                    <h4>Students attending</h4>
+                </div>
+                <div class="live_chat">
+                    <div class="chat1">
+                        <p>
+                            <a href="#">John Doe</a>Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Donec aliquet molestie leo ac pellentesque
+                        </p>
+                    </div>
+                </div>
+                <div class="live_comment">
+                    <input class="live_input" type="text" placeholder="Say Something..." />
+                    <button class="btn_live">
+                        <i class="uil uil-message"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h4 class="item_title">Other sessions</h4>
+        {% if stream_session %}
+        <div class="section3125 mb-15 mt-20">
+            <div class="row">
+                {% for item in stream_session %}
+                <div class="col-lg-3 col-md-4">
+                    <div class="fcrse_1 mt-30">
+                        <a href="{% if item.has_class_ended or item.is_class_not_started %}javascript:void(0){% else %}{{item.get_short_url}}{% endif %}" class="fcrse_img">
+                            <img src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-1.jpg' %}{% endif %}" alt="" />
+                            <div class="course-overlay">
+                                <div class="badge_seller">Lesson #{{item.pk}}</div>
+                                <div class="crse_reviews"><i class="uil uil-star"></i>4.5</div>
+                                <span class="play_btn1">
+                                    <i class="uil uil-play"></i>
+                                </span>
+                                <div class="crse_timer">
+                                    {% if item.is_class_not_started %} upcoming lesson {% endif %}
+                                    <!-- -->
+                                    {% if item.is_class_live %} live session {% endif %}
+                                    <!--  -->
+                                    {% if item.is_class_live %} live session {% endif %}
+                                    <!-- -->
+                                    {% if item.has_class_ended %} class Ended {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="fcrse_content">
+                            <div class="vdtodt">
+                                <span class="vdt14">{{item.courses.views}} views</span>
+                                <span class="vdt14">{{item.courses.created_at|timesince}} ago</span>
+                            </div>
+                            <a href="{{item.courses.get_public_absolute_url}}" class="crse14s">{{item.courses.title}}</a>
+                            <a href="#" class="crse-cate">{{item.courses.sub_category.category.name}} | {{item.courses.sub_category.name|title}}</a>
+                            <div class="auth1lnkprce">
+                                <p class="cr1fot">
+                                    <a href="#"></a>
+                                </p>
+                                <div class="prce142">
+                                    <span>$<del>{{item.courses.regular_price}}</del></span>
+                                    <span>${{item.courses.payable_amount}}</span>
+                                </div>
+                                <button class="shrt-cart-btn" title="cart">
+                                    <i class="uil uil-shopping-cart-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }} {% endblock scripts %}

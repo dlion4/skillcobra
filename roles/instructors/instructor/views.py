@@ -20,7 +20,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
 from roles.instructors.instructor.forms import ScheduleClassForm
-from roles.instructors.instructor.models import CourseSale
+from roles.instructors.instructor.models import CourseSale, ScheduleClass
 from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.school.forms import CourseCurriculumForm
 from skillcobra.school.forms import CourseForm
@@ -177,6 +177,18 @@ class InstructorPayoutView(TemplateViewMixin):
 
 class InstructorPaymentStatementView(TemplateViewMixin):
     template_name = "statements.html"
+
+
+class InstructorStreamSessionView(TemplateViewMixin):
+    template_name = "live.html"
+    model = ScheduleClass
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stream_session"] = self.model.objects.filter(
+            courses__tutor=self.get_profile(),
+        ).distinct()
+        return context
 
 
 class InstructorStreamingSetupView(TemplateViewMixin, FormView):

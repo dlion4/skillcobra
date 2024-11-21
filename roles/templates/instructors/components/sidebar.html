@@ -19,6 +19,12 @@
           </a>
         </li>
         <li class="menu--item">
+          <a href="{% url 'instructors:steam_live_status' %}" class="menu--link  {% if request.resolver_match.view_name == 'instructors:steam_live_status' %} active {% endif %}" title="Courses">
+            <i class="uil uil-camera menu--icon"></i>
+            <span class="menu--label">Sessions</span>
+          </a>
+        </li>
+        <li class="menu--item">
           <a href="{% url 'instructors:analytics' %}" class="menu--link {% if request.resolver_match.view_name == 'instructors:analytics' %} active {% endif %}" title="Analytics">
             <i class="uil uil-analysis menu--icon"></i>
             <span class="menu--label">Analytics</span>
