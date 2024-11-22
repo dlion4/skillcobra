@@ -6,33 +6,40 @@
       <div class="col-lg-3 col-md-3 col-sm-6">
         <div class="item_f1">
           <a href="{% url 'about' %}">About</a>
-          <a href="#">Blog</a>
-          <a href="{% url 'career' %}">Careers</a>
-          <a href="{% url 'press' %}">Press</a>
+          {% comment %} <a href="#">Blog</a> {% endcomment %}
+          
+          <a href="{% url 'contact' %}">Contact Us</a>
+          <a href="{% url 'press' %}">Blogs</a>
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6">
         <div class="item_f1">
           <a href="{% url 'help' %}">Help</a>
-          <a href="{% url 'soon' %}">Advertise</a>
+          <a href="{% url 'career' %}">Careers</a>
+          {% comment %} <a href="{% url 'soon' %}">Advertise</a> {% endcomment %}
           <a href="{% url 'soon' %}">Developers</a>
-          <a href="{% url 'contact' %}">Contact Us</a>
+          
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6">
         <div class="item_f1">
           <a href="{% url 'terms' %}">Copyright Policy</a>
-          <a href="{% url 'terms' %}">Terms</a>
+          <a href="{% url 'terms' %}">Terms & Condition</a>
           <a href="{% url 'terms' %}">Privacy Policy</a>
-          <a href="{% url 'sitemap' %}">Sitemap</a>
+          <a href="{% url 'terms' %}">Refund Policy</a>
+          {% comment %} <a href="{% url 'sitemap' %}">Sitemap</a> {% endcomment %}
         </div>
       </div>
       <div class="col-lg-3 col-md-3 col-sm-6">
         <div class="item_f3">
-          <a href="#" class="btn1542">Teach on skillcobra</a>
+          <a href="#" class="btn1542" style="padding-bottom: 10px; margin-bottom: 10px; background-color: #e64900; color: white;">Full-time Instructor</a>
+
+            <a href="#" class="btn1542" style="padding-bottom: 10px; margin-bottom: 10px; background-color: #28a745; color: white;">Develop for Skillcobra</a>
+
         {% include 'components/footer/lang_btn.html' %}
         </div>
       </div>
+      
       <div class="col-lg-12">
         <div class="footer_bottm">
           <div class="row">
@@ -54,7 +61,7 @@
               <div class="edu_social_links">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                {% comment %} <a href="#"><i class="fab fa-google-plus-g"></i></a> {% endcomment %}
                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-youtube"></i></a>

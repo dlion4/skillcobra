@@ -9,6 +9,7 @@
             <span class="menu--label">Home</span>
           </a>
         </li>
+        <h6 class="left_title">COURSES</h6>
         {% if request.user.role == "student" %}
         <li class="menu--item">
           <a href="{% url 'students:lessons' %}" class="menu--link {% if request.resolver_match.view_name == 'students:lessons' %}active{% endif %}" 
@@ -58,7 +59,39 @@
             </a>
           </li>
         {% endif %}
-        <li class="menu--item menu--item__has_sub_menu">
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
+            <i class="uil uil-heart-alt menu--icon"></i>
+            <span class="menu--label">Reviews</span>
+          </a>
+        </li> 
+        <h6 class="left_title">TOOLS & RESOURCES</h6>
+        <li class="menu--item">
+          <a href="{% url 'shared:web_editor_view' %}" class="menu--link" title="Editor">
+            <i class="uil uil-edit-alt menu--icon"></i>
+            <span class="menu--label">Editor</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="AI">
+            <i class="uil uil-robot menu--icon"></i>
+            <span class="menu--label">AI</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="PDF Reader">
+            <i class="uil uil-file-alt menu--icon"></i>
+            <span class="menu--label">PDF Reader</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Virtual Learning Platforms">
+            <i class="uil uil-presentation-play menu--icon"></i>
+            <span class="menu--label">Virtual Learning Platforms</span>
+          </a>
+        </li>
+        
+         {% comment %} <li class="menu--item menu--item__has_sub_menu">
           <label class="menu--link" title="Pages">
             <i class="uil uil-file menu--icon"></i>
             <span class="menu--label">More</span>
@@ -68,17 +101,11 @@
             <li class="sub_menu--item">
               <a href="" class="sub_menu--link">Invoices</a>
             </li>
-            <li class="sub_menu--item">
-              <a href="{% url 'career' %}" class="sub_menu--link">Career</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="" class="sub_menu--link">Latest</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="{% url 'press' %}" class="sub_menu--link">Press</a>
-            </li>
+            
+            
+            
           </ul>
-        </li>
+        </li>  {% endcomment %}
       </ul>
     </div>
     {% if request.user.role == "student" %}
@@ -99,8 +126,23 @@
         </div>
       {% endif %}
     {% endif %}
-    <div class="left_section pt-2">
+    <div class="left_section">
+      <h6 class="left_title">ROLES</h6>
+      <li class="menu--item">
+        <a href="{% url 'career' %}" class="menu--link" title="Career">
+          <i class="uil uil-briefcase-alt menu--icon"></i>
+          <span class="menu--label">Career</span>
+        </a>
+      </li>
+       
+        
+        
+        
+      
+    </div>
+    <div class="left_section">
       <ul>
+        <h6 class="left_title">ACCOUNT</h6>
         {% if request.user.role == "student" %}
         <li class="menu--item">
           <a href="{% url 'students:profile_update' %}" class="menu--link" title="Setting">
@@ -110,11 +152,12 @@
         </li>
         {% endif %}
         <li class="menu--item">
-          <a href="{% url 'shared:web_editor_view' %}" class="menu--link" title="Setting">
-            <i class="uil uil-code menu--icon"></i>
-            <span class="menu--label">Editor</span>
+          <a href="#" class="menu--link" title="Reviews">
+            <i class="uil uil-comment-alt-message menu--icon"></i>
+            <span class="menu--label">Reviews</span>
           </a>
         </li>
+        
         <li class="menu--item">
           <a href="{% url 'help' %}" class="menu--link {% if request.resolver_match.view_name == 'help' %}active{% endif %}" title="Help">
             <i class="uil uil-question-circle menu--icon"></i>

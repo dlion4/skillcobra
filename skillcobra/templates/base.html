@@ -24,7 +24,7 @@
         <link href="{% static 'vendor/OwlCarousel/assets/owl.carousel.css' %}" rel="stylesheet">
         <link href="{% static 'vendor/OwlCarousel/assets/owl.theme.default.min.css' %}" rel="stylesheet">
         <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" />
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/semantic/semantic.min.css' %}">
         {% endblock cssBlock %}
         <!--  -->
@@ -246,7 +246,9 @@
         <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
         <script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js' %}"></script>
+        
+        {% comment %} <script src="{% static 'vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js' %}"></script> {% endcomment %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" defer></script>
         <script src="{% static 'vendor/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
         <script src="{% static 'js/custom.js' %}"></script>
         <script src="{% static 'js/night-mode.js' %}"></script>
