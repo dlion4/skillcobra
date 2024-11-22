@@ -16,7 +16,6 @@ from .base import SPECTACULAR_SETTINGS
 from .base import env
 from .logs import PROD_LOGGING  # noqa: F401
 
-DEBUG=True
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key

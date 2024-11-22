@@ -19,4 +19,14 @@ urlpatterns = [
         views.RemoveAllSavedCoursesView.as_view(),
         name="all_course_unsave_view",
     ),
+    path(
+        "module-enrollment/",
+        views.RegisterEnrollmentView.as_view(),
+        name="enrollment_view",
+    ),
+    path(
+        "check-enrollment-status/",
+        views.CheckEnrollmentStatusView.as_view(),
+        name="check_enrollment_status_view",
+    ),
 ]

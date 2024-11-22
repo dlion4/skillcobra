@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Message as MessageModel, Review
+from .models import Enrollment, Message as MessageModel, Review
 
 
 class MessageForm(forms.ModelForm):
@@ -44,3 +44,22 @@ class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.profile = kwargs.pop("profile", None)
         super().__init__(*args, **kwargs)
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = [
+            "email_address",
+        ]
+        widgets = {
+            "email_address": forms.EmailInput(
+                attrs={
+                    "placeholder": "Enter your email address",
+                    "class": "form-control",
+                },
+            ),
+        }
+    def __init__(self, *args, **kwargs):
+        self.profile = kwargs.pop("profile", None)
+        super().__init__(*args, **kwargs)
+
