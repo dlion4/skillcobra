@@ -101,3 +101,25 @@ class ProfanityModel(models.Model):
     profanity_score = models.PositiveBigIntegerField(default=0)
     def __str__(self):
         return f"Profanity! <{self.profanity_score}>: {self.message}"
+
+
+class Enrollment(models.Model):
+    """Model for storing enrollment."""
+    profile = models.ForeignKey(
+        "users.Profile",
+        on_delete=models.CASCADE,
+        related_name="profile_enrollments",
+    )
+    email_address = models.EmailField(
+        max_length=255,
+        unique=True,
+        verbose_name="Email Address",
+    )
+    # course = models.ForeignKey(
+    #     "courses.Course",
+    #     on_delete=models.CASCADE,
+    #     related_name="course_enrollments",
+    # )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.profile} - {self.email_address}"

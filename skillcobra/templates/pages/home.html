@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 <!--  -->
 {% load static %} {% block content %}
+
 <!--  -->
 <div class="container-fluid">
   <div class="row">
@@ -28,7 +29,10 @@
             {% if profile.user.role == 'instructor' %}
             <div class="tut1250">
               <span class="vdt15">0 completed</span>
-              <span class="vdt15">{{profile.get_all_courses.count}} Course{{profile.get_all_courses.count|pluralize}}</span>
+              <span class="vdt15"
+                >{{profile.get_all_courses.count}}
+                Course{{profile.get_all_courses.count|pluralize}}</span
+              >
             </div>
             {% else %}
             <div class="tut1250">
@@ -52,7 +56,8 @@
               <button class="live_link instructor_to_live_channel">
                 Get Started
               </button>
-              <span class="livinfo">Info : This feature only for 'Instructors'.
+              <span class="livinfo"
+                >Info : This feature only for 'Instructors'.
               </span>
             </div>
             {% if request.user.role == 'instructor' %}
@@ -87,11 +92,6 @@
           </p>
           <button class="Get_btn">Start Teaching</button>
         </div>
-
-    
-
-       
-
       </div>
     </div>
     <!-- right side -->
@@ -112,4 +112,70 @@
 <!--  -->
 {% block scripts %}
 <script src="{% static 'js/home.js' %}"></script>
+
+<script>
+  $(document).ready(function () {
+    var isEnrolled = localStorage.getItem("isEnrolled");
+    console.log(isEnrolled);
+    if (isEnrolled !== "true") {
+      $.ajax({
+        url: "{% url 'profile_students:check_enrollment_status_view' %}",
+        type: "GET",
+        success: function (data) {
+          let isEnrolled = data.is_enrolled;
+          localStorage.setItem("isEnrolled", isEnrolled);
+          if (!isEnrolled) {
+            $("#enrollmentPopup").modal("show");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching enrollment status:", error);
+        },
+      });
+    }
+
+    function enrollStudent(fd, btn, closeBtn) {
+      btn.prop("disabled", true);
+      closeBtn.prop("disabled", true);
+      btn.text("submitting ...");
+      $.ajax({
+        type: "POST",
+        url: "{% url 'profile_students:enrollment_view' %}",
+        data: fd,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (data) {
+          localStorage.setItem("isEnrolled", data.is_enrolled);
+          if (data.is_enrolled) {
+            $("#enrollmentPopup").removeClass("show");
+          } else {
+            $("#enrollmentPopup").addBack("show");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error enrolling student:", error);
+        },
+        complete: function () {
+          btn.prop("disabled", false);
+          closeBtn.prop("disabled", false);
+          btn.text("Enroll Now");
+        },
+      });
+    }
+
+    $("#enrollmentPopup")
+      .find("form")
+      .submit(function (event) {
+        event.preventDefault();
+        var fd = new FormData(this);
+        const btn = $(this).find("button[type=submit]");
+        const closeBtn = $(this).find("button[type=button]");
+        setTimeout(() => {
+          enrollStudent(fd, btn, closeBtn);
+        }, 4000);
+      });
+  });
+</script>
+
 {% endblock scripts %}

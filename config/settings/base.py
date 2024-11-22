@@ -240,6 +240,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "skillcobra.users.context_processors.allauth_settings",
                 "skillcobra.payments.context_processors.payment_context_processor",
+                "skillcobra.core.context_processors.core_context_processor",
             ],
         },
     },
