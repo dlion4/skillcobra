@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+<div>
+  <div class="col-lg-12">
+    <h1 class="st_title">
+      <i class="uil uil-book-alt"></i>Editor Tools</h1>
+      
+  </div>
+  
+</div>
+
+<div class="row my-4 py-3">
+   <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+          
+          <dotlottie-player src="https://lottie.host/238f2062-bf8b-4cc1-a038-9e73ca67cc64/iYIWVQE4pV.lottie" background="transparent" speed="0.3" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-12 col-sm-8 text-center text-sm-start">
+          
+<h4 class="card-title">IDE Editor</h4> 
+<p class="card-text">Our platform features an integrated, AI-powered IDE designed for real-time web development, catering to both experts and students. It eliminates the hassle of switching to external editors like VS Code, offering seamless, on-platform coding experiences.</p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+    </div>
+  </div>
+   {% comment %} 
+    {% endcomment %}
+   <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+           
+          <dotlottie-player src="https://lottie.host/a51c1a65-9b3c-4df0-9cc0-cfeefea935be/GCp5Qy2IzE.lottie" background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-12 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">Whiteboard Editor</h4> 
+          <p class="card-text">Collaborate and brainstorm effortlessly with our intuitive whiteboard editor with the experts, life-coaches, mentors and gurus . Visualize ideas, create flowcharts, and share insights in real-time, within the platform.</p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+    </div>
+  </div>
+  
+</div>
+
+<style>
+  /* Add margins and padding to the row */
+  .row {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+
+  /* Fixed position for buttons (if needed elsewhere) */
+  .fixed-button {
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+  }
+
+
+
+</style>
+
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

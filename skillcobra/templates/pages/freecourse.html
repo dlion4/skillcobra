@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Free Courses {% endblock title %}
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+{% block slogan %}
+<!--  -->
+
+<!--  -->
+{% endblock slogan %}
+
+<!--  -->
+{% block content %}
+<div>
+  <div class="col-lg-12">
+    <h1 class="st_title">
+      <i class="uil uil-book-alt"></i>Free Courses</h1>
+      {% comment %} <p>We're a passionate, creative, and global company, come work with us.</p> {% endcomment %}
+      
+  </div>
+  
+</div>
+
+<div class="_215zd5">
+  <div class="container">
+    <div class="row">
+      <!-- one course Section -->
+      <div class="col-lg-6 col-sm-6">
+        <div class="fcrse_1 mt-3">
+          <a href="course_detail_view.html" class="hf_img">
+            <img src="images/courses/img-2.jpg" alt="">
+            <div class="course-overlay">
+              <div class="badge_seller">Free</div>
+              <div class="crse_reviews">
+                <i class="uil uil-star"></i>4.5
+              </div>
+              <span class="play_btn1"><i class="uil uil-play"></i></span>
+              <div class="crse_timer">28 hours</div>
+            </div>
+          </a>
+          <div class="hs_content">
+            <div class="eps_dots eps_dots10 more_dropdown">
+              <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+              <div class="dropdown-content">
+                <span><i class="uil uil-times"></i>Remove</span>
+              </div>
+            </div>
+            <div class="vdtodt">
+              <span class="vdt14">5M views</span>
+              <span class="vdt14">15 days ago</span>
+            </div>
+            <a href="course_detail_view.html" class="crse14s title900">The Complete JavaScript Course 2020: Build Real Projects!</a>
+            <a href="#" class="crse-cate">Development | JavaScript</a>
+            <div class="auth1lnkprce">
+              <p class="cr1fot">By <a href="#">Jassica William</a></p>
+              <div class="prce142">Free</div>
+              <button class="shrt-cart-btn" title="cart">
+                <i class="uil uil-shopping-cart-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-sm-6">
+        <div class="fcrse_1 mt-3">
+          <a href="course_detail_view.html" class="hf_img">
+            <img src="images/courses/img-2.jpg" alt="">
+            <div class="course-overlay">
+              <div class="badge_seller">Free</div>
+              <div class="crse_reviews">
+                <i class="uil uil-star"></i>4.5
+              </div>
+              <span class="play_btn1"><i class="uil uil-play"></i></span>
+              <div class="crse_timer">28 hours</div>
+            </div>
+          </a>
+          <div class="hs_content">
+            <div class="eps_dots eps_dots10 more_dropdown">
+              <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+              <div class="dropdown-content">
+                <span><i class="uil uil-times"></i>Remove</span>
+              </div>
+            </div>
+            <div class="vdtodt">
+              <span class="vdt14">5M views</span>
+              <span class="vdt14">15 days ago</span>
+            </div>
+            <a href="course_detail_view.html" class="crse14s title900">The Complete JavaScript Course 2020: Build Real Projects!</a>
+            <a href="#" class="crse-cate">Development | JavaScript</a>
+            <div class="auth1lnkprce">
+              <p class="cr1fot">By <a href="#">Jassica William</a></p>
+              <div class="prce142">Free</div>
+              <button class="shrt-cart-btn" title="cart">
+                <i class="uil uil-shopping-cart-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

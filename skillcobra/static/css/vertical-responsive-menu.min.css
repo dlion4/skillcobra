@@ -40,7 +40,7 @@
     bottom: 0;
     background: #fff;
     overflow: hidden;
-    width: 240px;
+    width: 190px;
     z-index: 995;
 }
 
@@ -75,12 +75,12 @@
 }
 
 .menu--link:hover {
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 	color: #e64900 !important;
 }
 
 .menu--link.active {
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 	color: #e64900;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .menu--subitens__opened {
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 }
 
 .menu--subitens__opened .menu--link {
@@ -120,7 +120,7 @@
 }
 
 .menu--link:hover,.menu--link:hover .menu--label {
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 }
 
 .menu--icon {
@@ -159,7 +159,7 @@
 
 .sub_menu--link:hover {
 	color: #e64900 !important;
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 }
 
 .sub_menu--link.active {

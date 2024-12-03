@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+<div>
+    <div class="col-lg-12">
+        <h1 class="st_title">
+            <i class="uil uil-book-alt"></i>AI Tools</h1>
+
+    </div>
+
+</div>
+
+<div class="row my-4 py-3">
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+                   
+                    <dotlottie-player src="https://lottie.host/ab74657c-3cb0-47c8-877b-91971625211b/rwT18kIAg7.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+
+                    <h4 class="card-title">AI Chat</h4>
+                    <p class="card-text">Engage with an intelligent, AI-powered chat assistant designed to support your
+                        learning and problem-solving needs. Whether you need help with coding, clarifying concepts, or
+                        brainstorming ideas, the AI chat is your instant go-to companion for guidance and collaboration.
+                    </p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="{% url 'chatai' %}" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+                    <dotlottie-player src="https://lottie.host/50cddb01-ff04-4153-8310-3d17b9b88c95/uCxLtvS9vy.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-12 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title">Course Creator</h4>
+                    <p class="card-text">
+                        Effortlessly design and customize engaging courses with our intuitive course creation tool. From
+                        structuring lessons to adding multimedia content, our platform provides everything you need to
+                        create professional, interactive courses in one place.
+                    </p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="{% url 'coursecreator' %}" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+{% comment %}                    
+                    <dotlottie-player src="https://lottie.host/50cddb01-ff04-4153-8310-3d17b9b88c95/uCxLtvS9vy.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player> {% endcomment %}
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title"> Chat with PDF</h4>
+                    <p class="card-text">
+                        Interact with your PDF files like never before! Upload your document and use our AI-powered tool to ask questions, extract key insights, and receive summaries instantly. Perfect for quick understanding and detailed exploration of your PDFs.
+                    </p>
+                    
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="{% url 'pdreader' %}" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+                    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+                        type="module"></script>
+                    <dotlottie-player src="https://lottie.host/6ee48057-8fd2-482f-9a24-5510489851d0/yLlKonMv62.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title">Course Assessments</h4>
+                    <p class="card-text">Evaluate and enhance learning outcomes with dynamic course assessment tools.
+                        Collaborate with experts, mentors, and coaches to create quizzes, assignments, and real-time
+                        feedback sessions that ensure a comprehensive learning experience.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="{% url 'courseassess' %}" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    /* Add margins and padding to the row */
+    .row {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 10px;
+    }
+
+    /* Fixed position for buttons (if needed elsewhere) */
+    .fixed-button {
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+    }
+</style>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".create_btn_dash", function(event) {
+            event.preventDefault();
+            window.location.href = "{% url 'instructors:create_course_view' %}"
+        })
+    })
+</script>
+{% endblock scripts %}

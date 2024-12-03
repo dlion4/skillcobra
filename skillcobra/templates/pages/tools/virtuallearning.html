@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+<div>
+    <div class="col-lg-12">
+        <h1 class="st_title">
+            <i class="uil uil-book-alt"></i>Virtual Learning Tools</h1>
+
+    </div>
+
+</div>
+
+<div class="row my-4 py-3">
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+                    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+                        type="module"></script>
+                    <dotlottie-player src="https://lottie.host/3206806b-f43c-46b5-a334-be57d1bb25a6/qLmDo1Pn6K.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+
+                    <h4 class="card-title">Skillcobra Webinar</h4>
+                    <p class="card-text">Enhance your learning and collaboration with Skillcobra Webinar. Experience
+                        real-time skill delivery and seamless interaction through an AI-powered platform designed for
+                        effective sharing sessions.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -20px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+                    {% comment %} <script
+                        src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+                        type="module"></script> {% endcomment %}
+                    <dotlottie-player src="https://lottie.host/96177d62-4ee7-4444-9faa-c479312263c5/XBtyHfolwe.lottie"
+                        background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title">Google Meet</h4>
+                    <p class="card-text">Enhance virtual collaboration with Google Meet, offering seamless integration
+                        for productive and efficient online meetings.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end"
+                style="margin-top: -20px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn text-success"
+                    style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+                    Launch
+                </a>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+<style>
+    /* Add margins and padding to the row */
+    .row {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding: 10px;
+    }
+
+    /* Fixed position for buttons (if needed elsewhere) */
+    .fixed-button {
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+    }
+</style>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".create_btn_dash", function(event) {
+            event.preventDefault();
+            window.location.href = "{% url 'instructors:create_course_view' %}"
+        })
+    })
+</script>
+{% endblock scripts %}

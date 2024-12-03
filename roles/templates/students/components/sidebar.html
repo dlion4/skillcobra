@@ -11,12 +11,47 @@
             <span class="menu--label">Dashboard</span>
           </a>
         </li>
+        <h6 class="left_title">COURSES</h6>
+        <li class="menu--item">
+          <a href="{% url 'explore' %}" class="menu--link {% if request.resolver_match.view_name == 'explore' %}active{% endif %}" title="Explore">
+            <i class="uil uil-search menu--icon"></i>
+            <span class="menu--label">Explore</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'freecourse' %}" class="menu--link {% if request.resolver_match.view_name == 'explore' %}active{% endif %}" title="Explore">
+            <i class="uil uil-search menu--icon"></i>
+            <span class="menu--label">Free Courses</span>
+          </a>
+        </li>
+       
+       
         <li class="menu--item">
           <a href="{% url 'students:purchased-courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:purchased-courses' %}active{% endif %}" title="Courses">
             <i class="uil uil-book-alt menu--icon"></i>
             <span class="menu--label">Purchased Courses</span>
           </a>
         </li>
+        
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:saved_courses' %}active{% endif %}" title="Courses">
+            <i class="uil uil-heart-alt menu--icon"></i>
+            <span class="menu--label">Saved Courses</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'explore' %}" class="menu--link {% if request.resolver_match.view_name == 'explore' %}active{% endif %}" title="Explore">
+            <i class="uil uil-search menu--icon"></i>
+            <span class="menu--label">Tests</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'students:certificates' %}" class="menu--link  {% if request.resolver_match.view_name == 'students:certificates' %}active{% endif %}" title="My Certificates">
+            <i class="uil uil-award menu--icon"></i>
+            <span class="menu--label">Certificates</span>
+          </a>
+        </li>
+        <h6 class="left_title">FEEDBACK</h6>
         <li class="menu--item">
           <a href="{% url 'students:messages' %}" class="menu--link {% if request.resolver_match.view_name == 'students:messages' %}active{% endif %}" title="Messages">
             <i class="uil uil-comments menu--icon"></i>
@@ -30,32 +65,65 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="{% url 'students:saved_courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:saved_courses' %}active{% endif %}" title="Courses">
-            <i class="uil uil-heart-alt menu--icon"></i>
-            <span class="menu--label">Saved Courses</span>
-          </a>
-        </li>
-        <li class="menu--item">
-          <a href="{% url 'students:certificates' %}" class="menu--link  {% if request.resolver_match.view_name == 'students:certificates' %}active{% endif %}" title="My Certificates">
-            <i class="uil uil-award menu--icon"></i>
-            <span class="menu--label">Certificates</span>
-          </a>
-        </li>
-        <li class="menu--item">
           <a href="{% url 'students:reviews' %}" class="menu--link {% if request.resolver_match.view_name == 'students:reviews' %}active{% endif %}" title="Reviews">
             <i class="uil uil-star menu--icon"></i>
             <span class="menu--label">Reviews</span>
           </a>
         </li>
+      
+
+        <h6 class="left_title">REQUESTS</h6>
+        <li class="menu--item">
+          <a href="{% url 'studentform' %}" class="menu--link {% if request.resolver_match.view_name == 'students:credits' %}active{% endif %}" title="Credits">
+            <i class="uil uil-wallet menu--icon"></i>
+            <span class="menu--label">Request Session</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'studorder' %}" class="menu--link {% if request.resolver_match.view_name == 'students:credits' %}active{% endif %}" title="Credits">
+            <i class="uil uil-wallet menu--icon"></i>
+            <span class="menu--label">History</span>
+          </a>
+        </li>
+
+       
+        <h6 class="left_title">TOOLS & RESOURCES</h6>
+        <li class="menu--item">
+          <a href="{% url 'editors' %}" class="menu--link" title="Editor">
+            <i class="uil uil-edit-alt menu--icon"></i>
+            <span class="menu--label">Editor</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'ai' %}" class="menu--link" title="AI">
+            <i class="uil uil-robot menu--icon"></i>
+            <span class="menu--label">AI</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'files' %}" class="menu--link" title="Files">
+            <i class="uil uil-file-alt menu--icon"></i>
+            <span class="menu--label">Files</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'virtuallearning' %}" class="menu--link" title="Virtual Learning Platforms">
+            <i class="uil uil-presentation-play menu--icon"></i>
+            <span class="menu--label">Virtual Learning</span>
+          </a>
+        </li>
+        <h6 class="left_title">WALLET</h6>
         <li class="menu--item">
           <a href="{% url 'students:credits' %}" class="menu--link {% if request.resolver_match.view_name == 'students:credits' %}active{% endif %}" title="Credits">
             <i class="uil uil-wallet menu--icon"></i>
             <span class="menu--label">Credits</span>
           </a>
         </li>
-        
+
+
       </ul>
     </div>
+    <h6 class="left_title">ACCOUNT</h6>
     <div class="left_section pt-2">
       <ul>
         <li class="menu--item">

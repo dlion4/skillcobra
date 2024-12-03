@@ -98,3 +98,74 @@ class SiteMapView(AuthorizedHomeViewMixin):
         context["categories"] = Category.objects.all()
         return context
 
+# added urls for this views
+
+
+
+class DevelopersView(AuthorizedHomeViewMixin):
+    template_name = "pages/onboarding/developers.html"
+
+class OnboardingView(AuthorizedHomeViewMixin):
+    template_name = "pages/onboarding/onboarding.html"
+
+class HelpPageView(AuthorizedHomeViewMixin):
+    template_name = "pages/helppage.html"
+
+class StudentOrderView(AuthorizedHomeViewMixin):
+    template_name = "pages/studentorder.html"
+
+class StudentFormView(AuthorizedHomeViewMixin):
+    template_name = "pages/onboarding/studentform.html"
+
+class EditorsView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/editors.html"
+
+class AIView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/ai.html"
+
+class FilesView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/files.html"
+
+class VirtualLearningView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/virtuallearning.html"
+
+class CareerspageView(AuthorizedHomeViewMixin):
+    template_name = "pages/careerspage.html"
+    
+class FreecourseView(AuthorizedHomeViewMixin):
+    template_name = "pages/freecourse.html"
+    
+class CertView(AuthorizedHomeViewMixin):
+    template_name = "pages/cert.html"
+    
+    
+class VerificationView(AuthorizedHomeViewMixin):
+    template_name = "pages/verification.html"
+    
+class StatementView(AuthorizedHomeViewMixin):
+    template_name = "pages/statement.html"
+    
+    
+class TestView(AuthorizedHomeViewMixin):
+    template_name = "pages/testpage.html"
+#pdf files
+class PdreaderpageView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/aitools/pdreaderpage.html"
+    
+    
+class PdreaderView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/pdreader.html"
+    #inner tool pages
+    
+class ChataiView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/aitools/chatai.html"
+
+class CoursecreatorView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/aitools/coursecreator.html"
+
+class CourseassessView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/aitools/courseassess.html"
+
+class FilemanagerView(AuthorizedHomeViewMixin):
+    template_name = "pages/tools/file/filemanager.html"
+    

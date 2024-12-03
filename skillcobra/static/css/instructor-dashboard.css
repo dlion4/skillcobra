@@ -583,7 +583,7 @@ i.icon1 {
 }
 
 .channel_my:hover {
-    background:#ffecec !important;
+    background:rgb(112 100 233 / 15%) !important;
 }
 
 .profile_link {
@@ -647,7 +647,7 @@ i.icon1 {
 
 .channel_item:hover {
     color: #333 !important;
-    background:#ffecec !important;
+    background:rgb(112 100 233 / 15%) !important;
 }
 
 .rhte85 {
@@ -685,7 +685,7 @@ i.icon1 {
     text-align: center;
     float: left;
     padding: 15px 0;
-    background: #ffecec;
+    background: rgb(112 100 233 / 15%);
     font-size: 14px;
     color: #333 !important;
     font-family: 'Roboto', sans-serif;
@@ -1393,7 +1393,7 @@ i.icon1 {
 
 .dropdown-content span:hover {
 	color: #333 !important;
-	background-color: #ffecec;
+	background-color: rgb(112 100 233 / 15%);
 }
 
 .more_dropdown:hover .dropdown-content {display: block;}
@@ -1774,7 +1774,7 @@ table.table.ucp-table {
 .ucp-table thead tr th {
     color: #333;
 	font-size: 14px;
-    background-color: #ffecec;
+    background-color: rgb(112 100 233 / 15%);
 }
 
 .ucp-table tfoot {
@@ -2942,7 +2942,7 @@ i.icon8 {
 
 .chat__message__dt.active, .chat__message__dt:hover {
     border-left: 4px solid #e64900;
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 }
 
 .user-status {
@@ -3232,7 +3232,7 @@ i.icon8 {
 }
 
 .message-dt.st3 .message-inner-dt > p {
-	background-color: #ffecec;
+	background-color: rgb(112 100 233 / 15%);
 	color: #686f7a;
 	width: auto;
 	padding: 12px 20px;
@@ -4119,7 +4119,7 @@ i.icon8 {
     font-size: 120%;
 	height: 30px;
 	Width: 30px;
-	background: #ffecec;
+	background: rgb(112 100 233 / 15%);
 	border-radius: 100%;
 	margin-right: 10px;
 	padding: 6px 4px 0;
