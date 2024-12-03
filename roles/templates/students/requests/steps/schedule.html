@@ -1,0 +1,106 @@
+{% load static %}
+
+<div class="step">
+    <div class="question_title">
+        <h3>
+            Give us the <span class="highlight">Schedule</span> for your session
+        </h3>
+        <p>Select the best time and duration for your session</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-7 col-md-10">
+            <div class="list_block form-group">
+                <ul>
+                    <li>
+                        <div class="checkbox_radio_container">
+                            <input type="radio" id="yes_1" name="website_available" class="required" value="Yes, it is already online" onclick="toggleDetails(this)" />
+                            <label for="yes_1" class="wrapper" style="transform: translateX(-17rem);">In 15 minutes</label>
+                        </div>
+                        <div id="details_yes_1" class="details muted-text" style="display: none; font-size: small; color: #6c757d">
+                            The session will start in approximately 15 minutes of succesful
+                            placement of your order
+                        </div>
+                    </li>
+                    <script>
+                        document
+                            .querySelectorAll('input[name="website_available"]')
+                            .forEach((radio) => {
+                                radio.addEventListener("change", (event) => {
+                                    const details = document.getElementById("details_yes_1");
+                                    if (event.target.id === "yes_1" && event.target.checked) {
+                                        details.style.display = "block";
+                                    } else {
+                                        details.style.display = "none";
+                                    }
+                                });
+                            });
+                    </script>
+
+                    <!--xxxxxxxxxxxxxxxxx-->
+                    <li>
+                        <div class="checkbox_radio_container">
+                            <input type="radio" id="no_site" name="website_available" class="required" value="No, I want to have one" onclick="toggleDetailsNoSite(this)" />
+                            <label for="no_site" class="wrapper" style="transform: translateX(-17rem);">As soon as possible</label>
+                        </div>
+                        <div id="details_no_site" class="details muted-text" style="display: none; font-size: small; color: #6c757d">
+                            The session will start in as soon as we receive a successful
+                            placement of your order. You will then start the session at your
+                            own will based on the availability of our instructors
+                        </div>
+                    </li>
+
+                    <script>
+                        function toggleDetailsNoSite(radio) {
+                            const details = document.getElementById("details_no_site");
+                            if (radio.id === "no_site" && radio.checked) {
+                                details.style.display = "block";
+                            } else {
+                                details.style.display = "none";
+                            }
+                        }
+                        // Ensure all radio buttons in the group hide this detail when not selected
+                        document
+                            .querySelectorAll('input[name="website_available"]')
+                            .forEach((radio) => {
+                                radio.addEventListener("change", (event) => {
+                                    const details = document.getElementById("details_no_site");
+                                    if (event.target.id !== "no_site" || !event.target.checked) {
+                                        details.style.display = "none";
+                                    }
+                                });
+                            });
+                    </script>
+                    <!--xxxxxxxxxxxxxxxxxxxxxxxxxx-->
+                    <li>
+                        <div class="checkbox_radio_container">
+                            <input type="radio" id="yes_2" name="website_available" class="required" value="Yes, it is under construction" />
+                            <label for="yes_2" class="wrapper"  style="transform: translateX(-17rem);">Choose Date and Time</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /list_block-->
+            <div class="form-group">
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="date">Date</label>
+                            <div class="input-group date" id="datePicker">
+                                <input type="text" class="form-control" />
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="time">Time</label>
+                            <div class="input-group date" id="timePicker">
+                                <input type="text" class="form-control timePicker" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /row-->
+</div>

@@ -1,11 +1,9 @@
 import uuid
 from datetime import timedelta
-from decimal import Decimal
 
 from django.contrib.auth import get_user
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.db.models import Q
-from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -20,7 +18,7 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
 from roles.instructors.instructor.forms import ScheduleClassForm
-from roles.instructors.instructor.models import CourseSale, ScheduleClass
+from roles.instructors.instructor.models import ScheduleClass
 from skillcobra.payments.forms import BillingAddressForm
 from skillcobra.school.forms import CourseCurriculumForm
 from skillcobra.school.forms import CourseForm
@@ -29,20 +27,17 @@ from skillcobra.school.models import Course
 from skillcobra.users.forms import UpdateAccountProfileBasicDataForm
 
 
-class TemplateViewMixin(TemplateView):
+class TemplateViewMixin(LoginRequiredMixin, TemplateView):
     template_name = ""
+    login_url = "/users/login/"
 
     def get_template_names(self):
         return [f"instructors/{self.template_name}"]
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        if (
-            request.user.is_authenticated
-            and request.user.role == "instructor"
-            and not request.path.startswith("/instructor")
-        ):
-            return redirect("instructors:dashboard")
+        if request.user.role != "instructor":
+            return redirect("home")
         return super().dispatch(request, *args, **kwargs)
 
     def get_profile(self):
@@ -289,3 +284,9 @@ class InstructorStreamingSetupView(TemplateViewMixin, FormView):
 
 class InstructorCourseAttendanceView(TemplateViewMixin):
     template_name = "attendance.html"
+
+
+class InstructorRecruitmentView(TemplateViewMixin):
+    template_name = "tutor_recruitment.html"
+    def post(self, request, *args, **kwargs):
+        return JsonResponse({}, status=200)

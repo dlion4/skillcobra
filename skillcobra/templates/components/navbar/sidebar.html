@@ -9,10 +9,10 @@
             <span class="menu--label">Home</span>
           </a>
         </li>
+        <h6 class="left_title">COURSES</h6>
         {% if request.user.role == "student" %}
         <li class="menu--item">
-          <a href="{% url 'students:lessons' %}" class="menu--link {% if request.resolver_match.view_name == 'students:lessons' %}active{% endif %}" 
-          title="Live Streams">
+          <a href="{% url 'students:lessons' %}" class="menu--link {% if request.resolver_match.view_name == 'students:lessons' %}active{% endif %}" title="Live Streams">
             <i class="uil uil-kayak menu--icon"></i>
             <span class="menu--label">Live Streams</span>
             <div class="alrt_dot"></div>
@@ -31,12 +31,8 @@
             <span class="menu--label">Free Courses</span>
           </label>
           <ul class="sub_menu">
-            <li class="sub_menu--item">
-              <a href="#" class="sub_menu--link">IT & Software</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="#" class="sub_menu--link">Office Productivity</a>
-            </li>
+            <li class="sub_menu--item"><a href="#" class="sub_menu--link">IT & Software</a></li>
+            <li class="sub_menu--item"><a href="#" class="sub_menu--link">Office Productivity</a></li>
           </ul>
         </li>
         <li class="menu--item menu--item__has_sub_menu">
@@ -45,60 +41,72 @@
             <span class="menu--label">Tests</span>
           </label>
           <ul class="sub_menu">
-            <li class="sub_menu--item">
-              <a href="" class="sub_menu--link">Certification Center</a>
-            </li>
+            <li class="sub_menu--item"><a href="{% url 'assessment_view' %}" 
+              class="sub_menu--link {% if request.resolver_match.view_name == 'assessment_view' %}active{% endif %}">Assessment</a></li>
+            <li class="sub_menu--item"><a href="{% url 'certification_view' %}" class="sub_menu--link {% if request.resolver_match.view_name == 'certification_view' %}active{% endif %}">Certification Center</a></li>
           </ul>
         </li>
+
+
+        <h6 class="left_title">TOOLS & RESOURCES</h6>
+        <li class="menu--item">
+          <a href="{% url 'editors_view' %}"
+           class="menu--link {% if request.resolver_match.view_name == 'editors_view' %}active{% endif %}" 
+           title="Editor">
+            <i class="uil uil-edit-alt menu--icon"></i>
+            <span class="menu--label">Editors</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'ai_tools_view' %}" 
+          class="menu--link  {% if request.resolver_match.view_name == 'ai_tools_view' %}active{% endif %}" 
+          title="AI">
+            <i class="uil uil-robot menu--icon"></i>
+            <span class="menu--label">AI</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="{% url 'distant_learning' %}"
+           class="menu--link {% if request.resolver_match.view_name == 'distant_learning' %}active{% endif %}"
+           title="Virtual Learning Platforms">
+            <i class="uil uil-presentation-play menu--icon"></i>
+            <span class="menu--label">Virtual Learning</span>
+          </a>
+        </li>
+
         {% if request.user.role == "student" %}
-          <li class="menu--item">
-            <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
-              <i class="uil uil-heart-alt menu--icon"></i>
-              <span class="menu--label">Saved Courses</span>
-            </a>
-          </li>
-        {% endif %}
-        <li class="menu--item menu--item__has_sub_menu">
-          <label class="menu--link" title="Pages">
-            <i class="uil uil-file menu--icon"></i>
-            <span class="menu--label">More</span>
-          </label>
-          <ul class="sub_menu">
-    
-            <li class="sub_menu--item">
-              <a href="" class="sub_menu--link">Invoices</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="{% url 'career' %}" class="sub_menu--link">Career</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="" class="sub_menu--link">Latest</a>
-            </li>
-            <li class="sub_menu--item">
-              <a href="{% url 'press' %}" class="sub_menu--link">Press</a>
-            </li>
-          </ul>
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link" title="Saved Courses">
+            <i class="uil uil-heart-alt menu--icon"></i>
+            <span class="menu--label">Saved Courses</span>
+          </a>
         </li>
+        {% endif %}
+
+          <h6 class="left_title">ROLES</h6>
+
       </ul>
     </div>
     {% if request.user.role == "student" %}
-      {% if request.user.user_profile.get_subscribed_tutor_ids %}
-        <div class="left_section">
-          <h6 class="left_title">SUBSCRIPTIONS</h6>
-          <ul>
-            {% for tutor in request.user.user_profile.get_subscribed_tutor_ids %}
-              <li class="menu--item">
-                <a href="{{tutor.get_public_profile_url}}" class="menu--link user_img">
-                  <img src="{% if tutor.cover %}{{tutor.cover.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="">
-                  {{tutor.full_name|title}}
-                  <div class="alrt_dot"></div>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
+    {% if request.user.user_profile.get_subscribed_tutor_ids %}
+    <div class="left_section">
+      <h6 class="left_title">SUBSCRIPTIONS</h6>
+      <ul>
+        {% for tutor in request.user.user_profile.get_subscribed_tutor_ids %}
+        <li class="menu--item">
+          <a href="{{tutor.get_public_profile_url}}" class="menu--link user_img">
+            <img src="{% if tutor.cover %}{{tutor.cover.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="">
+            {{tutor.full_name|title}}
+            <div class="alrt_dot"></div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endif %}
+    {% endif %}
+
+
     <div class="left_section pt-2">
       <ul>
         {% if request.user.role == "student" %}
@@ -109,12 +117,12 @@
           </a>
         </li>
         {% endif %}
-        <li class="menu--item">
+        <!-- <li class="menu--item">
           <a href="{% url 'shared:web_editor_view' %}" class="menu--link" title="Setting">
             <i class="uil uil-code menu--icon"></i>
             <span class="menu--label">Editor</span>
           </a>
-        </li>
+        </li> -->
         <li class="menu--item">
           <a href="{% url 'help' %}" class="menu--link {% if request.resolver_match.view_name == 'help' %}active{% endif %}" title="Help">
             <i class="uil uil-question-circle menu--icon"></i>

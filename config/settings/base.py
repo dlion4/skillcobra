@@ -190,6 +190,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "skillcobra.users.middleware.AuthorizationMiddleware",
     "skillcobra.payments.middleware.RequestRetrievalMiddleware",
+    "skillcobra.core.middleware.TutorRequiredMiddleware",
 ]
 
 # STATIC

@@ -98,3 +98,18 @@ class SiteMapView(AuthorizedHomeViewMixin):
         context["categories"] = Category.objects.all()
         return context
 
+
+class AssessmentView(AuthorizedHomeViewMixin):
+    template_name = "pages/assessment.html"
+
+
+class CertificationView(AuthorizedHomeViewMixin):
+    template_name = "pages/certification.html"
+
+class EditorListView(AuthorizedHomeViewMixin):
+    template_name = "pages/editors.html"
+class ArtificialIntelligenceToolsView(AuthorizedHomeViewMixin):
+    template_name = "pages/ai_tools.html"
+
+class VirtualLearningView(AuthorizedHomeViewMixin):
+    template_name = "pages/virtual_learning.html"

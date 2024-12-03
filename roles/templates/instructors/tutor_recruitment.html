@@ -1,0 +1,729 @@
+{% load static i18n %} {% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+    <!-- <meta charset="utf-8" /> -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>{% block title %} skillcobra {% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=9" />
+    <meta name="description" content="lms" />
+    <meta name="author" content="jeckonia,daniel" />
+    <meta name="csrf-token" content="{{ csrf_token }}" />
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    {% include 'components/wizard_styles.html' %}
+    <!-- This file stores project-specific CSS -->
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+
+    <!--  -->
+    <!--  -->
+    <style>
+        :root {
+            --header-height: 3.5rem;
+            /*========== Colors ==========*/
+            /*Color mode HSL(hue, saturation, lightness)*/
+            --first-color: hsl(230, 75%, 56%);
+            --title-color: hsl(230, 75%, 15%);
+            --text-color: hsl(230, 12%, 40%);
+            --body-color: hsl(230, 100%, 98%);
+            --container-color: hsl(230, 100%, 97%);
+            --border-color: hsl(230, 25%, 80%);
+            /*========== Font and typography ==========*/
+            /*.5rem = 8px | 1rem = 16px ...*/
+            --body-font: "Syne", sans-serif;
+            --h2-font-size: 1.25rem;
+            --normal-font-size: 0.938rem;
+            /*========== Font weight ==========*/
+            --font-regular: 400;
+            --font-medium: 500;
+            --font-semi-bold: 600;
+            /*========== z index ==========*/
+            --z-fixed: 100;
+            --z-modal: 1000;
+        }
+
+        /*========== Responsive typography ==========*/
+        @media screen and (min-width: 1023px) {
+            :root {
+                --h2-font-size: 1.5rem;
+                --normal-font-size: 1rem;
+            }
+        }
+
+        /*=============== BASE ===============*/
+
+        input,
+        button {
+            border: none;
+            outline: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /*=============== REUSABLE CSS CLASSES ===============*/
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .main {
+            position: relative;
+            height: 100vh;
+        }
+
+        /*=============== HEADER & NAV ===============*/
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--body-color);
+            box-shadow: 0 2px 16px hsla(230, 75%, 32%, 0.15);
+            z-index: var(--z-fixed);
+        }
+
+        .nav {
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo {
+            color: var(--title-color);
+            font-weight: var(--font-semi-bold);
+            transition: color 0.2s;
+        }
+
+        .nav__menu {
+            /* Navigation for mobile devices */
+        }
+
+        @media screen and (max-width: 1023px) {
+            .nav__menu {
+                position: fixed;
+                top: -100%;
+                left: 0;
+                background-color: var(--body-color);
+                box-shadow: 0 8px 16px hsla(230, 75%, 32%, 0.15);
+                width: 100%;
+                padding-block: 4.5rem 4rem;
+                transition: top 0.2s;
+            }
+        }
+
+        .nav__list {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2.5rem;
+            text-align: center;
+        }
+
+        .nav__link {
+            color: var(--title-color);
+            font-weight: var(--font-semi-bold);
+            transition: color 0.2s;
+        }
+
+        .nav__close {
+            position: absolute;
+            top: 1.15rem;
+            right: 1.5rem;
+        }
+
+        .nav__actions {
+            display: flex;
+            align-items: center;
+            -moz-column-gap: 1rem;
+            column-gap: 1rem;
+        }
+
+        .nav__search,
+        .nav__login,
+        .nav__toggle,
+        .nav__close {
+            font-size: 1.25rem;
+            color: var(--title-color);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        :is(.nav__logo, .nav__search, .nav__login, .nav__toggle, .nav__link):hover {
+            color: var(--first-color);
+        }
+
+        /* Show menu */
+        .show-menu {
+            top: 0;
+        }
+
+        /*=============== BREAKPOINTS ===============*/
+        /* For medium devices */
+        @media screen and (min-width: 576px) {
+
+            .search,
+            .login {
+                padding-top: 10rem;
+            }
+
+            .search__form {
+                max-width: 450px;
+                margin-inline: auto;
+            }
+
+            .search__close,
+            .login__close {
+                width: -moz-max-content;
+                width: max-content;
+                top: 5rem;
+                left: 0;
+                right: 0;
+                margin-inline: auto;
+                font-size: 2rem;
+                color: #fff;
+            }
+
+            .login__form {
+                max-width: 400px;
+                margin-inline: auto;
+            }
+        }
+
+        /* For large devices */
+        @media screen and (min-width: 1023px) {
+            .nav {
+                height: calc(var(--header-height) + 2rem);
+                -moz-column-gap: 3rem;
+                column-gap: 3rem;
+            }
+
+            .nav__close,
+            .nav__toggle {
+                display: none;
+            }
+
+            .nav__menu {
+                margin-left: auto;
+            }
+
+            .nav__list {
+                flex-direction: row;
+                -moz-column-gap: 3rem;
+                column-gap: 3rem;
+            }
+
+            .login__form {
+                padding: 3rem 2rem 3.5rem;
+            }
+        }
+
+        @media screen and (min-width: 1150px) {
+            .container {
+                margin-inline: auto;
+            }
+        }
+
+
+        /* General Styles */
+
+
+        /* Progress Section */
+        .custom-progress-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 2rem;
+        }
+
+
+        .custom-list {
+            list-style-type: disc;
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .custom-list li {
+            margin-bottom: 0.75rem;
+            color: #555;
+        }
+
+
+        .custom-progress-content {
+            flex: 1 1 100%;
+            max-width: 100%;
+            padding: 1rem 1.1rem;
+        }
+
+        .custom-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .custom-text {
+            font-size: 1rem;
+            color: #b8b8b8;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .custom-button {
+            background: linear-gradient(90deg, #f9004d, #ff5478);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 4px 12px rgba(255, 84, 120, 0.6);
+        }
+    </style>
+
+    <script>
+        /*=============== SHOW MENU ===============*/
+        const navMenu = document.getElementById("nav-menu"),
+            navToggle = document.getElementById("nav-toggle"),
+            navClose = document.getElementById("nav-close");
+        /* Menu show */
+        navToggle.addEventListener("click", () => {
+            navMenu.classList.add("show-menu");
+        });
+        /* Menu hidden */
+        navClose.addEventListener("click", () => {
+            navMenu.classList.remove("show-menu");
+        });
+        /*=============== SEARCH ===============*/
+    </script>
+</head>
+
+<body>
+
+
+    <div class="container-fluid d-flex flex-column my-auto py-3">
+        <div>
+            <div id="wizard_container">
+                <div id="top-wizard">
+                    <div id="progressbar"></div>
+                </div>
+                <!-- /top-wizard -->
+
+                <div class="decorative_bg bg_1"></div>
+
+                <form id="wrapped" action="{% url 'instructors:tutor_recruitment_view' %}">
+                    <input id="website" name="website" type="text" value="">
+
+                    <div id="middle-wizard">
+
+                        <div class="step">
+
+                            <div class="custom-progress-section">
+                                <!-- Image Section -->
+
+                                <div class="custom-progress-content">
+                                    <h1 class="custom-title">Part-Time and Full-Time Skill Delivery Application</h1>
+                                    <p class="custom-text">
+                                        Join the SkillCobra platform and get unlimited opportunities to share your expertise. Complete the form to enroll in our tailored skill expert program, designed to connect you with learners worldwide. Here's what you'll do:
+                                    </p>
+                                    <ul class="custom-list">
+                                        <li>Select the skill or expertise you are best equipped to teach.</li>
+                                        <li>Choose the language you want to deliver your lessons in.</li>
+                                        <li>Set your schedule by selecting the most convenient days of the week to deliver your sessions.</li>
+                                        <li>Pick the specific times you'll be available to provide your expertise.</li>
+                                    </ul>
+                                    <p class="custom-text">
+                                        Take the first step towards becoming a recognized skill expert. Complete your application now—it's absolutely free!
+                                    </p>
+                                    <button type="button" name="forward" class="forward btn_1 custom-button">Apply for Free</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>Which <span class="highlight">SKill </span> do you wish to instruct?</h3>
+                                <p>Select a skill, service or talent which you can instruct.</p>
+                            </div>
+                            <div class="row justify-content-center">
+
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="list_block">
+                                        <ul>
+                                            <li>
+                                                <div class="checkbox_radio_container">
+                                                    <input type="checkbox" id="Data" name="Data[]" class="">
+                                                    <label class="checkbox" for="Data"></label>
+                                                    <label for="Data" class="wrapper">Data Analysis &
+                                                        Visualization</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="checkbox_radio_container">
+                                                    <input type="checkbox" id="optimization" name="optimization[]" class="">
+                                                    <label class="checkbox" for="optimization"></label>
+                                                    <label for="optimization" class="wrapper">Virtual Assistance
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <small><em>Select your most skilled fields *</em></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /Step -->
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>What is your native <span class="highlight">language & Region</span> <br>
+                                </h3>
+                                <p>Select your native language and region </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7 col-md-10">
+                                    <div class="list_block">
+                                        <ul>
+                                            <li class="mb-3">
+                                                <div class="checkbox_radio_container">
+                                                    <input type="checkbox" id="choose_region" name="seo_work" class="required" value="Choose Region" onclick="toggleLanguageDropdown(false); toggleRegionDropdown(true)">
+                                                    <label class="checkbox" for="choose_region"></label>
+                                                    <label for="choose_region" class="wrapper">Choose Region</label>
+                                                </div>
+                                                <div id="regionDropdown" class="input-group mt-2" style="display: none;">
+                                                    <select class="form-select" id="regionSelect" aria-label="Select Region">
+                                                        <option selected>Choose...</option>
+                                                        <option value="1">United States</option>
+                                                        <option value="2">United Kingdom</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="checkbox_radio_container">
+                                                    <input type="checkbox" id="choose_language" name="seo_work" class="required" value="Choose Languages" onclick="toggleLanguageDropdown(true); toggleRegionDropdown(false)">
+                                                    <label class="checkbox" for="choose_language"></label>
+                                                    <label for="choose_language" class="wrapper">Choose Languages</label>
+                                                </div>
+                                                <div id="languageDropdown" class="input-group mt-2" style="display: none;">
+                                                    <select class="form-select" id="inputGroupSelect04" aria-label="Select Language">
+                                                        <option value="22">Malay</option>
+                                                        <option value="23">Polish</option>
+                                                        <option value="24">Czech</option>
+                                                        <option value="25">Finnish</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /row-->
+                        </div>
+
+                        <!-- /Step -->
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>Which <span class="highlight">days of the week</span> are you available?</h3>
+                                <p>Please select the days you are available. You can choose multiple options if applicable.
+                                </p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7 col-md-10">
+                                    <div class="list_block">
+                                        <ul id="availabilityList"></ul>
+                                        <small><em>Multiple selections *</em></small>
+                                    </div>
+                                    <!-- /list_block-->
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>Select the most conviniet <span class="highlight">shift</span> for you</h3>
+                                <p>Select the most conviniet shift during which you can instruct your student you guarantee
+                                    to be available at or throughout these times</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 col-md-10">
+                                    <div class="list_block">
+                                        <ul id="shiftList"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+
+                        <!-- /Step -->
+                        <div class="step">
+                            <div class="question_title">
+                                <h3><span class="highlight">Your payout</span> per hour</h3>
+                                <p>This is your average payout of your successful delivered session</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 col-md-6">
+                                    <div class="rounded_slider">
+                                        <div class="col-sm-12 col-xs-12 clearfix quote-col">
+                                            <div class="quote">
+                                                <h2>Your approximate income per hour:</h2>
+                                                <span class="total" id="total" style="font-weight: bold; font-size: 30px; color: #0c7700;">
+                                                    <span id="spinner" style="display: none;">
+                                                        <i class="bi bi-arrow-repeat spinner-border" style="font-size: 20px;"></i>
+                                                    </span>
+                                                    <span id="amount" style="display: none;">$23.95</span>
+                                                </span>
+
+                                                <div class="text-center mt-3">
+                                                    <a href="#" id="fetchIncome" class="btn btn-primary">
+                                                        Fetch Pay
+                                                    </a>
+                                                </div>
+
+                                                <div style="font-size: 12px; padding-top: 130px; margin: 0;">
+                                                    <p>
+                                                        <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                        You will get paid after a successful student session and once the
+                                                        student provides a review.
+                                                    </p>
+                                                    <p>
+                                                        <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                        If the student chooses a session lasting 1 hour, you are expected to
+                                                        deliver it within the required time.
+                                                    </p>
+                                                    <p>
+                                                        <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                        Please note, any overtime beyond the scheduled session will not earn
+                                                        you bonus payouts.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- /Step -->
+                        <div class="submit step">
+                            <div class="question_title">
+                                <h3>Complete and Submit Application </h3>
+                                <p> Our team will verify your details and prepare your profile for students seeking your
+                                    expertise.</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <p>You are expected to adhere to our guidelines and policies to ensure a high
+                                            standard of service delivery. Compliance with these terms is mandatory for all
+                                            professionals.</p>
+                                        <p>We guarantee timely payouts for successfully completed sessions, as outlined in
+                                            our payment policy. Please ensure your sessions align with the agreed-upon
+                                            schedule and expectations.</p>
+                                        <p>Your commitment to delivering comprehensive and quality lessons, tailored to the
+                                            student's needs, is essential. Meeting these standards enhances student
+                                            satisfaction and boosts your credibility.</p>
+                                    </div>
+
+                                    <div class="terms">
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Terms and Conditions</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Payment Policy</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Privacy Policy</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+
+                        <!-- /Step -->
+                    </div>
+                    <div id="bottom-wizard">
+                        <button type="button" name="backward" class="backward btn_1">Prev</button>
+                        <button type="button" name="forward" class="forward btn_1">Next</button>
+                        <button type="submit" name="process" class="submit btn_1">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+            <!-- /Wizard container -->
+        </div>
+    </div>
+    <!-- /Container -->
+
+    <!--  -->
+    {% include 'components/wizard_scripts.html' %}
+    <!--  -->
+
+    <script>
+        $(document).ready(function () {
+            // Toggle visibility of dropdowns
+            function toggleDropdown(dropdownId, show) {
+                $(`#${dropdownId}`).css('display', show ? '' : 'none');
+            }
+
+            // Attach event handlers for toggling dropdowns
+            $('input[name="seo_work"]').on('change', function () {
+                const isLanguage = $(this).is('#choose_language');
+                const isRegion = $(this).is('#choose_region');
+
+                toggleDropdown('languageDropdown', isLanguage);
+                toggleDropdown('regionDropdown', isRegion);
+            });
+
+            // Collect selected skills
+            $('input[type="checkbox"][name^="Data"], input[type="checkbox"][name^="optimization"]').on('change', function () {
+                const selectedSkills = [];
+                $('input[type="checkbox"][name^="Data"]:checked, input[type="checkbox"][name^="optimization"]:checked').each(function () {
+                    selectedSkills.push($(this).val());
+                });
+                console.log("Selected Skills:", selectedSkills);
+            });
+
+            // Collect selected availability days
+            $('input[type="checkbox"][name="availability[]"]').on('change', function () {
+                const selectedDays = [];
+                $('input[name="availability[]"]:checked').each(function () {
+                    selectedDays.push($(this).val());
+                });
+                console.log("Selected Days:", selectedDays);
+            });
+
+            // Collect selected shifts
+            $('input[type="checkbox"][name^="day"], input[type="checkbox"][name^="night"]').on('change', function () {
+                const selectedShifts = [];
+                $('input[name^="day"]:checked, input[name^="night"]:checked').each(function () {
+                    selectedShifts.push($(this).val());
+                });
+                console.log("Selected Shifts:", selectedShifts);
+            });
+
+
+            const daysOfWeek = [
+                { id: 'sunday', label: 'Sunday' },
+                { id: 'monday', label: 'Monday' },
+                { id: 'tuesday', label: 'Tuesday' },
+                { id: 'wednesday', label: 'Wednesday' },
+                { id: 'thursday', label: 'Thursday' },
+                { id: 'friday', label: 'Friday' },
+                { id: 'saturday', label: 'Saturday' }
+            ];
+
+            const $availabilityList = $('#availabilityList');
+            daysOfWeek.forEach(day => {
+                const listItem = `
+            <li>
+                <div class="checkbox_radio_container">
+                    <input type="checkbox" id="${day.id}" name="availability[]" class="required" value="${day.label}">
+                    <label class="checkbox" for="${day.id}"></label>
+                    <label for="${day.id}" class="wrapper">${day.label}</label>
+                </div>
+            </li>
+        `;
+                $availabilityList.append(listItem);
+            });
+
+            const shifts = [
+                { id: 'day', label: '6:00 AM - 12:00 Noon', description: 'Day Shift' },
+                { id: 'day1', label: '12:00 Noon - 6:00 PM', description: 'Day Shift' },
+                { id: 'night', label: '6:00 PM - 12:00 Mid-night', description: 'Night Shift' },
+                { id: 'night2', label: '12:00 Mid-night - 6:00 AM', description: 'Night Shift' }
+            ];
+
+            const $shiftList = $('#shiftList');
+            shifts.forEach(shift => {
+                const listItem = `
+            <li>
+                <div class="checkbox_radio_container">
+                    <input type="checkbox" id="${shift.id}" name="${shift.id}[]" class="" value="${shift.id}">
+                    <label class="checkbox" for="${shift.id}"></label>
+                    <label for="${shift.id}" class="wrapper">${shift.label}</label>
+                    <p>${shift.description}</p>
+                </div>
+            </li>
+        `;
+                $shiftList.append(listItem);
+            });
+            $('#fetchIncome').on('click', function (event) {
+                event.preventDefault();
+                const $spinner = $('#spinner');
+                const $amount = $('#amount');
+                const $button = $('#fetchIncome');
+
+                $spinner.show();
+                $amount.hide();
+                $button.hide();
+
+                setTimeout(() => {
+                    $spinner.hide();
+                    $amount.show();
+                }, 1000);
+            });
+        });
+
+        $(document).ready(function () {
+            $("form#wrapped").submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                const fd = new FormData(this);
+
+                console.log(fd.entries())
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: "POST",
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response)
+                        console.log("Form submitted successfully");
+                    },
+                    error: function (error) {
+                        console.error("Error submitting form", error);
+                    }
+                });
+            })
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Editing Tools {% endblock title %}
+<!--  -->
+
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %}
+{% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+<div class="row my-4 py-3 px-5">
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative py-3">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center py-4">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+                    <dotlottie-player src="https://lottie.host/238f2062-bf8b-4cc1-a038-9e73ca67cc64/iYIWVQE4pV.lottie" background="transparent" speed="0.3" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-12 col-sm-8 text-center text-sm-start">
+
+                    <h4 class="card-title">IDE Editor</h4>
+                    <p class="card-text">Our platform features an integrated, AI-powered IDE designed for real-time web development, catering to both experts and students. It eliminates the hassle of switching to external editors like VS Code, offering seamless, on-platform coding experiences.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end" style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn1542">
+                    Launch Editor
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative py-3">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center py-4">
+                <!-- Image Section -->
+                <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+
+                    <dotlottie-player src="https://lottie.host/a51c1a65-9b3c-4df0-9cc0-cfeefea935be/GCp5Qy2IzE.lottie" background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-12 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title">Whiteboard Editor</h4>
+                    <p class="card-text">Collaborate and brainstorm effortlessly with our intuitive whiteboard editor with the experts, life-coaches, mentors and gurus . Visualize ideas, create flowcharts, and share insights in real-time, within the platform.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end" style="margin-top: -25px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn1542">
+                    Launch Editor
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}

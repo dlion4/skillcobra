@@ -118,3 +118,7 @@ class LessonHomeView(TemplateViewMixin):
             courses_id__in=self.get_profile().purchased_courses.all(),
         )
         return context
+
+
+class StudentRequestSessionOnboarding(TemplateViewMixin):
+    template_name = "requests/session.html"

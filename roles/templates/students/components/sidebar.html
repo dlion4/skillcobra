@@ -11,12 +11,40 @@
             <span class="menu--label">Dashboard</span>
           </a>
         </li>
+        <h6 class="left_title">COURSES</h6>
         <li class="menu--item">
           <a href="{% url 'students:purchased-courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:purchased-courses' %}active{% endif %}" title="Courses">
             <i class="uil uil-book-alt menu--icon"></i>
             <span class="menu--label">Purchased Courses</span>
           </a>
         </li>
+
+        <li class="menu--item">
+          <a href="{% url 'students:saved_courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:saved_courses' %}active{% endif %}" title="Courses">
+            <i class="uil uil-heart-alt menu--icon"></i>
+            <span class="menu--label">Saved Courses</span>
+          </a>
+        </li>
+
+        <h6 class="left_title">ACHIEVEMENTS</h6>
+
+        <li class="menu--item">
+          <a href="{% url 'students:certificates' %}" class="menu--link  {% if request.resolver_match.view_name == 'students:certificates' %}active{% endif %}" title="My Certificates">
+            <i class="uil uil-award menu--icon"></i>
+            <span class="menu--label">Certificates</span>
+          </a>
+        </li>
+
+        <li class="menu--item">
+          <a href="" class="menu--link  {% if request.resolver_match.view_name == 'students:student_tests' %}active{% endif %}" title="My Tests">
+            <i class="uil uil-file menu--icon"></i>
+            <span class="menu--label">Tests</span>
+          </a>
+        </li>
+
+        <h6 class="left_title">FEEDBACK</h6>
+
+
         <li class="menu--item">
           <a href="{% url 'students:messages' %}" class="menu--link {% if request.resolver_match.view_name == 'students:messages' %}active{% endif %}" title="Messages">
             <i class="uil uil-comments menu--icon"></i>
@@ -29,33 +57,42 @@
             <span class="menu--label">Notifications</span>
           </a>
         </li>
-        <li class="menu--item">
-          <a href="{% url 'students:saved_courses' %}" class="menu--link {% if request.resolver_match.view_name == 'students:saved_courses' %}active{% endif %}" title="Courses">
-            <i class="uil uil-heart-alt menu--icon"></i>
-            <span class="menu--label">Saved Courses</span>
-          </a>
-        </li>
-        <li class="menu--item">
-          <a href="{% url 'students:certificates' %}" class="menu--link  {% if request.resolver_match.view_name == 'students:certificates' %}active{% endif %}" title="My Certificates">
-            <i class="uil uil-award menu--icon"></i>
-            <span class="menu--label">Certificates</span>
-          </a>
-        </li>
+
+
         <li class="menu--item">
           <a href="{% url 'students:reviews' %}" class="menu--link {% if request.resolver_match.view_name == 'students:reviews' %}active{% endif %}" title="Reviews">
             <i class="uil uil-star menu--icon"></i>
             <span class="menu--label">Reviews</span>
           </a>
         </li>
+        <h6 class="left_title">REQUESTS</h6>
+        <li class="menu--item">
+          <a href="{% url 'students:request_session' %}" class="menu--link {% if request.resolver_match.view_name == 'students:request_session' %}active{% endif %}" title="Request Session">
+            <i class="uil uil-sun menu--icon"></i>
+            <span class="menu--label">Session</span>
+          </a>
+        </li>
+        <li class="menu--item">
+          <a href="" class="menu--link {% if request.resolver_match.view_name == 'students:history' %}active{% endif %}" title="History">
+            <i class="uil uil-archive menu--icon"></i>
+            <span class="menu--label">History</span>
+          </a>
+        </li>
+
+
+        <h6 class="left_title">CREDITS</h6>
         <li class="menu--item">
           <a href="{% url 'students:credits' %}" class="menu--link {% if request.resolver_match.view_name == 'students:credits' %}active{% endif %}" title="Credits">
             <i class="uil uil-wallet menu--icon"></i>
             <span class="menu--label">Credits</span>
           </a>
         </li>
-        
+
+
       </ul>
     </div>
+
+
     <div class="left_section pt-2">
       <ul>
         <li class="menu--item">

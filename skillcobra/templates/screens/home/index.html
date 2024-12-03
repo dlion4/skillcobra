@@ -21,13 +21,12 @@
           <div class="tutor_content_dt">
             <div class="tutor150">
               <a href="{{item.get_public_profile_url}}" class="tutor_name"
-                >{{item.full_name|title}}</a
-              >
+                >{{item.full_name|title}}</a>
               <div class="mef78" title="Verify">
                 <i class="uil uil-check-circle"></i>
               </div>
             </div>
-            <div class="tutor_cate">{{item.headline|truncatewords:"8"}}</div>
+            <div class="tutor_cate">{{item.headline|truncatewords:"8"|default:"headline unset"}}</div>
             <ul class="tutor_social_links">
               <li>
                 <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>

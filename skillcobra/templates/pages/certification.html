@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+<!-- -->
+<!-- CSS ============================================ -->
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Certification{% endblock title %}
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %}
+{% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+<div class="container bg-dark py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="cert_banner_text">
+                <h1>Certification Center</h1>
+                <p>For Students and Instructors</p>
+                <ul class="certi_icons">
+                    <li><a href="#" class="edttslogo"><img src="{% static 'images/logo1.svg' %}" alt=""></a></li>
+                    <li>
+                        <div class="edttsplus"><img src="{% static 'images/cerificate_center/plus.svg' %}" alt=""></div>
+                    </li>
+                    <li><a href="#" class="edttslogo1"><img src="{% static 'images/cerificate_center/certicon.svg' %}" alt=""></a></li>
+                </ul>
+                <button class="certi-btn">Start Certification</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+{% block scripts %}
+{{ block.super }}
+{% endblock scripts %}

@@ -1,0 +1,69 @@
+{% extends "students/base.html" %}
+<!-- -->
+{% load static %}
+<!-- -->
+
+{% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!--  -->
+
+{% include 'components/wizard_styles.html' %}
+<!--  -->
+
+
+{% endblock css %}
+<!--  -->
+
+{% block content %}
+<!-- -->
+
+<div class="container-fluid d-flex flex-column my-auto py-3">
+    <div>
+        <div id="wizard_container">
+            <div id="top-wizard">
+                <div id="progressbar"></div>
+            </div>
+            <!-- /top-wizard -->
+            <div class="decorative_bg bg_3"></div>
+            <form id="wrapped" method="POST">
+
+                <div id="middle-wizard">
+                    {% include 'students/requests/steps/field.html' %}
+                    <!-- language -->
+                    {% include 'students/requests/steps/language.html' %}
+                    <!--  -->
+                    {% include 'students/requests/steps/schedule.html' %}
+                    <!--  -->
+                    {% include 'students/requests/steps/estimate.html' %}
+                    <!--  -->
+                    {% include 'students/requests/steps/summary.html' %}
+                </div>
+
+                <!-- /middle-wizard -->
+                <div id="bottom-wizard">
+                    <button type="button" name="backward" class="backward btn_1">
+                        Prev
+                    </button>
+                    <button type="button" name="forward" class="forward btn_1">
+                        Next
+                    </button>
+                    <button type="button" name="process" class="submit btn_1">
+                        Submit
+                    </button>
+                </div>
+                <!-- /bottom-wizard -->
+            </form>
+        </div>
+        <!-- /Wizard container -->
+    </div>
+</div>
+
+{% endblock content %}
+
+<!--  -->
+
+{% block scripts %}
+<!--  -->
+{{ block.super }} {% include 'components/wizard_scripts.html' %}
+<!--  -->
+{% endblock scripts %}

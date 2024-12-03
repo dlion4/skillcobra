@@ -69,6 +69,31 @@ urlpatterns = [
         views.HomeTermsOfUseView.as_view(),
         name="terms",
     ),
+    path(
+        "assessment-view/",
+        views.AssessmentView.as_view(),
+        name="assessment_view",
+    ),
+    path(
+        "certification-view/",
+        views.CertificationView.as_view(),
+        name="certification_view",
+    ),
+    path(
+        "editors/",
+        views.EditorListView.as_view(),
+        name="editors_view",
+    ),
+    path(
+        "ai-tools/",
+        views.ArtificialIntelligenceToolsView.as_view(),
+        name="ai_tools_view",
+    ),
+    path(
+        "distant-learning/",
+        views.VirtualLearningView.as_view(),
+        name="distant_learning",
+    ),
     # COURSE URL
     path("courses/", include("skillcobra.core.courses.urls", namespace="courses")),
     path(
@@ -78,5 +103,9 @@ urlpatterns = [
     path(
         "students/",
         include("skillcobra.core.students.urls", namespace="profile_students"),
+    ),
+    path(
+        "careers/",
+        include("skillcobra.core.careers.urls", namespace="careers"),
     ),
 ]

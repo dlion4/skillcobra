@@ -58,6 +58,12 @@ urlpatterns = [
         views.StudentShoppingCartView.as_view(),
         name="shopping_courses",
     ),
+    # REQUESTS
+    path(
+        "requests/session/",
+        views.StudentRequestSessionOnboarding.as_view(),
+        name="request_session",
+    ),
     path(
         "profile/update/",
         views.StudentProfileUpdateView.as_view(),
