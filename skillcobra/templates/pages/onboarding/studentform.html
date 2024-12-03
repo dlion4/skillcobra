@@ -1,0 +1,860 @@
+{% extends "base3.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+<style>
+    :root {
+        --header-height: 3.5rem;
+        /*========== Colors ==========*/
+        /*Color mode HSL(hue, saturation, lightness)*/
+        --first-color: hsl(230, 75%, 56%);
+        --title-color: hsl(230, 75%, 15%);
+        --text-color: hsl(230, 12%, 40%);
+        --body-color: hsl(230, 100%, 98%);
+        --container-color: hsl(230, 100%, 97%);
+        --border-color: hsl(230, 25%, 80%);
+        /*========== Font and typography ==========*/
+        /*.5rem = 8px | 1rem = 16px ...*/
+        --body-font: "Syne", sans-serif;
+        --h2-font-size: 1.25rem;
+        --normal-font-size: 0.938rem;
+        /*========== Font weight ==========*/
+        --font-regular: 400;
+        --font-medium: 500;
+        --font-semi-bold: 600;
+        /*========== z index ==========*/
+        --z-fixed: 100;
+        --z-modal: 1000;
+    }
+
+    /*========== Responsive typography ==========*/
+    @media screen and (min-width: 1023px) {
+        :root {
+            --h2-font-size: 1.5rem;
+            --normal-font-size: 1rem;
+        }
+    }
+
+    /*=============== BASE ===============*/
+
+    input,
+    button {
+        border: none;
+        outline: none;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /*=============== REUSABLE CSS CLASSES ===============*/
+    .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .main {
+        position: relative;
+        height: 100vh;
+    }
+
+
+
+    /*=============== HEADER & NAV ===============*/
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--body-color);
+        box-shadow: 0 2px 16px hsla(230, 75%, 32%, 0.15);
+        z-index: var(--z-fixed);
+    }
+
+    .nav {
+        height: var(--header-height);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav__logo {
+        color: var(--title-color);
+        font-weight: var(--font-semi-bold);
+        transition: color 0.2s;
+    }
+
+    .nav__menu {
+        /* Navigation for mobile devices */
+    }
+
+    @media screen and (max-width: 1023px) {
+        .nav__menu {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            background-color: var(--body-color);
+            box-shadow: 0 8px 16px hsla(230, 75%, 32%, 0.15);
+            width: 100%;
+            padding-block: 4.5rem 4rem;
+            transition: top 0.2s;
+        }
+    }
+
+    .nav__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 2.5rem;
+        text-align: center;
+    }
+
+    .nav__link {
+        color: var(--title-color);
+        font-weight: var(--font-semi-bold);
+        transition: color 0.2s;
+    }
+
+    .nav__close {
+        position: absolute;
+        top: 1.15rem;
+        right: 1.5rem;
+    }
+
+    .nav__actions {
+        display: flex;
+        align-items: center;
+        -moz-column-gap: 1rem;
+        column-gap: 1rem;
+    }
+
+    .nav__search,
+    .nav__login,
+    .nav__toggle,
+    .nav__close {
+        font-size: 1.25rem;
+        color: var(--title-color);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    :is(.nav__logo, .nav__search, .nav__login, .nav__toggle, .nav__link):hover {
+        color: var(--first-color);
+    }
+
+    /* Show menu */
+    .show-menu {
+        top: 0;
+    }
+
+
+    /*=============== BREAKPOINTS ===============*/
+    /* For medium devices */
+    @media screen and (min-width: 576px) {
+
+        .search,
+        .login {
+            padding-top: 10rem;
+        }
+
+        .search__form {
+            max-width: 450px;
+            margin-inline: auto;
+        }
+
+        .search__close,
+        .login__close {
+            width: -moz-max-content;
+            width: max-content;
+            top: 5rem;
+            left: 0;
+            right: 0;
+            margin-inline: auto;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .login__form {
+            max-width: 400px;
+            margin-inline: auto;
+        }
+    }
+
+    /* For large devices */
+    @media screen and (min-width: 1023px) {
+        .nav {
+            height: calc(var(--header-height) + 2rem);
+            -moz-column-gap: 3rem;
+            column-gap: 3rem;
+        }
+
+        .nav__close,
+        .nav__toggle {
+            display: none;
+        }
+
+        .nav__menu {
+            margin-left: auto;
+        }
+
+        .nav__list {
+            flex-direction: row;
+            -moz-column-gap: 3rem;
+            column-gap: 3rem;
+        }
+
+        .login__form {
+            padding: 3rem 2rem 3.5rem;
+        }
+    }
+
+    @media screen and (min-width: 1150px) {
+        .container {
+            margin-inline: auto;
+        }
+    }
+</style>
+<script>
+    /*=============== SHOW MENU ===============*/
+    const navMenu = document.getElementById("nav-menu"),
+        navToggle = document.getElementById("nav-toggle"),
+        navClose = document.getElementById("nav-close");
+    /* Menu show */
+    navToggle.addEventListener("click", () => {
+        navMenu.classList.add("show-menu");
+    });
+    /* Menu hidden */
+    navClose.addEventListener("click", () => {
+        navMenu.classList.remove("show-menu");
+    });
+    /*=============== SEARCH ===============*/
+</script>
+
+<!-- /offcanvas nav -->
+<header class="header" id="header">
+    <nav class="nav container">
+        <a class="nav__logo" href="#">Logo</a>
+        <a class="nav__link" href="{% url 'home' %}">Home</a>
+        <a class="nav__link" href="#">Dashboard</a>
+
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+
+            </ul>
+            <!-- Close button -->
+            <div class="nav__close" id="nav-close">
+                <i class="ri-close-line"></i>
+            </div>
+        </div>
+
+        <div class="nav__actions">
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-menu-line"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<div class="container-fluid d-flex flex-column my-auto py-3">
+    <div>
+        <div id="wizard_container">
+            <div id="top-wizard">
+                <div id="progressbar"></div>
+            </div>
+            <!-- /top-wizard -->
+            <div class="decorative_bg bg_3"></div>
+            <form id="wrapped" method="POST">
+                <input id="website" name="website" type="text" value="">
+                <!-- Leave input above for security protection, read docs for details -->
+                <div id="middle-wizard">
+                    <div class="step">
+                        <div class="question_title">
+                            <h3>Which <span class="highlight">SKill </span> do you wish to learn?</h3>
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="list_block">
+                                    <ul>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="ecommerce_seo" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="ecommerce_seo"></label>
+                                                <label for="ecommerce_seo" class="wrapper">Web
+                                                    Development</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="optimization" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="optimization"></label>
+                                                <label for="optimization" class="wrapper">Web Design </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="campaigns" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="campaigns"></label>
+                                                <label for="campaigns" class="wrapper">Photo & Video
+                                                    Editing</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="google_business" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="google_business"></label>
+                                                <label for="google_business" class="wrapper">Content
+                                                    Writing</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="audit" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="audit"></label>
+                                                <label for="audit" class="wrapper">SEO & Digital
+                                                    Marketing</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="audit" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="audit"></label>
+                                                <label for="audit" class="wrapper">Programming & Software
+                                                    Development</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="audit" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="audit"></label>
+                                                <label for="audit" class="wrapper">Creative Arts &
+                                                    Entertainment</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <!-- /list_block-->
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="list_block">
+                                    <ul>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="ecommerce_seo" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="ecommerce_seo"></label>
+                                                <label for="ecommerce_seo" class="wrapper">Data Analysis &
+                                                    Visualization</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="optimization" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="optimization"></label>
+                                                <label for="optimization" class="wrapper">Virtual Assistance
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="campaigns" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="campaigns"></label>
+                                                <label for="campaigns" class="wrapper">Finance &
+                                                    Accounting</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="google_business" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="google_business"></label>
+                                                <label for="google_business" class="wrapper">AI & Machine
+                                                    Learning</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="audit" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="audit"></label>
+                                                <label for="audit" class="wrapper">Cybersecurity & IT
+                                                    Support</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="checkbox" id="audit" name="seo_services[]"
+                                                    class="required">
+                                                <label class="checkbox" for="audit"></label>
+                                                <label for="audit" class="wrapper">Sales & Lead
+                                                    Generation</label>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <small><em>Only a single selection *</em></small>
+                                </div>
+                                <!-- /list_block-->
+                            </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /Step -->
+                    <div class="step">
+                        <div class="question_title">
+                            <h3>Tell us the <span class="highlight">Title & Description</span> <br> under your
+                                Skill category</h3>
+                            <p>Please provide a concise title and a short description of the skill you want to
+                                highlight. This will help our experts understand your expertise better.</p>
+
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10 col-md-10">
+                                <div class="list_block">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label required">Title</label>
+                                        <input type="text" class="form-control required" id="exampleFormControlInput1"
+                                            placeholder="Video editiging with blender 4.2">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="timeInput" class="form-label required">Hours</label>
+                                        <div class="input-group">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                id="decrement">-</button>
+                                            <input type="number" class="form-control required" id="timeInput" min="1"
+                                                step="1" value="1" />
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                id="increment">+</button>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        const input = document.getElementById("timeInput");
+                                        const incrementBtn = document.getElementById("increment");
+                                        const decrementBtn = document.getElementById("decrement");
+                                        incrementBtn.addEventListener("click", () => {
+                                            input.value = parseInt(input.value) + 1;
+                                        });
+                                        decrementBtn.addEventListener("click", () => {
+                                            if (parseInt(input.value) > 1) {
+                                                input.value = parseInt(input.value) - 1;
+                                            }
+                                        });
+                                    </script>
+
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1" class="form-label">Details of this skillset</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <!-- /list_block-->
+                            </div>
+                        </div>
+                        <!-- /row-->
+                    </div>
+                    <!-- /Step -->
+
+                    <!-- /Step -->
+                    <div class="step">
+                        <div class="question_title">
+                            <h3>Which <span class="highlight">language</span> <br> are you comfortable to be tought in
+                            </h3>
+                            <p>Select a language in which the expert will use to deliver to you the session</p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7 col-md-10">
+                                <div class="list_block">
+                                    <ul>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="radio" id="yeswith_2" name="seo_work" class="required"
+                                                    value="Yes, with an SEO Expert">
+                                                <label class="radio" for="yeswith_2"></label>
+                                                <label for="yeswith_2" class="wrapper">English (default)</label>
+                                            </div>
+                                        </li>
+                                        <!-- Radio Button: Choose Languages -->
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="radio" id="choose_language" name="seo_work"
+                                                    class="required" value="Choose Languages"
+                                                    onclick="toggleLanguageDropdown(true)">
+                                                <label class="radio" for="choose_language"></label>
+                                                <label for="choose_language" class="wrapper">Choose
+                                                    Languages</label>
+                                            </div>
+                                            <!-- Dropdown: Languages -->
+                                            <div id="languageDropdown" class="input-group mt-2" style="display: none;">
+                                                <select class="form-select" id="inputGroupSelect04"
+                                                    aria-label="Select Language">
+                                                    <option selected>Choose...</option>
+                                                    <option value="1">English</option>
+                                                    <option value="2">French</option>
+                                                    <option value="3">German</option>
+                                                    <option value="4">Spanish</option>
+                                                    <option value="5">Italian</option>
+                                                    <option value="6">Chinese</option>
+                                                    <option value="7">Japanese</option>
+                                                    <option value="8">Korean</option>
+                                                    <option value="9">Arabic</option>
+                                                    <option value="10">Russian</option>
+                                                    <option value="11">Hindi</option>
+                                                    <option value="12">Portuguese</option>
+                                                    <option value="13">Bengali</option>
+                                                    <option value="14">Urdu</option>
+                                                    <option value="15">Swahili</option>
+                                                    <option value="16">Turkish</option>
+                                                    <option value="17">Dutch</option>
+                                                    <option value="18">Greek</option>
+                                                    <option value="19">Vietnamese</option>
+                                                    <option value="20">Thai</option>
+                                                    <option value="21">Persian</option>
+                                                    <option value="22">Malay</option>
+                                                    <option value="23">Polish</option>
+                                                    <option value="24">Czech</option>
+                                                    <option value="25">Finnish</option>
+                                                </select>
+                                            </div>
+                                        </li>
+                                        <!-- Radio Button: Yes, in-house -->
+
+                                        <script>
+                                            function toggleLanguageDropdown(show) {
+                                                const dropdown = document.getElementById("languageDropdown");
+                                                if (show) {
+                                                    dropdown.style.display = "";
+                                                } else {
+                                                    dropdown.style.display = "none";
+                                                }
+                                            }
+                                        </script>
+
+                                    </ul>
+                                </div>
+                                <!-- /list_block-->
+                            </div>
+                        </div>
+                        <!-- /row-->
+                    </div>
+                    <!-- /Step -->
+                    <!-- /Step -->
+
+                    <div class="step">
+                        <div class="question_title">
+                            <h3>Give us the <span class="highlight">Schedule</span> for your session</h3>
+                            <p>Select the best time and duration for your session</p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-7 col-md-10">
+                                <div class="list_block form-group">
+                                    <ul>
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="radio" id="yes_1" name="website_available" class="required"
+                                                    value="Yes, it is already online" onclick="toggleDetails(this)">
+                                                <label class="radio" for="yes_1"></label>
+                                                <label for="yes_1" class="wrapper">In 15 minutes</label>
+                                            </div>
+                                            <div id="details_yes_1" class="details muted-text"
+                                                style="display: none; font-size: small; color: #6c757d;">
+                                                The session will start in approximately 15 minutes of succesful
+                                                placement of your order
+                                            </div>
+                                        </li>
+                                        <script>
+                                            document.querySelectorAll('input[name="website_available"]').forEach((
+                                                radio) => {
+                                                    radio.addEventListener('change', (event) => {
+                                                        const details = document.getElementById(
+                                                            'details_yes_1');
+                                                        if (event.target.id === 'yes_1' && event.target
+                                                            .checked) {
+                                                            details.style.display = 'block';
+                                                        } else {
+                                                            details.style.display = 'none';
+                                                        }
+                                                    });
+                                                });
+                                        </script>
+
+                                        <!--xxxxxxxxxxxxxxxxx-->
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="radio" id="no_site" name="website_available"
+                                                    class="required" value="No, I want to have one"
+                                                    onclick="toggleDetailsNoSite(this)">
+                                                <label class="radio" for="no_site"></label>
+                                                <label for="no_site" class="wrapper">As soon as possible</label>
+                                            </div>
+                                            <div id="details_no_site" class="details muted-text"
+                                                style="display: none; font-size: small; color: #6c757d;">
+                                                The session will start in as soon as we receive a successful placement
+                                                of your order. You will then start the session at your own will based on
+                                                the availability of our instructors
+                                            </div>
+                                        </li>
+
+                                        <script>
+                                            function toggleDetailsNoSite(radio) {
+                                                const details = document.getElementById('details_no_site');
+                                                if (radio.id === 'no_site' && radio.checked) {
+                                                    details.style.display = 'block';
+                                                } else {
+                                                    details.style.display = 'none';
+                                                }
+                                            }
+                                            // Ensure all radio buttons in the group hide this detail when not selected
+                                            document.querySelectorAll('input[name="website_available"]').forEach((
+                                                radio) => {
+                                                    radio.addEventListener('change', (event) => {
+                                                        const details = document.getElementById(
+                                                            'details_no_site');
+                                                        if (event.target.id !== 'no_site' || !event.target
+                                                            .checked) {
+                                                            details.style.display = 'none';
+                                                        }
+                                                    });
+                                                });
+                                        </script>
+                                        <!--xxxxxxxxxxxxxxxxxxxxxxxxxx-->
+                                        <li>
+                                            <div class="checkbox_radio_container">
+                                                <input type="radio" id="yes_2" name="website_available" class="required"
+                                                    value="Yes, it is under construction">
+                                                <label class="radio" for="yes_2"></label>
+                                                <label for="yes_2" class="wrapper">Choose Date and Time</label>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <!-- /list_block-->
+                                <div class="form-group">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="date">Date</label>
+                                                <div class="input-group date" id="datePicker">
+                                                    <input type="text" class="form-control">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"
+                                                            aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="time">Time</label>
+                                                <div class="input-group date" id="timePicker">
+                                                    <input type="text" class="form-control timePicker">
+                                                    <span class="input-group-addon"><i class="fa fa-clock-o"
+                                                            aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /row-->
+                    </div>
+                    <!-- /Step -->
+                    <!-- /Step -->
+                    <style>
+                        .quote a {
+                            border: 2px solid #FF3B3F;
+                            border-radius: 10px;
+                            padding: 10px 30px;
+                            font-size: 22px;
+                            text-decoration: none;
+                            color: #FFF;
+                            background-color: #FF3B3F;
+                        }
+
+                        .quote a:hover {
+                            background-color: transparent;
+                            color: #FF3B3F;
+                        }
+                    </style>
+                    <!-- /Step -->
+                    <div class="step">
+                        <div class="question_title">
+                            <h3>Your approximated <span class="highlight">Budget</span></h3>
+                            <p>We have generated you the best estimate budget</p>
+                        </div>
+                        <div class="row justify-content-center mt-5">
+
+                            <div class="col-lg-6 col-md-6">
+                                <div class="rounded_slider">
+                                    <div id="budget_slider"></div>
+                                    <p>This is the price for other experts and skilled professionals on various online
+                                        skill platforms.</p>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="rounded_slider">
+                                    <div class="col-sm-12 col-xs-12 clearfix quote-col ">
+                                        <div class="quote">
+                                            <h2>Your Estimate Cost:</h2>
+                                            <span class="total" id="total"
+                                                style="font-weight: bold; font-size: 30px; color: #0c7700;">
+                                                $199.95
+                                            </span>
+
+                                            <ul
+                                                style="font-size: 12px; list-style: none; padding-top: 30px; margin: 0;">
+                                                <li>
+                                                    <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                    We have provided you with the best estimated price for your skill
+                                                    session.
+                                                </li>
+                                                <li>
+                                                    <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                    If you accept this price, you can proceed, and payment will only be
+                                                    required once we pair you with a qualified expert.
+                                                </li>
+                                                <li>
+                                                    <span style="color: #f7af16; font-weight: bold;">✔</span>
+                                                    Please note, you will be prompted to complete payment before the
+                                                    session can begin.
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- /Step -->
+                    <div class="submit step">
+                        <div class="question_title">
+                            <h3>Please check your<span class="highlight"> summary</span></h3>
+                            <p>Confirm this summary and proceed to complete your order</p>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Description</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">Skill Category</td>
+                                            <td>Web Developement</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">Skill topic</td>
+                                            <td>the web front</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">language</td>
+                                            <td>Hindi</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">Duration</td>
+                                            <td>1 Hour</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">Schedule</td>
+                                            <td>in 15 minutes</td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td style="color: #28a745; font-weight: bold;">Budget</td>
+                                            <td>$100</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="terms">
+                                    <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#terms-txt">Terms and conditions</a>
+                                        <input type="checkbox" name="terms" value="Yes" class="required">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /Step -->
+                </div>
+                <!-- /middle-wizard -->
+                <div id="bottom-wizard">
+                    <button type="button" name="backward" class="backward btn_1">Prev</button>
+                    <button type="button" name="forward" class="forward btn_1">Next</button>
+                    <button type="submit" name="process" class="submit btn_1">Submit</button>
+                </div>
+                <!-- /bottom-wizard -->
+            </form>
+        </div>
+        <!-- /Wizard container -->
+    </div>
+</div>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".create_btn_dash", function(event) {
+            event.preventDefault();
+            window.location.href = "{% url 'instructors:create_course_view' %}"
+        })
+    })
+</script>
+{% endblock scripts %}

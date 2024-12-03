@@ -1,0 +1,426 @@
+{% extends "base1.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+<style>
+    :root {
+        --header-height: 3.5rem;
+        /*========== Colors ==========*/
+        /*Color mode HSL(hue, saturation, lightness)*/
+        --first-color: hsl(230, 75%, 56%);
+        --title-color: hsl(230, 75%, 15%);
+        --text-color: hsl(230, 12%, 40%);
+        --body-color: hsl(230, 100%, 98%);
+        --container-color: hsl(230, 100%, 97%);
+        --border-color: hsl(230, 25%, 80%);
+        /*========== Font and typography ==========*/
+        /*.5rem = 8px | 1rem = 16px ...*/
+        --body-font: "Syne", sans-serif;
+        --h2-font-size: 1.25rem;
+        --normal-font-size: 0.938rem;
+        /*========== Font weight ==========*/
+        --font-regular: 400;
+        --font-medium: 500;
+        --font-semi-bold: 600;
+        /*========== z index ==========*/
+        --z-fixed: 100;
+        --z-modal: 1000;
+    }
+
+    /*========== Responsive typography ==========*/
+    @media screen and (min-width: 1023px) {
+        :root {
+            --h2-font-size: 1.5rem;
+            --normal-font-size: 1rem;
+        }
+    }
+
+    /*=============== BASE ===============*/
+
+    input,
+    button {
+        border: none;
+        outline: none;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /*=============== REUSABLE CSS CLASSES ===============*/
+    .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .main {
+        position: relative;
+        height: 100vh;
+    }
+
+
+
+    /*=============== HEADER & NAV ===============*/
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--body-color);
+        box-shadow: 0 2px 16px hsla(230, 75%, 32%, 0.15);
+        z-index: var(--z-fixed);
+    }
+
+    .nav {
+        height: var(--header-height);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav__logo {
+        color: var(--title-color);
+        font-weight: var(--font-semi-bold);
+        transition: color 0.2s;
+    }
+
+    .nav__menu {
+        /* Navigation for mobile devices */
+    }
+
+    @media screen and (max-width: 1023px) {
+        .nav__menu {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            background-color: var(--body-color);
+            box-shadow: 0 8px 16px hsla(230, 75%, 32%, 0.15);
+            width: 100%;
+            padding-block: 4.5rem 4rem;
+            transition: top 0.2s;
+        }
+    }
+
+    .nav__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 2.5rem;
+        text-align: center;
+    }
+
+    .nav__link {
+        color: var(--title-color);
+        font-weight: var(--font-semi-bold);
+        transition: color 0.2s;
+    }
+
+    .nav__close {
+        position: absolute;
+        top: 1.15rem;
+        right: 1.5rem;
+    }
+
+    .nav__actions {
+        display: flex;
+        align-items: center;
+        -moz-column-gap: 1rem;
+        column-gap: 1rem;
+    }
+
+    .nav__search,
+    .nav__login,
+    .nav__toggle,
+    .nav__close {
+        font-size: 1.25rem;
+        color: var(--title-color);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    :is(.nav__logo, .nav__search, .nav__login, .nav__toggle, .nav__link):hover {
+        color: var(--first-color);
+    }
+
+    /* Show menu */
+    .show-menu {
+        top: 0;
+    }
+
+
+    /*=============== BREAKPOINTS ===============*/
+    /* For medium devices */
+    @media screen and (min-width: 576px) {
+
+        .search,
+        .login {
+            padding-top: 10rem;
+        }
+
+        .search__form {
+            max-width: 450px;
+            margin-inline: auto;
+        }
+
+        .search__close,
+        .login__close {
+            width: -moz-max-content;
+            width: max-content;
+            top: 5rem;
+            left: 0;
+            right: 0;
+            margin-inline: auto;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .login__form {
+            max-width: 400px;
+            margin-inline: auto;
+        }
+    }
+
+    /* For large devices */
+    @media screen and (min-width: 1023px) {
+        .nav {
+            height: calc(var(--header-height) + 2rem);
+            -moz-column-gap: 3rem;
+            column-gap: 3rem;
+        }
+
+        .nav__close,
+        .nav__toggle {
+            display: none;
+        }
+
+        .nav__menu {
+            margin-left: auto;
+        }
+
+        .nav__list {
+            flex-direction: row;
+            -moz-column-gap: 3rem;
+            column-gap: 3rem;
+        }
+
+        .login__form {
+            padding: 3rem 2rem 3.5rem;
+        }
+    }
+
+    @media screen and (min-width: 1150px) {
+        .container {
+            margin-inline: auto;
+        }
+    }
+</style>
+<script>
+    /*=============== SHOW MENU ===============*/
+    const navMenu = document.getElementById("nav-menu"),
+        navToggle = document.getElementById("nav-toggle"),
+        navClose = document.getElementById("nav-close");
+    /* Menu show */
+    navToggle.addEventListener("click", () => {
+        navMenu.classList.add("show-menu");
+    });
+    /* Menu hidden */
+    navClose.addEventListener("click", () => {
+        navMenu.classList.remove("show-menu");
+    });
+    /*=============== SEARCH ===============*/
+</script>
+
+<!-- /offcanvas nav -->
+<header class="header" id="header">
+    <nav class="nav container">
+        <a class="nav__logo" href="#">Logo</a>
+        <a class="nav__link" href="{% url 'home' %}">Home</a>
+        <a class="nav__link" href="#">Dashboard</a>
+
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+
+            </ul>
+            <!-- Close button -->
+            <div class="nav__close" id="nav-close">
+                <i class="ri-close-line"></i>
+            </div>
+        </div>
+
+        <div class="nav__actions">
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-menu-line"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+
+	<!-- /offcanvas nav -->
+
+    <div class="container-fluid d-flex flex-column my-auto py-3">
+        <div>
+            <div id="wizard_container">
+                <div id="top-wizard">
+                    <div id="progressbar"></div>
+                </div>
+                <!-- /top-wizard -->
+                <div class="decorative_bg bg_2"></div>
+                <form id="wrapped" method="POST">
+                    <input id="website" name="website" type="text" value="">
+                    <!-- Leave input above for security protection, read docs for details -->
+                    <div id="middle-wizard">
+
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>Which <span class="highlight">developer role</span> do you handle?</h3>
+                                <p>
+                                  Whether you specialize in frontend development, backend engineering, or database management, each role is essential in creating seamless and efficient digital solutions!
+                                </p>
+                               
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-10 col-md-6">
+                                    <div class="list_block_icons">
+                                        <ul>
+                                            <li>
+                                                <div class="item form-group mb-0">
+                                                    <input id="wordpress" type="radio" name="product_opt" value="Front-End" class="required">
+                                                    <label for="wordpress">
+                                                        <img src="img/baxk/frontend.jpg" alt="" width="100%" height="auto"><strong>Front-End</strong>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="item form-group mb-0">
+                                                    <input id="shopify" type="radio" name="product_opt" value="Back-End" class="required">
+                                                    <label for="shopify">
+                                                        <img src="img/baxk/backend.jpg" alt="" width="100%" height="auto"><strong>Back-End</strong>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="item form-group mb-0">
+                                                    <input id="magento" type="radio" name="product_opt" value="Database" class="required">
+                                                    <label for="magento">
+                                                        <img src="img/baxk/data.png" alt="" width="100%" height="auto"><strong>Database & Data</strong>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /list_block-->
+                                    
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+                        <!-- /Step -->
+                        
+                        <div class="step">
+                            <div class="question_title">
+                                <h3>Please fill with your <span class="highlight">Details</span></h3>
+                                <p>A confirmation notification of your request will be sent to your email address and dashboard.</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <input type="text" name="first_last_name" id="first_last_name" class="form-control required">
+                                        <label for="first_last_name">First and Last Name</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" class="form-control required">
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="telephone" id="telephone" class="form-control required">
+                                        <label for="telephone">Your Telephone</label>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+
+                        <div class="submit step">
+                            <div class="question_title">
+                                <h3>Complete and Submit Application </h3>
+                                <p> Our team will verify your details and prepare your profile for students seeking your expertise.</p>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <p>As a developer, you are expected to adhere to our guidelines and policies to maintain a high standard of development practices. Compliance with these terms is mandatory for all team members.</p>
+                                        <p>We ensure timely payouts for successfully completed projects/tasks, as outlined in our payment policy. It is crucial to deliver your tasks within the agreed timelines and with the expected quality standards.</p>
+                                        <p>Your expertise in front-end, back-end, and database development is vital in creating robust and efficient solutions. Commitment to delivering seamless, well-documented, and scalable code enhances project success and boosts your reputation.</p>
+                                    </div>
+                                    
+                                    
+                                    <div class="terms">
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Terms and Conditions</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Payment Policy</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="container_check">Please accept our <a href="#" data-bs-toggle="modal" data-bs-target="#terms-txt">Privacy Policy</a>
+                                            <input type="checkbox" name="terms" value="Yes" class="required">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /row -->
+                        </div>
+                        <!-- /Step -->
+                    </div>
+                    <!-- /middle-wizard -->
+                    <div id="bottom-wizard">
+                        <button type="button" name="backward" class="backward btn_1">Prev</button>
+                        <button type="button" name="forward" class="forward btn_1">Next</button>
+                        <button type="submit" name="process" class="submit btn_1">Submit</button>
+                    </div>
+                    <!-- /bottom-wizard -->
+                </form>
+            </div>
+            <!-- /Wizard container -->
+        </div>
+    </div>
+    <!-- /Container -->
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".create_btn_dash", function(event) {
+            event.preventDefault();
+            window.location.href = "{% url 'instructors:create_course_view' %}"
+        })
+    })
+</script>
+{% endblock scripts %}

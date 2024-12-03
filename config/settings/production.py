@@ -14,7 +14,11 @@ from .base import DATABASES
 from .base import INSTALLED_APPS
 from .base import SPECTACULAR_SETTINGS
 from .base import env
-from .logs import PROD_LOGGING  # noqa: F401
+from .logs import PROD_LOGGING  # noqa: F40 
+
+
+DEBUG=True
+
 
 # GENERAL
 # ------------------------------------------------------------------------------

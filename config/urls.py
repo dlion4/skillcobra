@@ -12,7 +12,6 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 from .views import custom_upload_function, serve_s3_file
-
 from roles.shared import views as shared_views
 
 

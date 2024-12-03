@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+
+<style>
+  /* Custom CSS */
+  body {
+    background-color: #f8f9fa;
+  }
+  .sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
+    padding: 1rem;
+    height: 100vh;
+  }
+  .file-card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .file-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .file-card i {
+    
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+  }
+  .file-size {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar with Tabs -->
+    <div class="col-12 col-md-2 sidebar">
+      <ul class="nav nav-pills flex-column" id="fileManagerTabs" role="tablist">
+        {% comment %} <button class="btn btn-success w-100 mb-3">Create New</button> {% endcomment %}
+        <label for="fileInput" 
+        class="d-flex flex-column align-items-center justify-content-center btn btn-light w-100 border border-dashed text-center mb-3" 
+        style="border-style: dotted; cursor: pointer; font-size: 18px;"
+      >
+        
+        <span class="mt-2">Upload File</span>
+      </label>
+        <li class="nav-item">
+          <a class="nav-link active" id="all-files-tab" data-bs-toggle="tab" href="#all-files" role="tab" aria-controls="all-files" aria-selected="true">All Files</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="uploaded-files-tab" data-bs-toggle="tab" href="#uploaded-files" role="tab" aria-controls="uploaded-files" aria-selected="false">Uploaded Files</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="courses-files-tab" data-bs-toggle="tab" href="#courses-files" role="tab" aria-controls="courses-files" aria-selected="false">Courses Files</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="course-links-tab" data-bs-toggle="tab" href="#course-links" role="tab" aria-controls="course-links" aria-selected="false">Completed Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="recent-tab" data-bs-toggle="tab" href="#recent" role="tab" aria-controls="recent" aria-selected="false">Recent</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Content Section -->
+    <div class="col-12 col-md-10 p-3">
+      <div class="tab-content" id="fileManagerContent">
+        <input type="text" class="form-control w-30 mb-2" placeholder="Search files...">
+        <!-- All Files Tab -->
+        <div class="tab-pane fade show active" id="all-files" role="tabpanel" aria-labelledby="all-files-tab">
+          <h4>All Files</h4>
+          <p>Display all files here.</p>
+          <div class="row g-3">
+          <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="file-card position-relative p-2 border rounded">
+              <!-- Title and Menu -->
+              <div class="file-header d-flex justify-content-between align-items-center">
+                <p class="file-title m-0" style="font-weight: bold;"> teh file hbd dfbh admin.zip</p>
+                <div class="dropdown">
+                  <button class="btn btn-sm p-1" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="fileMenu">
+                    <li><a class="dropdown-item" href="#">Open</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Read</a></li> -->
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Subtitle -->
+              <p class="file-subtitle text-muted">File</p>
+              <!-- File Size and Download Icon -->
+              <div class="file-footer d-flex justify-content-between w-100" style="bottom: 10px; left: 10px;">
+                <p class="file-size m-0 text-muted" style="font-size: 14px;">45.1 MB</p>
+                <a href="#"  style="font-size: 18px; bottom: 10px; right: 10px; ">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="file-card position-relative p-2 border rounded">
+              <!-- Title and Menu -->
+              <div class="file-header d-flex justify-content-between align-items-center">
+                <p class="file-title m-0" style="font-weight: bold;"> teh file hbd dfbh admin.zip</p>
+                <div class="dropdown">
+                  <button class="btn btn-sm p-1" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="fileMenu">
+                    <li><a class="dropdown-item" href="#">Open</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Read</a></li> -->
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Subtitle -->
+              <p class="file-subtitle text-muted">File</p>
+              <!-- File Size and Download Icon -->
+              <div class="file-footer d-flex justify-content-between w-100" style="bottom: 10px; left: 10px;">
+                <p class="file-size m-0 text-muted" style="font-size: 14px;">45.1 MB</p>
+                <a href="#"  style="font-size: 18px; bottom: 10px; right: 10px; ">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Uploaded Files Tab -->
+        <div class="tab-pane fade" id="uploaded-files" role="tabpanel" aria-labelledby="uploaded-files-tab">
+          <h4>Uploaded Files</h4>
+          <p>Display uploaded files here.</p>
+          <div class="row g-3">
+          <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="file-card position-relative p-2 border rounded">
+              <!-- Title and Menu -->
+              <div class="file-header d-flex justify-content-between align-items-center">
+                <p class="file-title m-0" style="font-weight: bold;"> teh file hbd dfbh admin.zip</p>
+                <div class="dropdown">
+                  <button class="btn btn-sm p-1" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="fileMenu">
+                    <li><a class="dropdown-item" href="#">Open</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Read</a></li> -->
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Subtitle -->
+              <p class="file-subtitle text-muted">File</p>
+              <!-- File Size and Download Icon -->
+              <div class="file-footer d-flex justify-content-between w-100" style="bottom: 10px; left: 10px;">
+                <p class="file-size m-0 text-muted" style="font-size: 14px;">45.1 MB</p>
+                <a href="#"  style="font-size: 18px; bottom: 10px; right: 10px; ">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="file-card position-relative p-2 border rounded">
+              <!-- Title and Menu -->
+              <div class="file-header d-flex justify-content-between align-items-center">
+                <p class="file-title m-0" style="font-weight: bold;"> teh file hbd dfbh admin.zip</p>
+                <div class="dropdown">
+                  <button class="btn btn-sm p-1" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="fileMenu">
+                    <li><a class="dropdown-item" href="#">Open</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Read</a></li> -->
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Subtitle -->
+              <p class="file-subtitle text-muted">File</p>
+              <!-- File Size and Download Icon -->
+              <div class="file-footer d-flex justify-content-between w-100" style="bottom: 10px; left: 10px;">
+                <p class="file-size m-0 text-muted" style="font-size: 14px;">45.1 MB</p>
+                <a href="#"  style="font-size: 18px; bottom: 10px; right: 10px; ">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+            <div class="file-card position-relative p-2 border rounded">
+              <!-- Title and Menu -->
+              <div class="file-header d-flex justify-content-between align-items-center">
+                <p class="file-title m-0" style="font-weight: bold;"> teh file hbd dfbh admin.zip</p>
+                <div class="dropdown">
+                  <button class="btn btn-sm p-1" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="true">
+                    <i class="bi bi-three-dots"></i>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="fileMenu">
+                    <li><a class="dropdown-item" href="#">Open</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Read</a></li> -->
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Subtitle -->
+              <p class="file-subtitle text-muted">File</p>
+              <!-- File Size and Download Icon -->
+              <div class="file-footer d-flex justify-content-between w-100" style="bottom: 10px; left: 10px;">
+                <p class="file-size m-0 text-muted" style="font-size: 14px;">45.1 MB</p>
+                <a href="#"  style="font-size: 18px; bottom: 10px; right: 10px; ">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Courses Files Tab -->
+        <div class="tab-pane fade" id="courses-files" role="tabpanel" aria-labelledby="courses-files-tab">
+          <h4>Courses Files</h4>
+          <p>Display courses files here.</p>
+        </div>
+
+        <!-- Course Links Tab -->
+        <div class="tab-pane fade" id="course-links" role="tabpanel" aria-labelledby="course-links-tab">
+          <h4>Course Links</h4>
+          <p>Display course links here.</p>
+        </div>
+
+        <!-- Recent Tab -->
+        <div class="tab-pane fade" id="recent" role="tabpanel" aria-labelledby="recent-tab">
+          <h4>Recent</h4>
+          <p>Display recently accessed files here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

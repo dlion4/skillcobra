@@ -14,6 +14,9 @@
 {% block javascript %}
 <!-- jQuery (required for Owl Carousel to work) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--icons for animations lottie-->
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
 <!-- Owl Carousel JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
@@ -41,11 +44,14 @@
             {% block content %} {% endblock content %}
         </div>
     </div>
-    {% endblock main %} {% block footer %}
+    {% endblock main %} 
+    
+    
+    {% comment %} {% block footer %}
     <!--  -->
     {% include 'roles/components/footer.html' %}
     <!--  -->
-    {% endblock footer %}
+    {% endblock footer %} {% endcomment %}
 </div>
 <!--  -->
 <!--  -->

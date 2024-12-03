@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+  <!-- Bootstrap CSS -->
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <style>
+  
+    .pdf-section {
+      display: flex;
+      height: 90vh;
+      flex-wrap: wrap;
+    }
+    .page-nav {
+      background-color: #ffffff;
+      border-right: 1px solid #ddd;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .page-nav img {
+      width: 100%;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .page-nav img.active {
+      border: 2px solid #a45bf6;
+      border-radius: 5px;
+    }
+    .pdf-content {
+      padding: 20px;
+      background-color: #ffffff;
+    }
+    .pdf-content h5 {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    .ai-chat {
+      padding: 20px;
+      background-color: #f4f5f7;
+      border-left: 1px solid #ddd;
+      overflow-y: auto;
+    }
+    .ai-chat h5 {
+      font-size: 1.1rem;
+      color: #5a5a5a;
+    }
+    .ai-chat .chat-bubble {
+      padding: 10px 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .chat-bubble.user {
+      background-color: #e9ecef;
+      text-align: right;
+    }
+    .chat-bubble.ai {
+      background-color: #454444;
+      color: #fff;
+      text-align: left;
+    }
+    .chat-input {
+      display: flex;
+      margin-top: 15px;
+    }
+    .chat-input input {
+      flex: 1;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    .chat-input button {
+      margin-left: 10px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #a45bf6;
+      color: #fff;
+      border: none;
+    }
+  </style>
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+<div class="pdf-section container-fluid d-flex flex-nowrap" style="height: 90vh; overflow: hidden;">
+  
+  <!-- Page Navigation Section (Hidden on small screens) -->
+  <div class="page-nav col-2 col-md-2 col-sm-12 d-none d-md-flex flex-column" style="overflow-y: auto; height: 90vh; border-right: 1px solid #ddd;">
+    <!-- Sticky Section -->
+    <div class="sticky-top-section" style="position: sticky; top: 0; background-color: white; z-index: 10; border-bottom: 1px solid #ddd;">
+        <h5 class="text-center py-2">Preview</h5>
+        <div class="mb-1 d-flex flex-row align-items-start gap-2">
+          <a class="btn btn-sm" id="addFileBtn">New File</a>
+          <a class="btn btn-sm" id="resetBtn">Reset</a>
+      </div>
+      
+        <!-- Page Counter -->
+        <div class="text-muted small text-center mb-3">
+            Page <span id="currentPage">1</span> / <span id="totalPages">78</span>
+        </div>
+    </div>
+
+    <!-- Page Navigation Images -->
+    <img src="https://via.placeholder.com/80x100" alt="Page 1" class="active mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 2" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 3" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 4" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 5" class="mb-2">
+</div>
+
+
+  <!-- Page Carousel for Small Screens (Visible only on small screens) -->
+  {% comment %} <div class="carousel-container d-block d-md-none w-100">
+    <div id="pageCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 25vh; overflow: hidden; position: fixed; top: 0; width: 100%; z-index: 100;">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 3">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 4">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 5">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#pageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#pageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div> {% endcomment %}
+
+  <!-- PDF Content Section (Visible only on large screens) -->
+<div class="pdf-content col-5 col-md-5 col-sm-6 d-none d-md-block">
+  <h5>Jomo Kenyatta University of Agriculture and Technology</h5>
+  <p>Bachelor of Pharmacy<br>Dr. Margaret Mburu<br>PHA 2333<br>Clinical Pharmacy 2<br>Daniel Milimo<br>HSP201-0069/2019<br>CAT<br>Done 29th November 2024</p>
+</div>
+
+  <!-- AI Chat Section (Always visible) -->
+  <div class="ai-chat col-12 col-md-5 col-sm-12 d-flex flex-column position-relative" style="height: 90vh; border-left: 1px solid #ddd; overflow-y: auto;">
+    <h5 class="">CobraAI - PDF Summary</h5>
+    <div class="chat-bubble ai">
+      <strong>Document Overview</strong><br>
+      This is a Clinical Pharmacy 2 (PHA 2333) CAT examination document from JKUAT, completed by Daniel Milimo on November 29, 2024.
+    </div>
+    <div class="chat-bubble ai">
+      <strong>Main Topics Covered</strong><br>
+      <ul>
+        <li>Asthma Management</li>
+        <li>COPD Management</li>
+      </ul>
+    </div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    
+    <!-- Fixed Chat Input Section (Always fixed to bottom on all screen sizes) -->
+    <div class="chat-input-container bg-light p-3 border-top" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+      <div class="d-flex align-items-center">
+        <input 
+          type="text" 
+          class="form-control me-2" 
+          placeholder="Ask cobraAI anything..." 
+          style="height: 50px; resize: none;"
+        >
+        <button class="btn btn-primary d-flex align-items-center justify-content-center">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+      <div class="mt-2 d-flex">
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="Upload File">
+          <i class="bi bi-upload"></i>
+        </button>
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="Settings">
+          <i class="bi bi-gear"></i>
+        </button>
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="History">
+          <i class="bi bi-clock-history"></i>
+        </button>
+        <button class="btn btn-outline-success d-flex align-items-center justify-content-center" title="Start New Chat">
+          <i class="bi bi-chat"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+{% comment %} <div class="pdf-section container-fluid d-flex flex-nowrap" style="height: 90vh; overflow: hidden;">
+  
+  <!-- Page Navigation Section (Hidden on small screens) -->
+  <div class="page-nav col-2 col-md-2 col-sm-12 d-none d-md-flex flex-column" style="overflow-y: auto; height: 90vh; border-right: 1px solid #ddd;">
+    <!-- Buttons Section -->
+    <div class="mb-3 d-flex flex-column align-items-start">
+      <button class="btn btn-primary mb-2 w-100" id="addFileBtn">New File</button>
+      <a class="btn btn-danger w-100" id="resetBtn">Reset</a>
+    </div>
+  
+    <!-- Page Counter -->
+    <div class="text-muted small text-center mb-3">
+      Page <span id="currentPage">1</span> / <span id="totalPages">78</span>
+    </div>
+  
+    <!-- Page Navigation Images -->
+    <img src="https://via.placeholder.com/80x100" alt="Page 1" class="active mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 2" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 3" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 4" class="mb-2">
+    <img src="https://via.placeholder.com/80x100" alt="Page 5" class="mb-2">
+  </div>
+
+  <!-- Page Carousel for Small Screens (Visible only on small screens) -->
+  <div class="carousel-container d-block d-md-none w-100">
+    <div id="pageCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 25vh; overflow: hidden;">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 3">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 4">
+        </div>
+        <div class="carousel-item">
+          <img src="https://via.placeholder.com/80x100" class="d-block w-100" alt="Page 5">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#pageCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#pageCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- AI Chat Section (Always visible) -->
+  <div class="ai-chat col-12 col-md-4 col-sm-12 d-flex flex-column position-relative" style="height: 90vh; border-left: 1px solid #ddd; overflow-y: auto;">
+    <h5 class="p-3">cobraAI - PDF Summary</h5>
+    <div class="chat-bubble ai">
+      <strong>Document Overview</strong><br>
+      This is a Clinical Pharmacy 2 (PHA 2333) CAT examination document from JKUAT, completed by Daniel Milimo on November 29, 2024.
+    </div>
+    <div class="chat-bubble ai">
+      <strong>Main Topics Covered</strong><br>
+      <ul>
+        <li>Asthma Management</li>
+        <li>COPD Management</li>
+      </ul>
+    </div>
+    <div class="chat-bubble user">Can you elaborate on asthma treatments?</div>
+    <div class="chat-bubble ai">Asthma treatments include corticosteroids and leukotriene antagonists. Would you like to explore more?</div>
+
+    <!-- Fixed Chat Input Section (Always fixed to bottom on all screen sizes) -->
+    <div class="chat-input-container bg-light p-3 border-top" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;">
+      <div class="d-flex align-items-center">
+        <input 
+          type="text" 
+          class="form-control me-2" 
+          placeholder="Ask Monica anything..." 
+          style="height: 50px; resize: none;"
+        >
+        <button class="btn btn-primary d-flex align-items-center justify-content-center">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+      <div class="mt-2 d-flex">
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="Upload File">
+          <i class="bi bi-upload"></i>
+        </button>
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="Settings">
+          <i class="bi bi-gear"></i>
+        </button>
+        <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center me-2" title="History">
+          <i class="bi bi-clock-history"></i>
+        </button>
+        <button class="btn btn-outline-success d-flex align-items-center justify-content-center" title="Start New Chat">
+          <i class="bi bi-chat"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+<!-- Bootstrap JS -->
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> {% endcomment %}
+
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

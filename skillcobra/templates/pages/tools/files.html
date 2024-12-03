@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+{% block title %}
+{{ block.super }}
+{{ block.title }}
+{% endblock title %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block content %}
+
+<div>
+  <div class="col-lg-12">
+    <h1 class="st_title">
+      <i class="uil uil-book-alt"></i>File Tools</h1>
+
+  </div>
+
+</div>
+
+<div class="row my-4 py-3">
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex align-items-center">
+        <!-- Image Section -->
+        <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+          {% comment %} <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+            type="module"></script> {% endcomment %}
+          <dotlottie-player src="https://lottie.host/e8a426da-48cc-454b-b1b8-ab919f5beabc/FwiJnzH3wR.lottie"
+            background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">PDF Reader</h4>
+          <p class="card-text">Our PDF reader lets you open, analyze, summarize, extract, and transform data
+            efficiently, providing critical insights and streamlining document processing.</p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end;">
+        <a href="#" class="btn text-success"
+          style="background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745;">
+          Launch
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex align-items-center">
+        <!-- Image Section -->
+        <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+          <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module">
+          </script>
+          <dotlottie-player src="https://lottie.host/7230d1d9-94e6-4baf-aab8-7ff7696a5e75/S5hhT4TFSk.lottie"
+            background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">File Manager</h4>
+          <p class="card-text">Our file manager allows you to modify, save, delete, and edit your course materials and
+            files effortlessly, ensuring seamless organization and accessibility.</p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div class="card-body d-flex justify-content-end" style="margin-top: -25px; display: flex; justify-content: flex-end;">
+      <a href="{% url 'filemanager' %}" class="btn text-success"
+        style="background-color: rgba(40, 167, 69, 0.1); border: 2px solid #28a745;">
+        Launch
+      </a>
+    </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Add margins and padding to the row */
+  .row {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 10px;
+  }
+
+  /* Fixed position for buttons (if needed elsewhere) */
+  .fixed-button {
+    position: absolute;
+    right: 10px;
+    bottom: 4px;
+  }
+</style>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

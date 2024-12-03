@@ -11,75 +11,75 @@ from .models import Lecture, DiscussionReply, Discussion
 from .models import SubCategory
 
 
-class GroupedChoiceField(forms.ChoiceField):
-    def __init__(self, *args, **kwargs):
-        categories = Category.objects.all()
-        category_choices = []
-        for category in categories:
-            if category.get_all_subcategories().count() > 0:
-                options = [
-                    (
-                        option.id,
-                        option.name,
-                    )
-                    for option in category.get_all_subcategories()
-                ]
-                category_choices.append((category.name, options))
-        kwargs["choices"] = category_choices
-        super().__init__(*args, **kwargs)
+# class GroupedChoiceField(forms.ChoiceField):
+#     def __init__(self, *args, **kwargs):
+#         categories = Category.objects.all()
+#         category_choices = []
+#         for category in categories:
+#             if category.get_all_subcategories().count() > 0:
+#                 options = [
+#                     (
+#                         option.id,
+#                         option.name,
+#                     )
+#                     for option in category.get_all_subcategories()
+#                 ]
+#                 category_choices.append((category.name, options))
+#         kwargs["choices"] = category_choices
+#         super().__init__(*args, **kwargs)
 
-    def clean(self, value):
-        """Override the clean method to return a SubCategory instance"""
-        try:
-            return SubCategory.objects.get(id=value)
-        except SubCategory.DoesNotExist as e:
-            msg = f"Invalid subcategory selected. {e}"
-            raise forms.ValidationError(msg) from e
+#     def clean(self, value):
+#         """Override the clean method to return a SubCategory instance"""
+#         try:
+#             return SubCategory.objects.get(id=value)
+#         except SubCategory.DoesNotExist as e:
+#             msg = f"Invalid subcategory selected. {e}"
+#             raise forms.ValidationError(msg) from e
 
 
-class GroupedSelectWidget(widgets.Select):
-    def __init__(self, *args, **kwargs):
-        # Expecting 'sub_category' to be passed as 'groups' to the widget
-        self.groups = kwargs.pop("sub_category", [])
-        super().__init__(*args, **kwargs)
+# class GroupedSelectWidget(widgets.Select):
+#     def __init__(self, *args, **kwargs):
+#         # Expecting 'sub_category' to be passed as 'groups' to the widget
+#         self.groups = kwargs.pop("sub_category", [])
+#         super().__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None, renderer=None):
-        # Start by rendering the basic <select> element
-        output = super().render(name, value, attrs, renderer)
+#     def render(self, name, value, attrs=None, renderer=None):
+#         # Start by rendering the basic <select> element
+#         output = super().render(name, value, attrs, renderer)
 
-        # If we have groups to render, we will modify the options within the <select>
-        if self.groups:
-            grouped_choices_html = ""
-            for group, options in self.groups:
-                grouped_choices_html += f'<optgroup label="{group}">'
-                for option in options:
-                    # Render each <option> element with its value and display name
-                    grouped_choices_html += (
-                        f'<option value="{option[0]}" '
-                        f'{"selected" if option[0] == str(value) else ""}>{option[1]}</option>'
-                    )
-                grouped_choices_html += "</optgroup>"
+#         # If we have groups to render, we will modify the options within the <select>
+#         if self.groups:
+#             grouped_choices_html = ""
+#             for group, options in self.groups:
+#                 grouped_choices_html += f'<optgroup label="{group}">'
+#                 for option in options:
+#                     # Render each <option> element with its value and display name
+#                     grouped_choices_html += (
+#                         f'<option value="{option[0]}" '
+#                         f'{"selected" if option[0] == str(value) else ""}>{option[1]}</option>'
+#                     )
+#                 grouped_choices_html += "</optgroup>"
 
-            # The <select> tag is returned with its options grouped correctly
-            return (
-                f'<select title="{name}" name="{name}" class="{attrs.get("class", "")}" {attrs.get("data-live-search", "")}>'
-                + grouped_choices_html
-                + "</select>"
-            )
+#             # The <select> tag is returned with its options grouped correctly
+#             return (
+#                 f'<select title="{name}" name="{name}" class="{attrs.get("class", "")}" {attrs.get("data-live-search", "")}>'
+#                 + grouped_choices_html
+#                 + "</select>"
+#             )
 
-        return output
+#         return output
 
 
 class CourseForm(forms.ModelForm):
-    sub_category = GroupedChoiceField(
-        widget=GroupedSelectWidget(
-            sub_category=[],  # The list of groups will be passed dynamically
-            attrs={
-                "class": "selectpicker",
-                "data-live-search": "true",
-            },
-        ),
-    )
+    # sub_category = GroupedChoiceField(
+    #     widget=GroupedSelectWidget(
+    #         sub_category=[],  # The list of groups will be passed dynamically
+    #         attrs={
+    #             "class": "selectpicker",
+    #             "data-live-search": "true",
+    #         },
+    #     ),
+    # )
     level = forms.ChoiceField(
         choices=COURSE_LEVEL_CHOICES,
         initial="beginner",

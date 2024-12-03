@@ -14,7 +14,7 @@
     <meta name="author" content="jeckonia,daniel" />
     <meta name="csrf-token" content="{{ csrf_token }}" />
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" />
+    {% comment %} <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" /> {% endcomment %}
     {% block cssBlock %}
     <link
       href="{% static 'css/css' %}?family=Roboto:400,700,500"
@@ -58,6 +58,12 @@
       type="text/css"
       href="{% static 'vendor/semantic/semantic.min.css' %}"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
+
+
+  
+
     {% endblock cssBlock %}
     <!--  -->
     {% block css %}
@@ -273,9 +279,9 @@
     <div class="wrapper">
       <div class="sa4d25">{% block content %} {% endblock content %}</div>
       <!-- footer -->
-      {% block footer %} {% include 'components/footer/main.html' %}
-      <!--  -->
-      {% endblock footer %}
+      {% comment %} {% block footer %} {% include 'components/footer/main.html' %}
+      
+      {% endblock footer %} {% endcomment %}
       <!-- /footer -->
     </div>
     {% endblock wrapper %}
@@ -353,6 +359,14 @@
     <!-- A button to trigger a test error -->
     <script src="{% static 'worker/js/worker.js' %}"></script>
     <script src="{% static 'worker/js/websocket.js' %}"></script>
+
+    <!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx neext for onborading-->
+
+
+
+<!-- SPECIFIC SCRIPTS -->
+<script src="{% static 'jswizard/wizard_func_3.js' %}"></script>
+
     <script>
       function getCookie(name) {
         const cookieValue = document.cookie
