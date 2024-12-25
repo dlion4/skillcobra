@@ -11,6 +11,7 @@ from skillcobra.school.models import CourseSubscription
 from skillcobra.school.models import Subscription
 from skillcobra.users.models import Profile
 
+from .tasks import process_runtime_counter
 
 class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
     def get_profile(self):
@@ -24,6 +25,7 @@ class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
         return Course.objects.filter(status="approved").order_by("?")
 
     def get_context_data(self, **kwargs):
+        process_runtime_counter.delay()
         context = super().get_context_data(**kwargs)
         context["profile"] = self.get_profile()
         context["dashboard_url"] = self.get_dashboard_url()
