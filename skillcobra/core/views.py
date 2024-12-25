@@ -5,7 +5,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from skillcobra.school.models import Category, Course, CourseSubscription, Subscription
+from skillcobra.school.models import Category
+from skillcobra.school.models import Course
+from skillcobra.school.models import CourseSubscription
+from skillcobra.school.models import Subscription
 from skillcobra.users.models import Profile
 
 

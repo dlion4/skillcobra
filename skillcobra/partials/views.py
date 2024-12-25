@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from roles.students.students.models import Attendance
+from skillcobra.payments.models import BillingAddress
 from skillcobra.school.models import Course
 from skillcobra.users.models import Profile
 
@@ -25,3 +27,14 @@ def get_attendance_data(request):
             courses = Course.objects.none()  # No courses if query is invalid
     template_name = "instructors/partials/attendance/filter.html"
     return render(request, template_name, {"courses": courses})
+
+
+@dataclass
+class AddressResponse:
+    exists: lambda x: bool = False
+@login_required
+@csrf_exempt
+def retrieve_address_phone_number_view(request):
+    query  = request.GET.get("phone_number", None)
+    address = BillingAddress.objects.filter(phone_number=query)
+    return JsonResponse({"phone_present": address.exists()}, status=200)

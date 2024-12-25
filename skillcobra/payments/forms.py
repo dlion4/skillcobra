@@ -185,7 +185,10 @@ class BillingAddressForm(forms.ModelForm):
             if field_name == "country":
                 field.widget.attrs.update({"class": "selectpicker"})
 
-
+    class Media:
+        js = [
+            "js/profile_update.js",
+        ]
 class BankPayoutAccountForm(forms.Form):
     account_number = forms.CharField(
         required=False,

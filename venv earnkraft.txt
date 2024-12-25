@@ -1,0 +1,117 @@
+
+# Postgres
+DATABASE_URL=postgres://postgres:1234@localhost:5432/amiridb
+# read this file
+DJANGO_READ_DOT_ENV_FILE=True
+# DOCKER
+USE_DOCKER=True
+# General
+# ------------------------------------------------------------------------------
+# DJANGO_READ_DOT_ENV_FILE=True
+DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_SECRET_KEY=h0kDcj4VfLRSuO5ebTl5LdAG8imoN2TRboXF6ltC4oklZMUypVAwdCY1TAxLlxY1
+DJANGO_ADMIN_URL=earnkraft-main-admin/
+DJANGO_DASHBOARD_URL="dashboard:home"
+DJANGO_ALLOWED_HOSTS=localhost,0.0.0.0,.lionnic.com,31.220.58.182,127.0.0.1,.earnkraft.com
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT=False
+
+DJANGO_DEBUG=False
+# Email
+# ------------------------------------------------------------------------------
+DJANGO_SERVER_EMAIL=
+
+
+
+
+
+# GCP
+# ------------------------------------------------------------------------------
+GOOGLE_APPLICATION_CREDENTIALS=
+DJANGO_GCP_STORAGE_BUCKET_NAME=
+# AWS 3
+# DJANGO_AWS_ACCESS_KEY_ID=AKIAXRPBJOI4X6WTYMVV
+DJANGO_AWS_ACCESS_KEY_ID=AKIAXRPBJOI46PR64F7D
+# DJANGO_AWS_SECRET_ACCESS_KEY=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
+DJANGO_AWS_SECRET_ACCESS_KEY=QGaEK4dIBS9rW8buFBOV37sC9URgi7nhvVVL6Ptq
+# DJANGO_AWS_STORAGE_BUCKET_NAME=liquid-investment
+DJANGO_AWS_STORAGE_BUCKET_NAME=earnkraft
+# DJANGO_AWS_S3_REGION_NAME=ca-central-1
+DJANGO_AWS_S3_REGION_NAME=eu-north-1
+USE_S3BOT=False # TODO: Convert to true when in production
+# DJANGO_AWS_USERNAME=s3earnkraft
+# django-allauth
+# ------------------------------------------------------------------------------
+DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+
+# Gunicorn
+# ------------------------------------------------------------------------------
+WEB_CONCURRENCY=4
+
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# sentry
+
+SENTRY_DSN=https://69d5eb9321ccb6648ea84ee522f59683@o4506688930840576.ingest.us.sentry.io/4507192970903552
+
+
+# email pas
+
+# GOOGLE_EMAIL_HOST_USER=EARNKRAFT
+DJANGO_EMAIL_HOST_PASSWORD=1aae5c9342fbac56ca043c21e2f1e194-d010bdaf-aa8ab360
+DJANGO_DEFAULT_FROM_EMAIL=Earnkraft <postmaster@earnkraft.com>
+# MPESA INTASEND_PUBLISHABLE_KEY
+DJANGO_EMAIL_HOST_USER=postmaster@earnkraft.com
+DJANGO_EMAIL_HOST=smtp.mailgun.org
+
+INTASEND_PUBLISHABLE_KEY=ISPubKey_test_04f15e5f-3a4f-41a9-bd46-04380add6346
+INTASEND_SECRET_KEY=ISSecretKey_test_a4e79749-9f96-43ce-b1ca-4a450d72a1b5
+
+INTASEND_TEST_MODE=True
+
+
+GOOGLE_GEMINI_API_KEY=AIzaSyCMLe1vsA9rMVxKiFRFbiROGRJ_iCw2pgs
+
+LANGCHAIN_TRACING_V2="true"
+LANGCHAIN_API_KEY=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
+
+OPENAI_API_KEY=
+# LOCALHOST REDIS SETTINGS CONFIGURATION
+DJANGO_REDIS_HOST=localhost
+DJANGO_REDIS_PORT=6379
+
+DJANGO_REDIS_DECODE_RESPONSES=true
+DJANGO_REDIS_SSL=false
+DJANGO_REDIS_SSL_CERT=None
+
+# SOCIAL OAUTH CREDENTIALS
+
+GOOGLE_OAUTH_CLIENT_ID=34588751986-1bplt5o6v60kr3vfo2ecnaga4tvtdect.apps.googleusercontent.com
+GOOGLE_OAUTH_CLIENT_SECRET=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
+GITHUB_OAUTH_CLIENT_ID=Ov23liYsPEudft3RcuUe
+GITHUB_OAUTH_CLIENT_SECRET=13eefed395697756aca0a748af5f3c881a9f87f9
+
+
+
+ZERO_BOUNCE_EMAIL_VALIDATION_PROJECT_TOKEN=
+RESEND_EMAIL_SERVICE_API_KEY=re_ZvY3jHM9_LJFyN85spfs73BywqRVsxv24
+
+MAIL_GUN_API_KEY=b3bfc18186a50d113afa7d01ec636a1e-d010bdaf-e051c6fb
+
+
+PAYSTACK_LIVE_API_KEY=pk_live_94d90234cd2007c23e450c8cb398ac2970cd61d9
+PAYSTACK_TEST_API_KEY=pk_test_78a97775962282ab2ad167cd5d34c3b28f349316
+
+RSA_ENCRYPTION_PASSWORD=d472d3c681402ee7314a556368ff6e30e7116a6642147df1cbd5749a9a861963526
+
+
+JWT_ISSUER=kwasa
+JWT_AUDIENCE=earnkraftuseradmin
+
+(liquid) kwasa@srv427976:~/www/liquid$

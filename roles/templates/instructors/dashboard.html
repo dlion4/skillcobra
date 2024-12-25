@@ -46,8 +46,8 @@
         <div class="card_dash">
             <div class="card_dash_left">
                 <h5>Total Students</h5>
-                <h2>{{profile.tutor_subscriptions.students.count}}</h2>
-                <span class="crdbg_4">New 245</span>
+                <h2>{{profile.tutor_subscriptions.students.all.count|default:"0"}}</h2>
+                <span class="crdbg_4">New 0</span>
             </div>
             <div class="card_dash_right">
                 <img src="{% static 'images/dashboard/knowledge.svg' %}" alt="">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="allvperf">
                                     <div class="crse-perf-left">Purchased</div>
-                                    <div class="crse-perf-right">150</div>
+                                    <div class="crse-perf-right">{{item.get_sales.count}}</div>
                                 </div>
                                 <div class="allvperf">
                                     <div class="crse-perf-left">Total Like</div>
@@ -101,8 +101,8 @@
                                 </div>
                                 <div class="auth1lnkprce">
                                     <a href="#" class="cr1fot50">Go to course analytics</a>
-                                    <a href="#" class="cr1fot50">See comments (875)</a>
-                                    <a href="#" class="cr1fot50">See Reviews ({{item.reviews}})</a>
+                                    <a href="#" class="cr1fot50">See comments (11)</a>
+                                    <a href="#" class="cr1fot50">See Reviews ({{item.reviews|default:"0"}})</a>
                                 </div>
                             </div>
                         </div>

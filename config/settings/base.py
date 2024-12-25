@@ -116,6 +116,7 @@ LOCAL_APPS = [
     "skillcobra.school",
     "skillcobra.purchases",
     "skillcobra.memberships",
+    "roles.instructors.payment",
 ]
 
 # https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload
@@ -242,6 +243,7 @@ TEMPLATES = [
                 "skillcobra.users.context_processors.allauth_settings",
                 "skillcobra.payments.context_processors.payment_context_processor",
                 "skillcobra.core.context_processors.core_context_processor",
+                "roles.instructors.payment.context_processor.handle_instructor_payment_context",
             ],
         },
     },
@@ -435,5 +437,5 @@ DJANGO_TWILIO_FORGERY_PROTECTION=False
 DJANGO_TWILIO_BLACKLIST_CHECK = False
 
 SYNCPAY_MERCHANT_PAYMENT_URL = env.str(
-    "SYNCPAY_MERCHANT_PAYMENT_URL", "http://localhost:8001",
+    "SYNCPAY_MERCHANT_PAYMENT_URL", "http://localhost:8005",
 )

@@ -1,11 +1,8 @@
 import time
-from datetime import timedelta
 from decimal import Decimal
 from typing import ClassVar
 
-from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import PermissionsMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Count
@@ -217,6 +214,20 @@ class Profile(models.Model):
         return 0
     def get_purchased_courses_by_student_per_tutor(self):
         return self.purchased_courses.filter(tutor=self).all()
+    def get_profile_payouts(self):
+        return self._profile_payouts().order_by("-id")[:10]
+
+    def profile_skillcobra_fee(self):
+        total_fee = self._profile_payouts().aggregate(total_fee=Sum(models.F("fee")))
+        if not total_fee["total_fee"]:
+            return Decimal("0.00")
+        return Decimal(total_fee["total_fee"])
+
+
+    def _profile_payouts(self):
+        return self.profile_instructor_payouts.all()
+
+
 
 
 @receiver(post_save, sender=User)

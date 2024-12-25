@@ -1,5 +1,9 @@
+from decimal import Decimal
+
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import F
+from django.db.models import Sum
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -62,6 +66,12 @@ class CourseSale(models.Model):
 
     def __str__(self):
         return f"Course Sale: {self.course.title} - Tutor: {self.tutor.user.username}"
+    @property
+    def earning(self):
+        total_amount = self.transactions.aggregate(total_amount=Sum(F("amount")))
+        if not total_amount["total_amount"]:
+            return Decimal("0.00")
+        return Decimal(total_amount["total_amount"])
 
 
 class Account(models.Model):

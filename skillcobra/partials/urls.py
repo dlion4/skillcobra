@@ -5,6 +5,11 @@ from . import views
 app_name = "partials"
 urlpatterns = [
     path(
-        "filter-attendance/",
-        views.get_attendance_data, name="filter_attendance_view"),
+        "filter-attendance/", views.get_attendance_data, name="filter_attendance_view"
+    ),
+    path(
+        "query-phone-number/",
+        views.retrieve_address_phone_number_view,
+        name="filter_address_phone_number",
+    ),
 ]

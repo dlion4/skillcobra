@@ -1,12 +1,12 @@
 from django.urls import path
 
+from .views import CreatePayoutAccountView
 from .views import LoginView
 from .views import LogoutView
 from .views import RegisterView
 from .views import RequestPasswordResetView
-from .views import UpdateProfileView
 from .views import UpdateProfileAddressView
-from .views import CreatePayoutAccountView
+from .views import UpdateProfileView
 
 app_name = "users"
 urlpatterns = [

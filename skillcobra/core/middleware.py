@@ -17,11 +17,12 @@ class TutorRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.user.role != "instructor" and request.path == "/instructor/recruitment/":  # noqa: E501
-            msg = (
-                "You do not have permission to access this page. <br />"
-                "Possible your are registered as a <strong>student</strong> and not a tutor. <br />"  # noqa: E501
-                "This page is only for <strong>tutors</strong>. If you think this is a mistake please feel free to reach out to us"  # noqa: E501
-            )
-            raise PermissionDenied(msg)
+        if request.user.is_authenticated:
+            if request.user.role != "instructor" and request.path == "/instructor/recruitment/":  # noqa: E501
+                msg = (
+                    "You do not have permission to access this page. <br />"
+                    "Possible your are registered as a <strong>student</strong> and not a tutor. <br />"  # noqa: E501
+                    "This page is only for <strong>tutors</strong>. If you think this is a mistake please feel free to reach out to us"  # noqa: E501
+                )
+                raise PermissionDenied(msg)
         return self.get_response(request)
