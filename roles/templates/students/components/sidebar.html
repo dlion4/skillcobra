@@ -60,9 +60,9 @@
 
 
         <li class="menu--item">
-          <a href="{% url 'students:reviews' %}" class="menu--link {% if request.resolver_match.view_name == 'students:reviews' %}active{% endif %}" title="Reviews">
-            <i class="uil uil-star menu--icon"></i>
-            <span class="menu--label">Reviews</span>
+          <a href="{% url 'files' %}" class="menu--link" title="Files">
+            <i class="uil uil-file-alt menu--icon"></i>
+            <span class="menu--label">Files</span>
           </a>
         </li>
         <h6 class="left_title">REQUESTS</h6>
@@ -87,6 +87,8 @@
             <span class="menu--label">Credits</span>
           </a>
         </li>
+
+
 
 
       </ul>

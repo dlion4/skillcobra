@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+<!-- -->
+<!-- CSS ============================================ -->
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Completed Course Tests {% endblock title %}
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+{% block slogan %}
+<!--  -->
+
+<!--  -->
+{% endblock slogan %}
+
+<!--  -->
+{% block content %}
+<style>
+    .shadow-sm {
+        -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important
+    }
+
+    .bg-flashlight-static::after {
+        background: linear-gradient(to bottom, #f5f8fa, #f5f8fa);
+    }
+
+    .bg-flashlight-static::before {
+        background: linear-gradient(to bottom, rgb(112, 100, 233), rgba(112, 100, 233, 0));
+    }
+
+    .bg-flashlight-static:hover::before {
+        background: linear-gradient(to bottom, var(--color-primary), rgba(39, 39, 55, 0)) !important;
+    }
+</style>
+<style>
+    /* Chat Box Styles */
+    .chat-box {
+        position: relative;
+        color: #333;
+        background: linear-gradient(to bottom, #f5f8fa, #e0e5eb);
+        /* Base gradient */
+        transition: background 1.5s ease, box-shadow 1.5s ease;
+        overflow: hidden;
+    }
+
+    /* Hover Gradient Effect */
+    .chat-box:hover {
+        background: linear-gradient(to bottom, #f5de8f, #f0e0d1);
+        /* Hover gradient */
+        box-shadow: 0 0.75rem 1.5rem rgba(112, 100, 233, 0.5);
+        /* Shadow on hover */
+    }
+
+    /* Subtle Glow Effect */
+    .chat-box:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(112, 100, 233, 0.15), rgba(0, 0, 0, 0));
+        opacity: 0.75;
+        z-index: 1;
+        transition: opacity 1.5s ease;
+    }
+
+    .chat-box:hover:before {
+        opacity: 1;
+        /* Enhance glow on hover */
+    }
+
+    /* Text Styles */
+    .chat-box h6.title {
+        z-index: 2;
+        position: relative;
+        font-weight: 600;
+    }
+
+    .chat-box p {
+        z-index: 2;
+        position: relative;
+    }
+
+    /* Utility Classes */
+    .shadow-sm {
+        -webkit-box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    }
+
+    .rounded {
+        border-radius: 0.5rem;
+    }
+</style>
+
+<main class="page-wrapper rbt-dashboard-page">
+    <!-- Container for the entire page -->
+    <div class="py-2">
+        <div class="row">
+            <!-- Left Panel -->
+            <div class="col-lg-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="title">Test Information</h5>
+                        <h6 class="title">Select Course</h6>
+                        <form class="mb-3">
+                            <select class="form-select" id="coursePicker">
+                                <option selected disabled>Choose a course...</option>
+                                <option value="1">Learning Angular JS for Beginners</option>
+                                <option value="2">Learning Angular JS for Beginners</option>
+                            </select>
+                        </form>
+                        <h6 class="title">Time Limit</h6>
+                        <div class="chat-box text-center mb-3">
+                            <div id="timer-countdown" class="otp-countdown">15:00</div>
+                        </div>
+                        <h6 class="title">Progress</h6>
+                        <div>
+                            <h5>Question <span id="current-question">1</span>/15</h5>
+                            <div class="progress">
+                                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 5%;"
+                                    aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <!-- <button class="btn btn-primary mt-3 w-100" onclick="nextQuestion()">Next Question</button> -->
+                        </div>
+
+                        <div class="card shadow-sm mt-4 mb-2">
+                            <div class="card-body d-flex align-items-center">
+                                <!-- Score Section -->
+                                <div class="me-3 text-center">
+                                    <div class="d-flex justify-content-center align-items-center rounded-circle bg-success text-white"
+                                        style="width: 100px; height: 100px; font-size: 24px; font-weight: bold;">
+                                        85%
+                                    </div>
+                                </div>
+                                <!-- Score Description -->
+                                <div>
+                                    <h6 class="mb-1 text-dark">Overall Score</h6>
+                                    <p class="text-muted mb-0">Your current performance</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-box card shadow-sm mt-4 mb-3">
+                            <div class="card-body">
+                                <!-- Instructor Info -->
+                                <a href="profile-details.html" class="d-flex align-items-center text-decoration-none">
+                                    <div class="me-3">
+                                        <div class="author-desc">
+                                            <h6 class="mb-0 text-dark">Trent Teacher</h6>
+                                            <p class="text-muted mb-0">Verified</p>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="badge"
+                                            style="background-color: #e64900; color: white;">Instructor</span>
+                                    </div>
+                                </a>
+                                <!-- Subscribe Button -->
+                                <div class="chat-box mt-3 text-center">
+                                    <a href="#" class="btn btn-outline-primary w-100">Subscribe to Instructor</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="mb-4">Test Content</h5>
+                        <div id="chatContainer">
+                            <!-- AI Chat Section -->
+                            <div class="mb-6">
+                                <div class="chat-box ai-speech bg-flashlight p-3 rounded">
+                                    <h6 class="title">Question <span class="badge"
+                                            style="background-color: #e64900; color: white;">1</span></h6>
+                                    <p>A chat AI is a type of artificial intelligence designed to simulate human
+                                        conversation.</p>
+                                    <p>A chat AI is a type of artificial intelligence designed to simulate human
+                                        conversation.</p>
+                                    <p>A. Option 1</p>
+                                    <p>B. Option 2</p>
+                                </div>
+                            </div>
+
+                            <!-- Answer Submission Section -->
+                            <form class="border rounded p-3 mb-5 mt-7">
+                                <textarea id="txtarea" class="form-control mb-3" rows="6"
+                                    placeholder="Your answer here"></textarea>
+                                <div class="d-flex justify-content-between">
+                                    <button class="chat-box btn btn-secondary" onclick="previousQuestion()">Previous
+                                        Question</button>
+                                    <button class="chat-box btn btn-primary" id="sendButton"
+                                        onclick="sendMessage()">Next Question </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="col-lg-3">
+                <div class="card shadow-sm">
+                    <div class="card-body chat-box">
+                        <h5>For Upgraded Membership</h5>
+
+                        <a href="#" class="btn btn-outline-primary w-100">New Test</a>
+                        <h5>Test Level</h5>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="testLevel" id="beginner"
+                                    value="Beginner">
+                                <label class="form-check-label" for="beginner">Beginner</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="testLevel" id="professional"
+                                    value="Professional">
+                                <label class="form-check-label" for="professional">Professional</label>
+                            </div>
+                        </div>
+                        <h5>Number of Questions</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="form-check me-3">
+                                <input class="form-check-input" type="radio" name="numberOfQuestions" id="questions30"
+                                    value="30">
+                                <label class="form-check-label" for="questions30">30 </label>
+                            </div>
+                            <div class="form-check me-3">
+                                <input class="form-check-input" type="radio" name="numberOfQuestions" id="questions50"
+                                    value="50">
+                                <label class="form-check-label" for="questions50">50 </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="numberOfQuestions"
+                                    id="questionsUnlimited" value="Unlimited">
+                                <label class="form-check-label" for="questionsUnlimited">Unlimited</label>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-3">Test Duration</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="time" id="time" value="time">
+                            <label class="form-check-label" for="time">Remove Time Limit</label>
+                        </div>
+                        <h5 class="mt-3">Completed Tests</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">Learning Angular JS...Test 1</li>
+                            <li class="list-group-item">Learning Angular JS...Test 2</li>
+                            <li class="list-group-item">Learning Angular JS...Test 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    let currentQuestion = 1;
+    const totalQuestions = 15;
+
+    function nextQuestion() {
+        if (currentQuestion < totalQuestions) {
+            currentQuestion++;
+            const progress = (currentQuestion / totalQuestions) * 100;
+            // Update the current question count
+            document.getElementById('current-question').textContent = currentQuestion;
+            // Update the progress bar
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
+            // Example: Update the question text dynamically
+            document.getElementById('question-text').textContent = `This is question ${currentQuestion}.`;
+        } else {
+            alert("Test Completed!");
+        }
+    }
+</script>
+<script>
+    // -------- coundown-timer-----
+    if ($('#timer-countdown').length) {
+        function countdown(elementName, minutes, seconds) {
+            var element, endTime, hours, mins, msLeft, time;
+
+            function twoDigits(n) {
+                return (n <= 9 ? "0" + n : n);
+            }
+
+            function updateTimer() {
+                msLeft = endTime - (+new Date);
+                if (msLeft < 1000) {
+                    element.innerHTML = "Time is up!";
+                } else {
+                    time = new Date(msLeft);
+                    hours = time.getUTCHours();
+                    mins = time.getUTCMinutes();
+                    element.innerHTML = (hours ? hours + ':' + twoDigits(mins) : mins) + ':' + twoDigits(time
+                        .getUTCSeconds());
+                    setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
+                }
+            }
+            element = document.getElementById(elementName);
+            endTime = (+new Date) + 1000 * (60 * minutes + seconds) + 500;
+            updateTimer();
+        }
+        countdown("timer-countdown", 15, 0);
+    }
+</script>
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+<!-- JS ============================================ -->
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".create_btn_dash", function(event) {
+            event.preventDefault();
+            window.location.href = "{% url 'instructors:create_course_view' %}"
+        })
+    })
+</script>
+{% endblock scripts %}

@@ -1,0 +1,175 @@
+{% load static i18n %} {% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+  <!-- <meta charset="utf-8" /> -->
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>{% block title %} skillcobra {% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=9" />
+  <meta name="description" content="lms" />
+  <meta name="author" content="jeckonia,daniel" />
+  <meta name="csrf-token" content="{{ csrf_token }}" />
+  <!-- Favicon Icon -->
+  {% comment %}
+  <link rel="icon" type="image/png" href="{% static 'images/fav.png' %}" /> {% endcomment %}
+  {% block cssBlock %}
+  <!--xxxxxxxxxxxxxxxxxxxxxxxxx css for wizaeddd onboarding-->
+  <!-- BASE CSS -->
+  <link href="{% static 'csswizard/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'csswizard/style.css' %}" rel="stylesheet">
+  <link href="{% static 'csswizard/vendors.css' %}" rel="stylesheet">
+
+  {% endblock cssBlock %}
+  <!--  -->
+  {% block css %}
+  <!-- Your stuff: Third-party CSS libraries go here -->
+  <!-- This file stores project-specific CSS -->
+  <!--  -->
+  {% endblock css %}
+  <!-- Le javascript
+    ================================================== -->
+
+  {# Placed at the top of the document so pages load faster with defer #}
+
+  <!--  -->
+
+  <!--  -->
+
+
+</head>
+
+<body style="background-color: hsl(230, 100%, 98%);">
+
+  {% block body %}
+  <!-- header -->
+
+  <!-- /header -->
+  <!-- main content -->
+  {% block wrapper %}
+
+  {% block content %} {% endblock content %}
+  <!-- footer -->
+
+  {% endblock wrapper %}
+  <!-- /main content -->
+  {% endblock body %}
+  <!-- /container -->
+  {% block modal %}
+
+  {% endblock modal %}
+
+  <!-- Add New Section Start -->
+  <div id="preloader">
+    <div data-loader="circle-side"></div>
+</div>
+
+
+
+  <!-- scripts -->
+  {% block inline_javascript %}
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      /* Run whatever you want */
+    });
+  </script>
+  {% endblock inline_javascript %}
+  <!--  -->
+  {% csrf_token %} {% block js %}
+
+  <script src="{% static 'jswizard/common_scripts.min.js' %}"></script>
+  <script src="{% static 'jswizard/common_functions.js' %}"></script>
+  <script src="{% static 'jswizard/wizard_func_3.js' %}"></script>
+  <script src="{% static 'jswizard/wizard_func_2.js' %}"></script>
+  <script src="{% static 'jswizard/wizard_func_1.js' %}"></script>
+  <script src="{% static 'jswizard/wizard_func_4.js' %}"></script>
+
+
+  {% endblock js %}
+  <!-- block scripts -->
+  <!-- A button to trigger a test error -->
+
+  <script>
+    function getCookie(name) {
+      const cookieValue = document.cookie
+        .split(";")
+        .find((cookie) => cookie.trim().startsWith(name + "=")) ?
+        .split("=")[1];
+      return cookieValue || "";
+    }
+  </script>
+  {% block scripts %} {% endblock scripts %}
+  <script>
+    $(document).ready(function() {
+      $(".signout-btn").each(function() {
+        $(this).on("click", () => {
+          var csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+          console.log(csrfToken);
+          if (confirm("Are you sure you want to sign out?")) {
+            $.ajax({
+              type: "POST",
+              url: "/users/logout/",
+              headers: {
+                "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val(),
+              },
+              success: function(response) {
+                window.location.href = response.url;
+              },
+              error: function(xhr, status, error) {
+                alert(xhr.responseText);
+              },
+              dataType: "json",
+              contentType: "application/json",
+              data: JSON.stringify({}),
+              cache: false,
+              timeout: 5000,
+              complete: function(response) {},
+            });
+          }
+        });
+      });
+    });
+  </script>
+  {% block vite %} {% endblock vite %}
+  <script>
+    $(document).ready(function() {
+      $(".address_form_update").on("submit", function(event) {
+        event.preventDefault();
+        const fd = new FormData(event.target);
+        const form = $(this);
+        const btn = form.find("button[type=submit].save_payout_btn");
+        btn.find(".spinner").show();
+        btn.prop("disabled", true);
+        $.ajax({
+          url: "{% url 'users:update_profile_address' %}",
+          method: "POST",
+          data: fd,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            console.log(response);
+            $(".response").text(response.message);
+            $("input[name=address_id]").val(response.address_id);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.error(jqXHR, textStatus, errorThrown);
+            $(".response").text(
+              "An error occurred while updating your address."
+            );
+          },
+          complete: function() {
+            btn.find(".spinner").hide();
+            btn.prop("disabled", false);
+            setTimeout(() => {
+              $(".response").text("");
+            }, 2000);
+          },
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

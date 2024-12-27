@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+<!-- -->
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} AI Tools {% endblock title %}
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+{% block slogan %}
+<!--  -->
+
+<!--  -->
+{% endblock slogan %}
+
+<!--  -->
+{% block content %}
+<div>
+  <div class="col-lg-12">
+    <h1 class="st_title">
+      <i class="uil uil-book-alt"></i>AI Chat Tools</h1>
+      {% comment %} <p>We're a passionate, creative, and global company, come work with us.</p> {% endcomment %}
+      
+  </div>
+  
+</div>
+
+
+<style>
+  /* Custom styling */
+
+
+  .sidebar {
+    background-color: #f4f4f9;
+    height: 83vh;
+    padding-top: 20px;
+    overflow-y: auto;
+  }
+
+  .chat-section {
+    height: 83vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-header {
+    background-color: #f4f4f9;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-content {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+  }
+
+  .message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .message.user {
+    background-color: #e0f7fa;
+    align-self: flex-end;
+  }
+
+  .message.bot {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+  }
+
+  .chat-input-area {
+   
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+  .history-section {
+    background-color: #f4f4f9;
+    height: 83vh;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    .chat-input-area {
+      width: 100%;
+    }
+  }
+</style>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar (Hidden on small screens) -->
+    <div class="col-3 sidebar d-none d-md-block">
+      <h5>CobraAI</h5>
+      <ul class="nav flex-column">
+        
+        <li class="nav-item">
+          <a class="nav-link btn btn-lg custom-btn mt-2" href="{% url 'chatai' %}">
+              <i class="bi bi-chat-dots"></i> AI Chat
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link btn btn-lg custom-btn mt-2" href="{% url 'pdreaderpage' %}">
+              <i class="bi bi-file-earmark-text"></i> Chat with PDF
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link btn btn-lg custom-btn mt-2" href="{% url 'coursecreator' %}">
+              <i class="bi bi-pencil-square"></i> Course Creator
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link btn btn-lg custom-btn mt-2 mb-8" href="{% url 'courseassess' %}">
+              <i class="bi bi-card-checklist"></i> Course Assessment
+          </a>
+      </li>
+      
+       
+        
+
+      </ul>
+      
+      <hr>
+      <div class="container">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h5 class="text-center">Search From</h5>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchFrom" id="searchWeb" value="web" checked>
+                    <label class="form-check-label" for="searchWeb">The Web</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchFrom" id="searchSkillcobra" value="skillcobra">
+                    <label class="form-check-label" for="searchSkillcobra">Skillcobra</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      <hr>
+
+      <div class="user-info text-center">
+        <img src="https://via.placeholder.com/50" alt="User" class="rounded-circle">
+        <p class="mt-2">Adam Milner</p>
+        <small>Tutor</small>
+        <button class="btn btn-primary btn-sm mt-2">Upgrade to Pro</button>
+      </div>
+      <hr>
+      <!-- <button class="btn btn-dark w-100">Dark</button>
+      <button class="btn btn-light w-100 mt-2">Light</button> -->
+    </div>
+
+    <!-- Chat Section -->
+    <div class="col-12 col-md-6 chat-section">
+      <div class="chat-header">
+        <h5>Chat with CobraAI</h5>
+        <button class="btn btn-primary btn-sm">New Chat</button>
+      </div>
+      <div class="chat-content">
+        
+     
+       
+        <div class="message bot d-flex justify-content-start">
+          <div class="chat-bubble bg-light text-dark p-2 rounded col-6">
+            <p><strong>CobraAI:</strong> You're already talking to CobraAI right now! Feel free to ask me anything.</p>
+          </div>
+        </div>
+        <div class="message user d-flex justify-content-end">
+          <div class="chat-bubble p-2 rounded col-6">
+            <p><strong>Tutor Name:</strong> How can I talk with CobraAI?</p>
+          </div>
+        </div>
+        <div class="message bot d-flex justify-content-start">
+          <div class="chat-bubble bg-light text-dark p-2 rounded col-6">
+            <p><strong>CobraAI:</strong> You're already talking to CobraAI right now! Feel free to ask me anything.</p>
+          </div>
+        </div>
+       
+        <div class="message bot d-flex justify-content-start">
+          <div class="chat-bubble bg-light text-dark p-2 rounded col-6">
+            <p><strong>CobraAI:</strong> You're already talking to CobraAI right now! Feel free to ask me anything.</p>
+          </div>
+        </div>
+        <div class="message user d-flex justify-content-end">
+          <div class="chat-bubble p-2 rounded col-6">
+            <p><strong>Tutor Name:</strong> How can I talk with CobraAI?</p>
+          </div>
+        </div>
+        <div class="message bot d-flex justify-content-start">
+          <div class="chat-bubble bg-light text-dark p-2 rounded col-6">
+            <p><strong>CobraAI:</strong> You're already talking to CobraAI right now! Feel free to ask me anything.</p>
+          </div>
+        </div>
+        
+        
+      </div>
+      <!-- Chat Input -->
+      <div class="chat-input-area col-6 col-md-6">
+        <textarea class="form-control" placeholder="Send a message here..." rows="2"></textarea>
+
+        <button class="btn btn-primary">Send</button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar (Hidden on small screens) -->
+    <div class="col-3 history-section d-none d-md-block">
+      <h6>Today</h6>
+      <ul class="list-group">
+        <li class="list-group-item">CobraAI Definition...</li>
+        <li class="list-group-item">Your Last Question..</li>
+        <li class="list-group-item">Best Way to Maintain Code Quality...</li>
+      </ul>
+      <h6 class="mt-4">Yesterday</h6>
+      <ul class="list-group">
+        <li class="list-group-item">How to Write Code...</li>
+        <li class="list-group-item">HTML Shortcut Method...</li>
+        <li class="list-group-item">HTML Shortcut Method...</li>
+        <li class="list-group-item">HTML Shortcut Method...</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.custom-btn {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #007bff;
+  color: #007bff;
+  background-color: transparent;
+  padding: 12px 30px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 50px;
+  transition: color 0.3s ease;
+  z-index: 0;
+}
+
+.custom-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: #e0f7fa;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+  z-index: -1;
+}
+
+.custom-btn:hover {
+  color: #fff;
+  background-color: #e0f7fa;
+}
+
+.custom-btn:hover::before {
+  width: 400%;
+  height: 400%;
+  transition: width 1s ease-in-out, height 1s ease-in-out; /* Slower wave effect */
+  background-color: #e0f7fa;
+}
+
+.custom-btn:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgb(255, 102, 0);
+}
+</style>
+
+
+
+{% endblock content %}
+<!-- -->
+{% block scripts %}
+<!-- -->
+{{ block.super }}
+
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".create_btn_dash", function(event) {
+      event.preventDefault();
+      window.location.href = "{% url 'instructors:create_course_view' %}"
+    })
+  })
+</script>
+{% endblock scripts %}

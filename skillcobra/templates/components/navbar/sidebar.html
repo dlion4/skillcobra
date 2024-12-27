@@ -10,6 +10,7 @@
           </a>
         </li>
         <h6 class="left_title">COURSES</h6>
+        <h6 class="left_title">COURSES</h6>
         {% if request.user.role == "student" %}
         <li class="menu--item">
           <a href="{% url 'students:lessons' %}" class="menu--link {% if request.resolver_match.view_name == 'students:lessons' %}active{% endif %}" title="Live Streams">
@@ -25,8 +26,9 @@
             <span class="menu--label">Explore</span>
           </a>
         </li>
-        <li class="menu--item menu--item__has_sub_menu">
-          <label class="menu--link" title="Categories">
+        <li class="menu--item">
+        <a href="{% url 'freecourse' %}" class="menu--link {% if request.resolver_match.view_name == 'freecourse' %}active{% endif %}" title="Free Courses">
+          <label class="menu--link" title="free courses">
             <i class="uil uil-layers menu--icon"></i>
             <span class="menu--label">Free Courses</span>
           </label>
@@ -35,7 +37,8 @@
             <li class="sub_menu--item"><a href="#" class="sub_menu--link">Office Productivity</a></li>
           </ul>
         </li>
-        <li class="menu--item menu--item__has_sub_menu">
+        <li class="menu--item">
+          <a href="{% url 'test' %}" class="menu--link" title="test">
           <label class="menu--link" title="Tests">
             <i class="uil uil-clipboard-alt menu--icon"></i>
             <span class="menu--label">Tests</span>
