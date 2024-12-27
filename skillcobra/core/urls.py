@@ -69,6 +69,31 @@ urlpatterns = [
         views.HomeTermsOfUseView.as_view(),
         name="terms",
     ),
+    path(
+        "assessment-view/",
+        views.AssessmentView.as_view(),
+        name="assessment_view",
+    ),
+    path(
+        "certification-view/",
+        views.CertificationView.as_view(),
+        name="certification_view",
+    ),
+    path(
+        "editors/",
+        views.EditorListView.as_view(),
+        name="editors_view",
+    ),
+    path(
+        "ai-tools/",
+        views.ArtificialIntelligenceToolsView.as_view(),
+        name="ai_tools_view",
+    ),
+    path(
+        "distant-learning/",
+        views.VirtualLearningView.as_view(),
+        name="distant_learning",
+    ),
     # COURSE URL
     path("courses/", include("skillcobra.core.courses.urls", namespace="courses")),
     path(
@@ -79,36 +104,8 @@ urlpatterns = [
         "students/",
         include("skillcobra.core.students.urls", namespace="profile_students"),
     ),
-    
-    # neww urls for added pages
-
-
-    path("developers/", views.DevelopersView.as_view(), name="developers"),
-    path("onboarding/", views.OnboardingView.as_view(), name="onboarding"),
-    path("helppage/", views.HelpPageView.as_view(), name="helppage"),
-    path("studorder/", views.StudentOrderView.as_view(), name="studorder"),
-    path("studentform/", views.StudentFormView.as_view(), name="studentform"),
-    path("editors/", views.EditorsView.as_view(), name="editors"),
-    path("ai/", views.AIView.as_view(), name="ai"),
-    path("files/", views.FilesView.as_view(), name="files"),
-    path("careerspage/", views.CareerspageView.as_view(), name="careerspage"),
-    path("virtuallearning/", views.VirtualLearningView.as_view(), name="virtuallearning"),
-    path("freecourse/", views.FreecourseView.as_view(), name="freecourse"),
-    
-    path("cert/", views.CertView.as_view(), name="cert"),
-    path("test/", views.TestView.as_view(), name="test"),
-    path("verification/", views.VerificationView.as_view(), name="verification"),
-    path("statement/", views.StatementView.as_view(), name="statement"),
-    #neww section pdfs
-    path("pdreader/", views.PdreaderView.as_view(), name="pdreader"),
-    path("pdreaderpage/", views.PdreaderpageView.as_view(), name="pdreaderpage"),
-    #inner tool pages
-    
-    path("chatai/", views.ChataiView.as_view(), name="chatai"),
-    path("coursecreator/", views.CoursecreatorView.as_view(), name="coursecreator"),
-    path("courseassess/", views.CourseassessView.as_view(), name="courseassess"),
-    path("filemanager/", views.FilemanagerView.as_view(), name="filemanager")
-
-    
-
+    path(
+        "careers/",
+        include("skillcobra.core.careers.urls", namespace="careers"),
+    ),
 ]

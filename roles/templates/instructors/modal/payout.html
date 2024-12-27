@@ -1,0 +1,74 @@
+{% load static %}
+
+<div
+  class="modal fade"
+  id="processPayoutModal"
+  tabindex="-1"
+  aria-labelledby="payoutModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <form action="{% url 'instructors:payments:initiate_payout_view' %}" method="post" id="processPayoutForm">
+      {% csrf_token %}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="processPayoutLabel">Initiate Payout</h5>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <small
+            >Time to earn from your hard work. Fill the form to receive your
+            payout into your personal account in no time</small
+          >
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="new-section">
+                  <div class="form_group">
+                    <label class="label25">Amount to withdraw</label>
+                    {{payout_form.amount}}
+                    <small>Min withdrawable amount $55.00</small>
+                    <div class="module_title_error"></div>
+                    <div
+                      class="invalid-feedback module_title_error response-container"
+                    ></div>
+                  </div>
+                  <div class="form_group my-2">
+                    <label for="" class="label25">Payout Channel </label>
+                    {{payout_form.channel}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div id="response"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="main-btn submit-main-btn-with-spinner"
+            id="submitBtn"
+          >
+            <span class="btn-text">proceed with payout</span>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{{payout_form.media}}

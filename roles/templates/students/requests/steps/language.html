@@ -1,0 +1,64 @@
+<!-- /Step -->
+
+
+
+<div class="step">
+    <div class="question_title">
+        <h3>Which <span class="highlight">language</span> <br> are you comfortable to be tought in
+        </h3>
+        <p>Select a language in which the expert will use to deliver to you the session</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-7 col-md-10">
+            <div class="list_block">
+                <ul>
+                    <li>
+                        <div class="checkbox_radio_container">
+                            <input type="radio" id="yeswith_2" name="language" class="required" value="Yes, teach me using english">
+                            <label for="yeswith_2" class="wrapper py-3">English (default)</label>
+                        </div>
+                    </li>
+                    <!-- Radio Button: Choose Languages -->
+                    <li>
+                        <div class="checkbox_radio_container">
+                            <input type="radio" id="choose_language" name="language" class="required" value="Choose Languages">
+                            <label for="choose_language" class="wrapper py-3">ChooseLanguages</label>
+                        </div>
+                        <!-- Dropdown: Languages -->
+                        <div id="languageDropdown" class="input-group mt-2" style="display: none; transform: translateX(17rem)">
+                            <select class="form-select py-3" id="inputGroupSelect04" aria-label="Select Language">
+                                <option selected value="English">English</option>
+                                <option value="Swahili">Swahili</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="French">French</option>
+                            </select>
+                        </div>
+                    </li>
+                    <!-- Radio Button: Yes, in-house -->
+
+                    <script>
+
+                        $("#choose_language").on("change", function () {
+                            if (this.checked) {
+                                $("#languageDropdown").show();
+                                $("inputGroupSelect04").change(function () {
+                                    var selectedLanguage = $(this).val();
+                                    var optionLanguageInput = $("input#choose_language");
+                                    optionLanguageInput.val(selectedLanguage);
+                                    optionLanguageInput.closest("label").text(selectedLanguage);
+                                });
+                            } else {
+                                if (!this.checked) {
+                                    $("#languageDropdown").hide();
+                                }
+                            }
+                        })
+                    </script>
+
+                </ul>
+            </div>
+            <!-- /list_block-->
+        </div>
+    </div>
+    <!-- /row-->
+</div>

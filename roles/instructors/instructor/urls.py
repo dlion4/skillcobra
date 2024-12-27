@@ -64,6 +64,11 @@ urlpatterns = [
         name="create_course_view",
     ),
     path(
+        "recruitment/",
+        views.InstructorRecruitmentView.as_view(),
+        name="tutor_recruitment_view",
+    ),
+    path(
         "detail-course/<pk>/<slug>/",
         views.InstructorCourseDetailView.as_view(),
         name="detail_course_view",

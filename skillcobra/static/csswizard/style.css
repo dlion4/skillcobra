@@ -335,16 +335,7 @@ a.btn_help:focus {
     outline: none
 }
 
-/* .bg_cover {
-    background: url(../img/bg_cover.svg) no-repeat center center
-} */
 
-@media (max-width: 767px) {
-    .bg_cover {
-        background: url(../img/bg_cover_mobile.svg) no-repeat left top;
-        background-size: cover
-    }
-}
 
 .bg_color {
     background-color: #282c96;
@@ -416,9 +407,7 @@ header.inner #social ul li a {
     opacity: 0.7
 }
 
-#offcanvasNav {
-    background: #fff url(../img/logo_2.svg) no-repeat center bottom
-}
+
 
 #offcanvasNav .offcanvas-body {
     padding: 25px
@@ -544,28 +533,23 @@ input#website {
 }
 
 .decorative_bg.bg_1 {
-    background: #fff url(../../static/images/onboard/elearning.png) no-repeat top center;
-    background-size: 98%; /* Adjust the percentage to zoom out */
-    background-position: center; /* Ensure it remains centered */
+    background: #fff url(../images/onboard/elearning.png) no-repeat top center;
+    background-size: 98%;
+    background-position: center;
 }
 
 
 .decorative_bg.bg_2 {
-    background: #fff url(../../static/images/onboard/vacant.jpg) no-repeat top center;
-    background-size: 138%; /* Adjust the percentage to zoom out */
-    background-position: center; /* Ensure it remains centered */
+    background: #fff url(../images/onboard/vacant.jpg) no-repeat top center;
+    background-size: 138%;
+    background-position: center;
 }
 
-/* .decorative_bg.bg_3 {
-    background: #fff url(../../static/images/onboard/graduate.png) no-repeat top right;
-    background-size: cover
-} */
 .decorative_bg.bg_3 {
-    background: #fff url(../../static/images/onboard/graduate.png) no-repeat top center;
-    background-size: 158%; /* Adjust the percentage to zoom out */
-    background-position: center; /* Ensure it remains centered */
+    background: #fff url(../images/onboard/graduate.png) no-repeat top center;
+    background-size: 158%;
+    background-position: center;
 }
-
 
 button.backward,
 button.forward,
@@ -1161,23 +1145,7 @@ input.qtyplus {
     top: 4px
 }
 
-input.qtyplus {
-    background: url(../img/plus.svg) no-repeat center center;
-    right: 35px
-}
 
-input.qtyplus:hover {
-    background: url(../img/plus_hover.svg) no-repeat center center
-}
-
-input.qtyminus {
-    background: url(../img/minus.svg) no-repeat center center;
-    right: 5px
-}
-
-input.qtyminus:hover {
-    background: url(../img/minus_hover.svg) no-repeat center center
-}
 
 .rounded_slider {
     text-align: center;
@@ -1250,13 +1218,7 @@ input.qtyminus:hover {
     background-color: #333 !important
 }
 
-/*!
- * Float Labels
- * @version: 3.3.9
- * @author: Paul Ryley (http://geminilabs.io)
- * @url: https://pryley.github.io/float-labels.js
- * @license: MIT
- */
+
 .fl-form .fl-wrap {
     position: relative;
     text-rendering: optimizeLegibility;

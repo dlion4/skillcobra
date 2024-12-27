@@ -24,10 +24,10 @@
           <thead>
             <tr>
               <th>
-                <p class="t-heading">My funds</p>
+                <p class="t-heading">Total Income</p>
               </th>
               <th>
-                <p class="t-heading">Earnings</p>
+                <p class="t-heading">Account Balance</p>
               </th>
               <th>
                 <p class="t-heading">skillcobra Fees</p>
@@ -39,19 +39,23 @@
               <td class="statement-summary__funds">
                 <p class="js-earnings__instructor-funds-wrapper">
                   <span class=""></span>
-                  <span class="js-earnngs__instructor-funds t-currency">$289.64</span>
+                  <span class="js-earnngs__instructor-funds t-currency"
+                    >${{profile.tutor_sales.earning}}</span
+                  >
                 </p>
               </td>
               <td class="statement-summary__earnings">
                 <p class="js-earnings__earnings-wrapper">
-                  <span class="tt__earning">+</span>
-                  <span class="js-earnings__earnings t-currency">$458.00</span>
+                  <span class="tt__earning"></span>
+                  <span class="js-earnings__earnings t-currency"
+                    >${{profile.profile_bank_account.account_balance}}</span
+                  >
                 </p>
               </td>
               <td class="statement-summary__fees">
                 <p class="js-earnings__fees-wrapper">
                   <span class="tt__earning">-</span>
-                  <span class="js-earnings__fees t-currency">$154.86</span>
+                  <span class="js-earnings__fees t-currency">${{profile.profile_skillcobra_fee}}</span>
                 </p>
               </td>
             </tr>
@@ -67,8 +71,10 @@
       </div>
       <div class="statement_invoice_content">
         <div class="date_selector mt-0">
-          <div class="ui selection dropdown skills-search vchrt-dropdown invoice-dropdown">
-            <input name="date" type="hidden" value="default">
+          <div
+            class="ui selection dropdown skills-search vchrt-dropdown invoice-dropdown"
+          >
+            <input name="date" type="hidden" value="default" />
             <i class="dropdown icon d-icon"></i>
             <div class="text">Monthly Invoices</div>
             <div class="menu">
@@ -95,7 +101,11 @@
         <div class="explore_search">
           <div class="ui search focus">
             <div class="ui left icon input swdh11 swdh15">
-              <input class="prompt srch_explore" type="text" placeholder="Document Number">
+              <input
+                class="prompt srch_explore"
+                type="text"
+                placeholder="Document Number"
+              />
               <i class="uil uil-search-alt icon icon8"></i>
             </div>
           </div>
@@ -118,28 +128,27 @@
           </tr>
         </thead>
         <tbody>
+          {% for transaction in profile.tutor_sales.transactions.all %}
           <tr>
-            <td>13 Apr 2020</td>
-            <td>123456</td>
+            <td>{{transaction.timestamp|date:"d M Y"}}</td>
+            <td>{{transaction.pk}}</td>
             <td>Sale</td>
-            <td>Course Title Here</td>
-            <td>$10</td>
-            <td>-$5</td>
-            <td>
-              <a href="#">View</a>
-            </td>
+            <td>{{transaction.parent}}</td>
+            <td>${{transaction.parent.regular_price}}</td>
+            <td>-${{transaction.parent.discount_price}}</td>
+            <td><a href="#">View</a></td>
           </tr>
+          {% empty %}
+          <tr>No sales at the moment</tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
-
   </div>
 </div>
-
 
 {% endblock content %}
 <!-- -->
 {% block scripts %}
-  <!-- -->
-  {{ block.super }}
-{% endblock scripts %}
+<!-- -->
+{{ block.super }} {% endblock scripts %}

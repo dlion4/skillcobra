@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Editing Tools {% endblock title %}
+<!--  -->
+
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %} {% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+
+
+
+<div class="row my-4 py-3 px-5">
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+          <dotlottie-player
+            src="{% static 'lottie/ai_chat.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          >
+          </dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">AI Chat</h4>
+          <p class="card-text">
+            Engage with an intelligent, AI-powered chat assistant designed to
+            support your learning and problem-solving needs. Whether you need
+            help with coding, clarifying concepts, or brainstorming ideas, the
+            AI chat is your instant go-to companion for guidance and
+            collaboration.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a href="" class="btn1542"> Launch AI Chat </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+          <dotlottie-player
+            src="{% static 'lottie/course_creator.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          >
+          </dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-12 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">Course Creator</h4>
+          <p class="card-text">
+            Effortlessly design and customize engaging courses with our
+            intuitive course creation tool. From structuring lessons to adding
+            multimedia content, our platform provides everything you need to
+            create professional, interactive courses in one place.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a href="" class="btn1542"> Launch Course creator </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+          <dotlottie-player
+            src="{% static 'lottie/pdf_chat.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          >
+          </dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">Chat with PDF</h4>
+          <p class="card-text">
+            Interact with your PDF files like never before! Upload your document
+            and use our AI-powered tool to ask questions, extract key insights,
+            and receive summaries instantly. Perfect for quick understanding and
+            detailed exploration of your PDFs.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a href="" class="btn1542"> Launch Pdf Analyzer </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+        <!-- Image Section -->
+        <div class="col-12 col-sm-4 text-center mb-3 mb-sm-0">
+
+          <dotlottie-player
+            src="{% static 'lottie/course_assessment.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          >
+          </dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">Course Assessments</h4>
+          <p class="card-text">
+            Evaluate and enhance learning outcomes with dynamic course
+            assessment tools. Collaborate with experts, mentors, and coaches to
+            create quizzes, assignments, and real-time feedback sessions that
+            ensure a comprehensive learning experience.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a href="" class="btn1542"> Launch Course Assessment </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex align-items-center">
+        <!-- Image Section -->
+        <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+          <dotlottie-player
+            src="{% static 'lottie/pd_reader.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">PDF Reader</h4>
+          <p class="card-text">
+            Our PDF reader lets you open, analyze, summarize, extract, and
+            transform data efficiently, providing critical insights and
+            streamlining document processing.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a
+          href="{% url 'soon' %}"
+          class="btn1542"
+        >
+          Launch PDF Reader
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+    <div class="card h-100">
+      <div class="card-body d-flex align-items-center">
+        <!-- Image Section -->
+        <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+          <dotlottie-player
+            src="{% static 'lottie/file_manager.lottie' %}"
+            background="transparent"
+            speed="0.5"
+            style="width: 100%; height: auto"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+        <!-- Text Section -->
+        <div class="col-10 col-sm-8 text-center text-sm-start">
+          <h4 class="card-title">File Manager</h4>
+          <p class="card-text">
+            Our file manager allows you to modify, save, delete, and edit your
+            course materials and files effortlessly, ensuring seamless
+            organization and accessibility.
+          </p>
+        </div>
+      </div>
+      <!-- Buttons Section -->
+      <div
+        class="card-body d-flex justify-content-end"
+        style="margin-top: -25px; display: flex; justify-content: flex-end"
+      >
+        <a
+         href="{% url 'soon' %}"
+          class="btn1542"
+        >
+          Launch File Manager
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!--  -->
+{% block scripts %} {{ block.super }} {% endblock scripts %}

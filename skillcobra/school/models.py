@@ -1,7 +1,7 @@
+import random
 from datetime import datetime
 from datetime import timedelta
 from decimal import Decimal
-import random
 
 from django.db import models
 from django.urls import reverse
@@ -136,6 +136,7 @@ class Course(models.Model):
     un_likes = models.IntegerField(default=0)
     shared = models.IntegerField(default=11)
     course_release_date = models.DateTimeField(blank=True, null=True)
+    sales_count = models.BigIntegerField(default=0)
 
     all_objects = models.Manager()
     objects = CourseManager()
@@ -181,7 +182,7 @@ class Course(models.Model):
         )
 
     def get_sales(self):
-        return {"count": 21}
+        return {"count": self.sales_count}
 
     @property
     def payable_amount(self):

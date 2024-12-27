@@ -33,7 +33,7 @@ class CourseDetailView(DetailView):
     template_name = "pages/course_detail.html"
     context_object_name = "course"
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None)->Course:
         return get_object_or_404(
             self.model,
             pk=self.kwargs.get("pk"),
@@ -56,9 +56,15 @@ class CourseDetailView(DetailView):
         context["purchased_courses"] = purchased_courses
         return context
 
+    def _handle_session_course_view(self, course: Course):
+        if not self.request.session["course_item_id"]:
+            course.views += 1
+            course.save()
+            self.request.session["course_item_id"] = course.pk
+
     def get(self, request, *args, **kwargs):
         course = self.get_object()
-        request.session["course_item_id"] = course.pk
+        self._handle_session_course_view(course)
         return super().get(request, *args, **kwargs)
 
 

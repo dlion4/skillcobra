@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Editing Tools {% endblock title %}
+<!--  -->
+
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %} {% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+
+<div class="row my-4 py-3 px-5">
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+                    <dotlottie-player src="{% static 'lottie/webinar.lottie' %}" background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+
+                    <h4 class="card-title">Skillcobra Webinar</h4>
+                    <p class="card-text">Enhance your learning and collaboration with Skillcobra Webinar. Experience
+                        real-time skill delivery and seamless interaction through an AI-powered platform designed for
+                        effective sharing sessions.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end" style="margin-top: -20px; display: flex; justify-content: flex-end;">
+                <a href="{% url 'soon' %}"  class="btn1542">
+                    Launch Webinar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-4 mb-3 position-relative">
+        <div class="card h-100">
+            <div class="card-body d-flex flex-column flex-sm-row align-items-center">
+                <!-- Image Section -->
+                <div class="col-10 col-sm-4 text-center mb-3 mb-sm-0">
+                    <dotlottie-player src="{% static 'lottie/meet.lottie' %}" background="transparent" speed="0.5" style="width: 100%; height: auto" loop autoplay>
+                    </dotlottie-player>
+                </div>
+                <!-- Text Section -->
+                <div class="col-10 col-sm-8 text-center text-sm-start">
+                    <h4 class="card-title">Google Meet</h4>
+                    <p class="card-text">Enhance virtual collaboration with Google Meet, offering seamless integration
+                        for productive and efficient online meetings.</p>
+                </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="card-body d-flex justify-content-end" style="margin-top: -20px; display: flex; justify-content: flex-end;">
+                <a href="#" class="btn1542">
+                    Schedule Meeting
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock content %}
+
+<!--  -->
+{% block scripts %} {{ block.super }} {% endblock scripts %}

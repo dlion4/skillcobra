@@ -122,10 +122,11 @@ class UpdateProfileAddressView(View):
 
     def post(self, request, *args, **kwargs):
         profile = request.user.user_profile
-        form = self.form(request.POST, profile=profile)
+        form = self.form(request.POST, profile=profile, instance=profile)
         if form.is_valid():
+            print(form.cleaned_data)
             try:
-                billing_address = BillingAddress.objects.get(
+                billing_address, _ = BillingAddress.objects.get_or_create(
                     owner=profile,
                 )
                 for field, value in form.cleaned_data.items():

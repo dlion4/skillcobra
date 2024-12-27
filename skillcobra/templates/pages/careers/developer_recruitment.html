@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Certification{% endblock title %}
+<!--  -->
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %}
+<!--  -->
+{% block css %}
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!--  -->
+
+{% include 'components/wizard_styles.html' %}
+
+
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+<div class="container-fluid d-flex flex-column my-auto py-3">
+    <div>
+        <div id="wizard_container">
+            <div id="top-wizard">
+                <div id="progressbar"></div>
+            </div>
+            <!-- /top-wizard -->
+            <div class="decorative_bg bg_2"></div>
+
+            <form id="wrapped" method="POST">
+                <input id="website" name="website" type="text" value="" />
+                <!-- Leave input above for security protection, read docs for details -->
+                <div id="middle-wizard">
+                    <!-- step 1 -->
+                    {% include 'pages/careers/wizard/developer/steps.html' %}
+                    <!-- step 2 -->
+                    {% include 'pages/careers/wizard/developer/step2.html' %}
+                    <!-- step 3 -->
+                    {% include 'pages/careers/wizard/developer/step3.html' %}
+                </div>
+                <!-- /middle-wizard -->
+                <div id="bottom-wizard">
+                    <button type="button" name="backward" class="backward btn_1">Prev</button>
+                    <button type="button" name="forward" class="forward btn_1">Next</button>
+                    <button type="button" name="process" class="submit btn_1">Submit</button>
+                </div>
+                <!-- /bottom-wizard -->
+            </form>
+        </div>
+        <!-- /Wizard container -->
+    </div>
+</div>
+<!-- /Container -->
+
+{% endblock content %}
+
+<!--  -->
+{% block scripts %} {{ block.super }}
+
+{% include 'components/wizard_scripts.html' %}
+<script>
+    $("#bottom-wizard").find("button")
+</script>
+
+<script>
+    const navMenu = $("#nav-menu"),
+        navToggle = $("#nav-toggle"),
+        navClose = $("#nav-close");
+    navToggle.on("click", () => {
+        navMenu.addClass("show-menu");
+    });
+    navClose.on("click", () => {
+        navMenu.removeClass("show-menu");
+    });
+</script>
+
+{% endblock scripts %}
