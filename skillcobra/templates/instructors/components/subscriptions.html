@@ -1,0 +1,54 @@
+{% load static %}
+
+<div class="_htg451">
+  <div class="_htg452">
+    <div class="row">
+      {% for item in instructor.tutor_subscriptions.students.all %}
+      <div class="col-lg-3 col-md-4">
+        <div class="fcrse_1 mt-30">
+          <div class="tutor_img">
+            <a href="#">
+              <img
+                src="{% if itme.avatar %}{{item.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}"
+                alt="{{item.full_name}}"
+              />
+            </a>
+          </div>
+          <div class="tutor_content_dt">
+            <div class="tutor150">
+              <a href="#" class="tutor_name">{{item.full_name|title}}</a>
+              <div class="mef78" title="Verify">
+                <i class="uil uil-check-circle"></i>
+              </div>
+            </div>
+            <div class="tutor_cate">
+              <!-- somenting else -->
+            </div>
+            <ul class="tutor_social_links">
+              <li>
+                <button class="sbbc145">Subscribed</button>
+              </li>
+              <li>
+                <button class="sbbc146">
+                  <i class="uil uil-bell"></i>
+                </button>
+              </li>
+            </ul>
+            <div class="tut1250">
+              <span class="vdt15"
+                >{{student_purchased_courses.count}} Purchased</span
+              >
+              <!--  -->
+              {% if item.get_subscribed_courses_per_tutor %}
+              <span class="vdt15"
+                >{{item.get_subscribed_courses_per_tutor}} Subscribed</span
+              >
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

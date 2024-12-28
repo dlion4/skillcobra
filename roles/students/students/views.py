@@ -68,6 +68,9 @@ class StudentPurchasedCoursesView(TemplateViewMixin):
     template_name = "purchases.html"
 
 
+class StudentPurchasedCourseDetailView(TemplateViewMixin):
+    template_name = "purchased_course_detail.html"
+
 class StudentMessagesView(TemplateViewMixin):
     template_name = "messages.html"
 

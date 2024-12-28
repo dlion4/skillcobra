@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+<!-- -->
+{% load static %}
+<!-- -->
+{% block title %} {{ block.super }} Chat With Pdf {% endblock title %}
+<!--  -->
+
+{% block slogan %}
+<!--  -->
+<!--  -->
+{% endblock slogan %}
+<!--  -->
+{% block css %}
+<style>
+  #embedPdfButton {
+    transform: translateY(-30px);
+  }
+</style>
+
+<!-- Your stuff: Third-party CSS libraries go here -->
+<!-- This file stores project-specific CSS -->
+<!--  -->
+{% endblock css %}
+<!--  -->
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2 class="st_title">
+          <i class="uil uil-comment-info-alt"></i> Chat With Your Pdf
+        </h2>
+        <form action="" method="post">
+          <div class="row">
+            <div class="col-lg-6 col-md-8">
+              <div class="ui search focus">
+                <div class="ui left icon input swdh11 swdh19"></div>
+              </div>
+
+              <div class="form-group1">
+                <div class="image-upload-wrap">
+                  <input
+                    class="file-upload-input file_to_embed"
+                    id="file5"
+                    type="file"
+                    onchange="handleFileUpload(this);"
+                    accept=".pdf, .doc, .docx"
+                  />
+                  <div class="drag-text">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Select a document to upload</h4>
+                    <p>or drag and drop your document and the query it</p>
+                    <div
+                      id="fileNameDisplay"
+                      style="margin-top: 10px; font-size: 14px; color: #555"
+                    ></div>
+                  </div>
+                </div>
+                <button
+                  id="embedPdfButton"
+                  class="save_btn"
+                  onclick="embedPDF(event)"
+                  data-embed-pdf="{% url 'tools:embed_pdf_file_view' %}"
+                >
+                  <div class="d-flex">
+                    <div
+                      class="loading align-items-center justify-content-center"
+                    >
+                      <div class="spinner spinner-grow"></div>
+                      <div>Embedding...</div>
+                    </div>
+                    <div class="embed">
+                      <i class="fas fa-file-pdf me-2"></i> Embed Selected PDF
+                    </div>
+                  </div>
+                </button>
+
+                <div
+                  id="filePreview"
+                  style="
+                    margin-top: 20px;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                  "
+                >
+                  <div class="row gap-3">
+                    <div class="col-sm-12 col-md-4 cursor-pointer">
+                      <div class="card"><div class="p-4">Hello</div></div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 active cursor-pointer">
+                      <div class="card"><div class="p-4">Hello</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-8">
+              <div class="ui search focus">
+                <div class="ui left icon input swdh11 swdh19"></div>
+              </div>
+              <div class="ui search focus">
+                <div class="ui form swdh30">
+                  <div class="field">
+                    <textarea
+                      rows="6"
+                      name="description"
+                      id="id_about"
+                      placeholder="You can now ask your pdf any questions"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <button class="save_btn" type="submit">Send Feedback</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!--  -->
+{% block scripts %}
+<!--  -->
+{{ block.super }}
+<!--  -->
+<script>
+  function handleFileUpload(input) {
+    const fileNameDisplay = $("#fileNameDisplay");
+    const embedPdfButton = $("#embedPdfButton");
+
+    fileNameDisplay.text("");
+    embedPdfButton.hide();
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      fileNameDisplay.text(`${file.name}`);
+
+      embedPdfButton.show();
+    } else {
+      fileNameDisplay.text("No file selected.");
+    }
+  }
+
+  const uploadButton = $("button#embedPdfButton");
+  const loadingBtn$ = $(uploadButton).find("div.d-flex").find("div.loading");
+
+  const submitButton = $(uploadButton).find("div.d-flex").find("div.embed");
+
+  loadingBtn$.hide();
+
+  function embedPDF(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    const input = $("#file5.file_to_embed")[0];
+    const file = input.files[0];
+    const url = $(uploadButton).data("embed-pdf");
+
+    loadingBtn$.addClass("d-flex").show();
+    $(submitButton).hide();
+    $(uploadButton).prop("disabled", true);
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      $.ajax({
+        url: url,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          if (data.success) {
+            alert("PDF has been embedded successfully!");
+          } else {
+            alert("Failed to embed PDF.");
+          }
+        },
+        error: function (error) {
+          console.error("Error embedding PDF:", error);
+          alert("An error occurred while embedding the PDF.");
+        },
+        complete: function () {
+          $(loadingBtn$).removeClass("d-flex").hide();
+          $(submitButton).show();
+          $(uploadButton).prop("disabled", false);
+        },
+      });
+    } else {
+      alert("No file selected.");
+    }
+  }
+</script>
+
+{% endblock scripts %}

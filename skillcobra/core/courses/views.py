@@ -24,6 +24,7 @@ from skillcobra.filters.index import CourseFilter
 from skillcobra.purchases.models import Cart
 from skillcobra.purchases.models import Coupon
 from skillcobra.school.models import Course
+from skillcobra.users.models import Profile
 
 channel_layer = get_channel_layer()
 
@@ -57,7 +58,7 @@ class CourseDetailView(DetailView):
         return context
 
     def _handle_session_course_view(self, course: Course):
-        if not self.request.session["course_item_id"]:
+        if not self.request.session.get("course_item_id"):
             course.views += 1
             course.save()
             self.request.session["course_item_id"] = course.pk
@@ -93,6 +94,23 @@ def course_handle_like_click_view(request, course_pk, course_slug):
         },
         status=200,
     )
+
+
+@login_required
+@csrf_exempt
+@require_POST
+def subscribe_unsubscribe_for_tutor(request, *args, **kwargs):
+    tutor_pk = kwargs.get("tutor_pk")
+    student = request.user.user_profile
+    try:
+        tutor = Profile.objects.get(pk=tutor_pk, user__role="instructor")
+        if tutor.student_tutor_subscriptions.filter(pk=student.pk).exists():
+            tutor.student_tutor_subscriptions.remove(student)
+            return JsonResponse({"message": "Subscribe"}, safe=False, status=200)
+        tutor.student_tutor_subscriptions.add(student)
+        return JsonResponse({"message": "Unsubscribe"}, safe=False, status=200)
+    except (Profile.DoesNotExist, Exception) as e:
+        return JsonResponse({"message": str(e)}, status=400)
 
 
 @login_required

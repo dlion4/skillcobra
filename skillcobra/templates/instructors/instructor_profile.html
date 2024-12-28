@@ -12,678 +12,630 @@
 <!--  -->
 {% block modal %}
 <div
-    class="modal fade"
-    id="message_tutor"
-    tabindex="-1"
-    aria-labelledby="tutorMessageModalLabel"
-    aria-hidden="true"
+  class="modal fade"
+  id="message_tutor"
+  tabindex="-1"
+  aria-labelledby="tutorMessageModalLabel"
+  aria-hidden="true"
 >
-    <div class="modal-dialog modal-lg">
-        <form action="" method="post" class="tutorMessageModalLabel">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lectureModalLabel">
-                        Message
-                        <strong>{{instructor.title}}. {{instructor.full_name}}</strong>
-                    </h5>
-                    <button
-                        type="button"
-                        class="close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+  <div class="modal-dialog modal-lg">
+    <form action="" method="post" class="tutorMessageModalLabel">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="lectureModalLabel">
+            Message
+            <strong>{{instructor.title}}. {{instructor.full_name}}</strong>
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="new-section">
+                  <div class="form_group d-flex flex-column">
+                    <label
+                      class="label25"
+                      for="{{message_form.title.id_for_label}}"
+                      >{{message_form.title.label}}*
+                    </label>
+                    {{message_form.title}}
+                  </div>
+                  <div class="form_group d-flex flex-column py-2">
+                    <label
+                      class="label25"
+                      for="{{message_form.content.id_for_label}}"
+                      >{{message_form.content.label}}*
+                    </label>
+                    {{message_form.content}}
+                  </div>
                 </div>
-                <div class="modal-body">
-                    <div class="new-section-block">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="new-section">
-                                    <div class="form_group d-flex flex-column">
-                                        <label class="label25" for="{{message_form.title.id_for_label}}">{{message_form.title.label}}*
-                                        </label
-                    >
-                                        {{message_form.title}}
-                                    </div>
-                                    <div class="form_group d-flex flex-column py-2">
-                                        <label class="label25" for="{{message_form.content.id_for_label}}">{{message_form.content.label}}*
-                                        </label
-                    >
-                                        {{message_form.content}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="main-btn btn btn-danger">
-                        <span class="spinner" style="display: none"></span>
-                        <span>send message</span>
-                    </button>
-                </div>
+              </div>
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="main-btn btn btn-danger">
+            <span class="spinner" style="display: none"></span>
+            <span>send message</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
+
+<!--  -->
+{% include "instructors/components/modals/reviews.html" %}
+<!--  -->
+
 {% endblock modal %}
 <!-- -->
 {% block wrapper %}
 <div class="wrapper _bg4586">
-    <div class="_216b01">
-        {% block content %}
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-md-12">
-                    <div class="section3125 rpt145">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <a href="#" class="_216b22">
-                                    <span>
-                                        <i class="uil uil-windsock"></i>
-                                    </span>
-                                    Report Profile
-                                </a>
-                                <div class="dp_dt150">
-                                    <div class="img148">
-                                        <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="{{instructor.full_name}}">
-                                    </div>
-                                    <div class="prfledt1">
-                                        <h2>{{instructor.full_name}}</h2>
-                                        <span>{{instructor.headline}}</span>
-                                    </div>
-                                </div>
-                                <ul class="_ttl120">
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Enroll Students</div>
-                                            <div class="_ttl123">612K</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Courses</div>
-                                            <div class="_ttl123">
-                                                {{instructor.get_all_courses.count}}
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Review{{reviews.count|pluralize}}</div>
-                                            <div class="_ttl123">{{reviews.count}}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">
-                                                Subscriber{{instructor.tutor_subscriptions.students.count|pluralize}}
-                                            </div>
-                                            <div class="_ttl123 subscriber_count">
-                                                {{instructor.tutor_subscriptions.students.count}}
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-5">
-                                <a href="#" class="_216b12">
-                                    <span>
-                                        <i class="uil uil-windsock"></i>
-                                    </span>
-                                    Report Profile
-                                </a>
-                                <div class="rgt-145">
-                                    <ul class="tutor_social_links">
-                                        <li>
-                                            <a href="#" class="fb">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="tw">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="ln">
-                                                <i class="fab fa-linkedin-in"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="yu">
-                                                <i class="fab fa-youtube"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <ul class="_bty149">
-                                    <li class="">
-                                        {% if profile.pk in instructor_subscription_ids %}
-                                        <button disabled class="subscribe-btn btn500">
-                                            Subscribed!
-                                        </button>
-                                        {% else %}
-                                        <button data-subscribe-url="{{instructor.get_subscription_url}}" class="subscribe-btn btn500">
-                                            Subscribe
-                                        </button>
-                                        {% endif %}
-                                    </li>
-                                    <li>
-                                        <button data-bs-toggle="modal" data-bs-target="#message_tutor" class="msg125 btn500">
-                                            Message
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endblock content %}
-    </div>
-    <div class="_215b15">
-        <div class="container">
+  <div class="_216b01">
+    {% block content %}
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-12">
+          <div class="section3125 rpt145">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="course_tabs">
-                        <nav>
-                            <div class="nav nav-tabs tab_crse" id="nav-tab" role="tablist">
-                                <a
-                                    class="nav-item nav-link active"
-                                    id="nav-about-tab"
-                                    data-bs-toggle="tab"
-                                    href="#nav-about"
-                                    role="tab"
-                                    aria-selected="true"
-                                >
-                                    About
-                                </a>
-                                <a
-                                    class="nav-item nav-link"
-                                    id="nav-courses-tab"
-                                    data-bs-toggle="tab"
-                                    href="#nav-courses"
-                                    role="tab"
-                                    aria-selected="false"
-                                >
-                                    Courses
-                                    <sup>{{instructor.get_all_courses.count}}</sup>
-                                </a>
-                                <a
-                                    class="nav-item nav-link"
-                                    id="nav-reviews-tab"
-                                    data-bs-toggle="tab"
-                                    href="#nav-discussions"
-                                    role="tab"
-                                    aria-selected="false"
-                                >
-                                    Discussion
-                                    <sup>{{instructor.get_discussions.count}}</sup>
-                                </a>
-                                <a
-                                    class="nav-item nav-link"
-                                    id="nav-reviews-tab"
-                                    data-bs-toggle="tab"
-                                    href="#nav-subscriptions"
-                                    role="tab"
-                                    aria-selected="false"
-                                >
-                                    Subscriptions
-                                    <sup>{{instructor.tutor_subscriptions.students.count}}</sup>
-                                </a>
-                                <a
-                                    class="nav-item nav-link"
-                                    id="nav-reviews-tab"
-                                    data-bs-toggle="tab"
-                                    href="#nav-reviews"
-                                    role="tab"
-                                    aria-selected="false"
-                                >
-                                    Reviews
-                                    <sup>{{reviews.count}}</sup>
-                                </a>
-                            </div>
-                        </nav>
-                    </div>
+              <div class="col-lg-6">
+                <a href="#" class="_216b22">
+                  <span>
+                    <i class="uil uil-windsock"></i>
+                  </span>
+                  Report Profile
+                </a>
+                <div class="dp_dt150">
+                  <div class="img148">
+                    <img
+                      src="{% static 'images/left-imgs/img-1.jpg' %}"
+                      alt="{{instructor.full_name}}"
+                    />
+                  </div>
+                  <div class="prfledt1">
+                    <h2>{{instructor.full_name}}</h2>
+                    <span>{{instructor.headline}}</span>
+                  </div>
                 </div>
+                <ul class="_ttl120">
+                  <li>
+                    <div class="_ttl121">
+                      <div class="_ttl122">Enroll Students</div>
+                      <div class="_ttl123">612K</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="_ttl121">
+                      <div class="_ttl122">Courses</div>
+                      <div class="_ttl123">
+                        {{instructor.get_all_courses.count}}
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="_ttl121">
+                      <div class="_ttl122">
+                        Review{{reviews.count|pluralize}}
+                      </div>
+                      <div class="_ttl123">{{reviews.count}}</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="_ttl121">
+                      <div class="_ttl122">
+                        Subscriber{{instructor.tutor_subscriptions.students.count|pluralize}}
+                      </div>
+                      <div class="_ttl123 subscriber_count">
+                        {{instructor.tutor_subscriptions.students.count}}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-5">
+                <a href="#" class="_216b12">
+                  <span>
+                    <i class="uil uil-windsock"></i>
+                  </span>
+                  Report Profile
+                </a>
+                <div class="rgt-145">
+                  <ul class="tutor_social_links">
+                    <li>
+                      <a href="#" class="fb">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="tw">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="ln">
+                        <i class="fab fa-linkedin-in"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="yu">
+                        <i class="fab fa-youtube"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <ul class="_bty149">
+                  <li class="">
+                    {% if profile.pk in instructor_subscription_ids %}
+                    <button disabled class="subscribe-btn btn500">
+                      Subscribed!
+                    </button>
+                    {% else %}
+                    <button
+                      data-subscribe-url="{{instructor.get_subscription_url}}"
+                      class="subscribe-btn btn500"
+                    >
+                      Subscribe
+                    </button>
+                    {% endif %}
+                  </li>
+                  <li>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#message_tutor"
+                      class="msg125 btn500"
+                    >
+                      Message
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="_215b17">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="course_tab_content">
-                        <div class="tab-content" id="nav-tabContent">
-                            <!-- about -->
-                            <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
-                                <div class="_htg451">
-                                    <div class="_htg452">
-                                        <h3>About Me</h3>
-                                        <p>{{instructor.bio|safe}}</p>
-                                    </div>
-                                </div>
+    {% endblock content %}
+  </div>
+  <div class="_215b15">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="course_tabs">
+            <nav>
+              <div class="nav nav-tabs tab_crse" id="nav-tab" role="tablist">
+                <a
+                  class="nav-item nav-link active"
+                  id="nav-about-tab"
+                  data-bs-toggle="tab"
+                  href="#nav-about"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  About
+                </a>
+                <a
+                  class="nav-item nav-link"
+                  id="nav-courses-tab"
+                  data-bs-toggle="tab"
+                  href="#nav-courses"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Courses
+                  <sup>{{instructor.get_all_courses.count}}</sup>
+                </a>
+                <a
+                  class="nav-item nav-link"
+                  id="nav-reviews-tab"
+                  data-bs-toggle="tab"
+                  href="#nav-discussions"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Discussion
+                  <sup>{{instructor.get_discussions.count}}</sup>
+                </a>
+                <a
+                  class="nav-item nav-link"
+                  id="nav-reviews-tab"
+                  data-bs-toggle="tab"
+                  href="#nav-subscriptions"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Subscriptions
+                  <sup>{{instructor.tutor_subscriptions.students.count}}</sup>
+                </a>
+                <a
+                  class="nav-item nav-link"
+                  id="nav-reviews-tab"
+                  data-bs-toggle="tab"
+                  href="#nav-reviews"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Reviews
+                  <sup>{{reviews.count}}</sup>
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="_215b17">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="course_tab_content">
+            <div class="tab-content" id="nav-tabContent">
+              <!-- about -->
+              <div
+                class="tab-pane fade show active"
+                id="nav-about"
+                role="tabpanel"
+              >
+                <div class="_htg451">
+                  <div class="_htg452">
+                    <h3>About Me</h3>
+                    <p>{{instructor.bio|safe}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+                <div class="crse_content">
+                  <div class="_14d25">
+                    <div class="row">
+                      {% for item in instructor.get_all_courses %}
+                      <div class="col-lg-3 col-md-4">
+                        <div class="fcrse_1 mt-30">
+                          <a
+                            href="{{item.get_public_absolute_url}}"
+                            class="fcrse_img"
+                          >
+                            <img
+                              src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-1.jpg' %}{% endif %}"
+                              alt=""
+                            />
+                            <div class="course-overlay">
+                              <div class="badge_seller">Bestseller</div>
+                              <div class="crse_reviews">
+                                <i class="uil uil-star"></i>
+                                4.5
+                              </div>
+                              <span class="play_btn1">
+                                <i class="uil uil-play"></i>
+                              </span>
+                              <div class="crse_timer">
+                                {{item.course_duration}}
+                              </div>
                             </div>
-                            <div class="tab-pane fade" id="nav-courses" role="tabpanel">
-                                <div class="crse_content">
-                                    <div class="_14d25">
-                                        <div class="row">
-                                            {% for item in instructor.get_all_courses %}
-                                            <div class="col-lg-3 col-md-4">
-                                                <div class="fcrse_1 mt-30">
-                                                    <a href="{{item.get_public_absolute_url}}" class="fcrse_img">
-                                                        <img src="{% if item.cover %}{{item.cover.url}}{% else %}{% static 'images/courses/img-1.jpg' %}{% endif %}" alt="">
-                                                        <div class="course-overlay">
-                                                            <div class="badge_seller">Bestseller</div>
-                                                            <div class="crse_reviews">
-                                                                <i class="uil uil-star"></i>
-                                                                4.5
-                                                            </div>
-                                                            <span class="play_btn1">
-                                                                <i class="uil uil-play"></i>
-                                                            </span>
-                                                            <div class="crse_timer">
-                                                                {{item.course_duration}}
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <div class="fcrse_content">
-                                                        <div class="eps_dots more_dropdown">
-                                                            <a href="#">
-                                                                <i class="uil uil-ellipsis-v"></i>
-                                                            </a>
-                                                            <div class="dropdown-content">
-                                                                <span>
-                                                                    <i class="uil uil-share-alt"></i>
-                                                                    Share
-                                                                </span>
-                                                                {% if item|is_saved:profile %}
-                                                                <span class="unsave_course_btn" data-course-id="{{ item.pk }}" data-unsave-url="{{item.get_course_unsave_url}}">
-                                                                    <i class="uil uil-check-circle"></i>
-                                                                    Saved
-                                                                </span>
-                                                                {% else %}
-                                                                <span class="save_course_btn" data-course-id="{{ item.pk }}" data-save-url="{{item.get_course_save_url}}">
-                                                                    <i class="uil uil-clock-three"></i>
-                                                                    Save
-                                                                </span>
-                                                                {% endif %}
-                                                                <span>
-                                                                    <i class="uil uil-ban"></i>
-                                                                    Not Interested
-                                                                </span>
-                                                                <span>
-                                                                    <i class="uil uil-windsock"></i>
-                                                                    Report
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="vdtodt">
-                                                            <span class="vdt14">
-                                                                {{item.views}} view{{item.views|pluralize}}
-                                                            </span>
-                                                            <span class="vdt14">
-                                                                {{item.created_at|timesince}} ago
-                                                            </span>
-                                                        </div>
-                                                        <a href="{{item.get_public_absolute_url}}" class="crse14s">
-                                                            {{item.title|truncatewords:"9"}}
-                                                        </a>
-                                                        <a href="#" class="crse-cate">
-                                                            {{item.sub_category.category.name}} |
+                          </a>
+                          <div class="fcrse_content">
+                            <div class="eps_dots more_dropdown">
+                              <a href="#">
+                                <i class="uil uil-ellipsis-v"></i>
+                              </a>
+                              <div class="dropdown-content">
+                                <span>
+                                  <i class="uil uil-share-alt"></i>
+                                  Share
+                                </span>
+                                {% if item|is_saved:profile %}
+                                <span
+                                  class="unsave_course_btn"
+                                  data-course-id="{{ item.pk }}"
+                                  data-unsave-url="{{item.get_course_unsave_url}}"
+                                >
+                                  <i class="uil uil-check-circle"></i>
+                                  Saved
+                                </span>
+                                {% else %}
+                                <span
+                                  class="save_course_btn"
+                                  data-course-id="{{ item.pk }}"
+                                  data-save-url="{{item.get_course_save_url}}"
+                                >
+                                  <i class="uil uil-clock-three"></i>
+                                  Save
+                                </span>
+                                {% endif %}
+                                <span>
+                                  <i class="uil uil-ban"></i>
+                                  Not Interested
+                                </span>
+                                <span>
+                                  <i class="uil uil-windsock"></i>
+                                  Report
+                                </span>
+                              </div>
+                            </div>
+                            <div class="vdtodt">
+                              <span class="vdt14">
+                                {{item.views}} view{{item.views|pluralize}}
+                              </span>
+                              <span class="vdt14">
+                                {{item.created_at|timesince}} ago
+                              </span>
+                            </div>
+                            <a
+                              href="{{item.get_public_absolute_url}}"
+                              class="crse14s"
+                            >
+                              {{item.title|truncatewords:"9"}}
+                            </a>
+                            <a href="#" class="crse-cate">
+                              {{item.sub_category.category.name}} |
                               {{item.sub_category.name}}
-                                                        </a>
-                                                        <div class="auth1lnkprce">
-                                                            <p class="cr1fot">
-                                                                By
-                                                                <a href="{{item.tutor.get_public_profile_url}}">
-                                                                    {{item.tutor.full_name|title}}
-                                                                </a>
-                                                            </p>
-                                                            <div class="prce142">
-                                                                ${{item.payable_amount}}
-                                                            </div>
-                                                            <button class="shrt-cart-btn" title="cart">
-                                                                <i class="uil uil-shopping-cart-alt"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
+                            </a>
+                            <div class="auth1lnkprce">
+                              <p class="cr1fot">
+                                By
+                                <a href="{{item.tutor.get_public_profile_url}}">
+                                  {{item.tutor.full_name|title}}
+                                </a>
+                              </p>
+                              <div class="prce142">
+                                ${{item.payable_amount}}
+                              </div>
+                              <button class="shrt-cart-btn" title="cart">
+                                <i class="uil uil-shopping-cart-alt"></i>
+                              </button>
                             </div>
-                            <!-- discussion -->
-                            <div class="tab-pane fade" id="nav-discussions" role="tabpanel">
-                                <div class="student_reviews">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="review_right"></div>
-                                            <div class="cmmnt_1526">
-                                                <form action="{{instructor.get_create_discussion_url}}" method="post" class="discussion_form">
-                                                    {% csrf_token %}
-                                                    <div class="cmnt_group">
-                                                        <div class="img160">
-                                                            <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="">
-                                                        </div>
-                                                        {{discussion_form.message}}
-                                                    </div>
-                                                    <button class="cmnt-btn" type="submit">
-                                                        <span class="spinner" style="display: none"></span>
-                                                        submit discussion
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <div class="discussion_wrapper">
-                                                {% if discussions %}
-                                                <div class="review_all120">
-                                                    {% for item in discussions %}
-                                                    <div class="review_item" data-parent-item="{{item.pk}}" id="parent_item_{{item.pk}}">
-                                                        <div class="review_usr_dt">
-                                                            <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="{{item.student.full_name}}">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">
-                                                                    {{item.student.full_name|title|default:item.student.user.email}}
-                                                                </h4>
-                                                                <span class="time_145">
-                                                                    {{item.created_at|timesince}} ago
-                                                                </span>
-                                                            </div>
-                                                            {% if request.user.user_profile == item.student or is_instructor and request.user.user_profile == item.tutor %}
-                                                            <div class="eps_dots more_dropdown">
-                                                                <a href="#">
-                                                                    <i class="uil uil-ellipsis-v"></i>
-                                                                </a>
-                                                                <div class="dropdown-content">
-                                                                    <span>
-                                                                        <i class="uil uil-comment-alt-edit"></i>
-                                                                        Edit
-                                                                    </span>
-                                                                    <span class="discussion_delete_btn" data-delete-url="{{item.get_delete_url}}" data-item-id="{{item.pk}}">
-                                                                        <span class="spinner" style="display: none"></span>
-                                                                        <i class="delete-content uil uil-trash-alt"></i>
-                                                                        Delete
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            {% endif %}
-                                                        </div>
-                                                        <p class="rvds10">{{item.message|safe}}</p>
-                                                        <div class="rpt101">
-                                                            <a href="#" class="report155">
-                                                                <i class="uil uil-thumbs-up"></i>
-                                                                10
-                                                            </a>
-                                                            <a href="#" class="report155">
-                                                                <i class="uil uil-thumbs-down"></i>
-                                                                1
-                                                            </a>
-                                                            <a href="#" class="report155">
-                                                                <i class="uil uil-heart"></i>
-                                                            </a>
-                                                            <a href="#" class="report155 ml-3">Reply</a>
-                                                        </div>
-                                                    </div>
-                                                    {% if item.get_discussion_replies %}
-                                                    <div class="review_reply">
-                                                        {% for item in item.get_discussion_replies %}
-                                                        <div class="review_item">
-                                                            <div class="review_usr_dt">
-                                                                <img src="{% static 'images/left-imgs/img-3.jpg' %}" alt="">
-                                                                <div class="rv1458">
-                                                                    <h4 class="tutor_name1">
-                                                                        {{item.profile.full_name|title|default:item.profile.user.email}}
-                                                                    </h4>
-                                                                    <span class="time_145">
-                                                                        {{item.created_at|timesince}} ago
-                                                                    </span>
-                                                                </div>
-                                                                {% if request.user.user_profile == item.profile %}
-                                                                <div class="eps_dots more_dropdown">
-                                                                    <a href="#">
-                                                                        <i class="uil uil-ellipsis-v"></i>
-                                                                    </a>
-                                                                    <div class="dropdown-content">
-                                                                        <span>
-                                                                            <i class="uil uil-trash-alt"></i>
-                                                                            Delete
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                {% endif %}
-                                                            </div>
-                                                            <p class="rvds10">{{item.message}}</p>
-                                                            <div class="rpt101">
-                                                                <a href="#" class="report155">
-                                                                    <i class="uil uil-thumbs-up"></i>
-                                                                    4
-                                                                </a>
-                                                                <a href="#" class="report155">
-                                                                    <i class="uil uil-thumbs-down"></i>
-                                                                    2
-                                                                </a>
-                                                                <a href="#" class="report155">
-                                                                    <i class="uil uil-heart"></i>
-                                                                </a>
-                                                                <a href="#" class="report155 ml-3">Reply</a>
-                                                            </div>
-                                                        </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                    {% endif %} {% endfor %}
-                                                </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- subscription -->
-                            <div class="tab-pane fade" id="nav-subscriptions" role="tabpanel">
-                                <div class="_htg451">
-                                    <div class="_htg452">
-                                        <div class="row">
-                                            {% for item in instructor.tutor_subscriptions.students.all %}
-                                            <div class="col-lg-3 col-md-4">
-                                                <div class="fcrse_1 mt-30">
-                                                    <div class="tutor_img">
-                                                        <a href="#">
-                                                            <img src="{% if itme.avatar %}{{item.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}" alt="{{item.full_name}}">
-                                                        </a>
-                                                    </div>
-                                                    <div class="tutor_content_dt">
-                                                        <div class="tutor150">
-                                                            <a href="#" class="tutor_name">{{item.full_name|title}}</a>
-                                                            <div class="mef78" title="Verify">
-                                                                <i class="uil uil-check-circle"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tutor_cate">
-                                                            <!-- somenting else --></div>
-                                                        <ul class="tutor_social_links">
-                                                            <li>
-                                                                <button class="sbbc145">Subscribed</button>
-                                                            </li>
-                                                            <li>
-                                                                <button class="sbbc146">
-                                                                    <i class="uil uil-bell"></i>
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="tut1250">
-                                                            <span class="vdt15">{{student_purchased_courses.count}} Purchased</span>
-                                                            <!--  -->
-                                                            {% if item.get_subscribed_courses_per_tutor %}
-                                                                <span class="vdt15">{{item.get_subscribed_courses_per_tutor}} Subscribed</span>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- reviews -->
-                            <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
-                                <div class="_htg451">
-                                    <div class="_htg452">
-                                        <div class="row">
-                                           
-
-
-                                            <div class="col-lg-5">
-                                                <div class="reviews_left">
-                                                    <h3>All Student Feedback</h3>
-                                                    <div class="total_rating">
-                                                        <div class="_rate001">4.6</div>
-                                                        <div class="rating-box">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star half-star"></span>
-                                                        </div>
-                                                        <div class="_rate002">All Rating</div>
-                                                    </div>
-                                                    <div class="_rate003">
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-70" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">70%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">40%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-5" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">5%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-2" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">1%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-1" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">1%</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-lg-7">
-                                                <div class="review_right">
-                                                    <div class="review_right_heading">
-                                                        <h3></h3>
-                                                        <div class="review_search">
-                                                            <input class="rv_srch py-3" style="padding: 17px 10px !important;" type="text" placeholder="Search reviews...">
-                                                            <button class="rvsrch_btn" style="transform: translateY(3px) !important;"><i class="uil uil-search"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="review_all120">
-                                                    <div class="review_item_course_title">
-                                                        <a href="#">Course Title Here</a>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="{% static 'images/left-imgs/img-1.jpg' %}" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">John Doe</h4>
-                                                                <span class="time_145">2 hour ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star half-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">
-                                                            Nam gravida elit a velit rutrum, eget dapibus 
-                                                            ex elementum. Interdum et malesuada fames ac ante 
-                                                            ipsum primis in faucibus. Fusce lacinia, nunc sit 
-                                                            amet tincidunt venenatis.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          </div>
                         </div>
+                      </div>
+                      {% endfor %}
                     </div>
+                  </div>
                 </div>
+              </div>
+              <!-- discussion -->
+              <div class="tab-pane fade" id="nav-discussions" role="tabpanel">
+                <div class="student_reviews">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="review_right"></div>
+                      <div class="cmmnt_1526">
+                        <form
+                          action="{{instructor.get_create_discussion_url}}"
+                          method="post"
+                          class="discussion_form"
+                        >
+                          {% csrf_token %}
+                          <div class="cmnt_group">
+                            <div class="img160">
+                              <img
+                                src="{% static 'images/left-imgs/img-1.jpg' %}"
+                                alt=""
+                              />
+                            </div>
+                            {{discussion_form.message}}
+                          </div>
+                          <button class="cmnt-btn" type="submit">
+                            <span class="spinner" style="display: none"></span>
+                            submit discussion
+                          </button>
+                        </form>
+                      </div>
+                      <div class="discussion_wrapper">
+                        {% if discussions %}
+                        <!--  -->
+                        {% include "instructors/components/discussions.html" %}
+                        <!--  -->
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- subscription -->
+              <div class="tab-pane fade" id="nav-subscriptions" role="tabpanel">
+                {% include "instructors/components/subscriptions.html" %}
+              </div>
+              <!-- reviews -->
+              <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
+                <div class="_htg451">
+                  <div class="_htg452">
+                    <div class="row">
+                      <div class="col-lg-5">
+                        <div class="reviews_left">
+                          <h3>All Student Feedback</h3>
+                          <div class="total_rating">
+                            <div class="_rate001">4.6</div>
+                            <div class="rating-box">
+                              <span class="rating-star full-star"></span>
+                              <span class="rating-star full-star"></span>
+                              <span class="rating-star full-star"></span>
+                              <span class="rating-star full-star"></span>
+                              <span class="rating-star half-star"></span>
+                            </div>
+                            <div class="_rate002">All Rating</div>
+                          </div>
+                          <div class="_rate003">
+                            <div class="_rate004">
+                              <div class="progress progress1">
+                                <div
+                                  class="progress-bar w-70"
+                                  role="progressbar"
+                                  aria-valuenow="70"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <div class="rating-box">
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                              </div>
+                              <div class="_rate002">70%</div>
+                            </div>
+                            <div class="_rate004">
+                              <div class="progress progress1">
+                                <div
+                                  class="progress-bar w-30"
+                                  role="progressbar"
+                                  aria-valuenow="30"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <div class="rating-box">
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star empty-star"></span>
+                              </div>
+                              <div class="_rate002">40%</div>
+                            </div>
+                            <div class="_rate004">
+                              <div class="progress progress1">
+                                <div
+                                  class="progress-bar w-5"
+                                  role="progressbar"
+                                  aria-valuenow="10"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <div class="rating-box">
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                              </div>
+                              <div class="_rate002">5%</div>
+                            </div>
+                            <div class="_rate004">
+                              <div class="progress progress1">
+                                <div
+                                  class="progress-bar w-2"
+                                  role="progressbar"
+                                  aria-valuenow="2"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <div class="rating-box">
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                              </div>
+                              <div class="_rate002">1%</div>
+                            </div>
+                            <div class="_rate004">
+                              <div class="progress progress1">
+                                <div
+                                  class="progress-bar w-1"
+                                  role="progressbar"
+                                  aria-valuenow="0"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <div class="rating-box">
+                                <span class="rating-star full-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                                <span class="rating-star empty-star"></span>
+                              </div>
+                              <div class="_rate002">1%</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-7">
+                        <div class="review_right">
+                          <div class="review_right_heading">
+                            <a
+                              data-bs-toggle="modal"
+                              data-bs-target="#review_tutor"
+                              class="subscribe-btn btn500 text-center"
+                              type="button"
+                              role="button"
+                              href="#"
+                            >
+                              <span class="d-flex inline-block text-center">write a review</span>
+                            </a>
+                            <div class="review_search">
+                              <input
+                                class="rv_srch py-3"
+                                style="padding: 17px 10px !important"
+                                type="text"
+                                placeholder="Search reviews..."
+                              />
+                              <button
+                                class="rvsrch_btn"
+                                style="transform: translateY(3px) !important"
+                                type="button"
+                                role="button"
+                              >
+                                <i class="uil uil-search"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="review_all120 review_tutor_card">
+                          {% for review in reviews %}
+                          <!--  -->
+                          {% include "instructors/components/reviews/tutor.html"
+                          %}
+                          <!--  -->
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- footer -->
-    {% block footer %} {{ block.super }} {% endblock footer %}
-    <!-- /footer -->
+  </div>
+  <!-- footer -->
+  {% block footer %} {{ block.super }} {% endblock footer %}
+  <!-- /footer -->
 </div>
-<input type="hidden" name="instructor_pk" value="{{instructor.pk}}">
+<input type="hidden" name="instructor_pk" value="{{instructor.pk}}" />
 {% endblock wrapper %}
 <!-- -->
-{% block scripts %} {{ block.super }}
-<!-- -->
+{% block scripts %}
+<!--  -->
+{{ block.super }}
 <script>
   $(document).ready(function () {
+
+    const fm$ = $("form#reviewTutorModalLabel");
+    const fmBtn$ = fm$.find("button.subscribe-btn.btn500");
+    const fmSpinner$ = fmBtn$.find("span.spinner");
+    const fmBtnText$ = fmBtn$.find("span.btn-text");
+    const responseCard$ = $("div.review_all120.review_tutor_card");
+
+    $(fm$).submit(function (event) {
+      event.preventDefault();
+    });
+
+
     $(document).on(
       "click",
       ".unsave_course_btn, .save_course_btn",
@@ -704,9 +656,7 @@
             btn.find("i").toggleClass("uil-clock-three uil-check-circle");
             btn.find("span").text(isSaving ? "Saved" : "Save");
           },
-          error: function (xhr, status, error) {
-            console.error("Error:", error);
-          },
+          error: function (xhr, status, error) {},
         });
       }
     );
@@ -761,10 +711,8 @@
         contentType: false,
         success: function (response) {
           discussionArea.find(".review_all120").prepend(response);
-          console.log(response);
         },
         error: function (xhr, status, error) {
-          console.log(xhr.responseText);
           button.text("Error creating discussion");
         },
         complete: function () {
@@ -775,4 +723,6 @@
     });
   });
 </script>
+
+
 {% endblock scripts %}

@@ -58,8 +58,8 @@
           </a>
         </li>
         <li class="menu--item">
-          <a href="{% url 'ai_tools_view' %}" 
-          class="menu--link  {% if request.resolver_match.view_name == 'ai_tools_view' %}active{% endif %}" 
+          <a href="{% url 'tools:ai_tools_view' %}" 
+          class="menu--link  {% if request.resolver_match.view_name == 'tools:ai_tools_view' %}active{% endif %}" 
           title="AI">
             <i class="uil uil-robot menu--icon"></i>
             <span class="menu--label">AI</span>

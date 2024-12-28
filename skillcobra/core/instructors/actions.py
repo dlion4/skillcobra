@@ -1,24 +1,21 @@
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_POST
 
+from skillcobra.core.forms import ReviewForm
 from skillcobra.core.instructors.decorator import discussion_wrapper
 from skillcobra.school.forms import DiscussionForm
-from skillcobra.school.forms import DiscussionReplyForm
-from skillcobra.school.models import (
-    Course,
-    CourseSubscription,
-    Discussion,
-    Subscription,
-)
+from skillcobra.school.models import Course
+from skillcobra.school.models import CourseSubscription
+from skillcobra.school.models import Subscription
 from skillcobra.users.models import Profile
-from django.db import transaction
 
 
 @csrf_exempt
@@ -95,3 +92,30 @@ def subscribe_to_tutor(request, tutor_pk):
         status=201,
         safe=False,
     )
+
+
+@login_required
+@csrf_exempt
+@require_POST
+def review_tutor_view(request, *args, **kwargs):
+    reviewer = request.user.user_profile
+    review_form = ReviewForm(request.POST, profile=reviewer)
+    try:
+        tutor = get_object_or_404(
+            Profile,
+            pk=kwargs.get("pk"),
+            username=kwargs.get("username"),
+            user__role="instructor",
+        )
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.content_object = ContentType.objects.get_for_model(tutor)
+            review.save()
+            return render(
+                request,
+                "instructors/components/reviews/tutor.html",
+                {"review": review},
+            )
+        return JsonResponse({"message": "Invalid form data."}, status=400)
+    except (Profile.DoesNotExist, Exception) as e:
+        return JsonResponse({"message": str(e)}, status=400)

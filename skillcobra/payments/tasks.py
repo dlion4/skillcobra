@@ -51,7 +51,7 @@ def create_student_success_payment_transaction(
             student_cart.courses.remove(parent)
             student.save()
             bank_account, _ = Account.objects.get_or_create(holder=parent.tutor)
-            bank_account.account_balance += float(transaction_.amount)
+            bank_account.account_balance += Decimal(transaction_.amount)
             bank_account.save()
         if  parent.pk not in student.purchased_courses.values_list("pk", flat=True):
             student.purchased_courses.add(parent)

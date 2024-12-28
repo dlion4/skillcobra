@@ -35,13 +35,15 @@ class AuthorizedHomeViewMixin(LoginRequiredMixin, TemplateView):
 class HomeView(AuthorizedHomeViewMixin):
     template_name = "pages/home.html"
     course = Course
-    def get_newest_course(self):
+    def get_newest_courses(self):
         last_seven_days = timezone.now() - timedelta(days=7)
         return (Course.objects.filter(created_at__gt=last_seven_days))
+    def get_featured_courses(self):
+        return Course.objects.order_by("?")
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["newest_courses"] = self.get_newest_course()
-        context["featured_courses"] = self.get_newest_course()
+        context["newest_courses"] = self.get_newest_courses()
+        context["featured_courses"] = self.get_featured_courses()
         context["popular_tutors"] = self.get_popular_tutors()
         return context
     def get_popular_tutors(self):
@@ -111,8 +113,6 @@ class CertificationView(AuthorizedHomeViewMixin):
 
 class EditorListView(AuthorizedHomeViewMixin):
     template_name = "pages/editors.html"
-class ArtificialIntelligenceToolsView(AuthorizedHomeViewMixin):
-    template_name = "pages/ai_tools.html"
 
 class VirtualLearningView(AuthorizedHomeViewMixin):
     template_name = "pages/virtual_learning.html"

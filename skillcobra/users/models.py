@@ -30,6 +30,7 @@ class User(AbstractUser):
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
+
     # First and last name do not cover name patterns around the globe
     email = EmailField(_("email address"), unique=True)
     username = None
@@ -93,6 +94,9 @@ class Profile(models.Model):
         related_name="purchased_courses",
     )
     username = models.CharField(max_length=255, blank=True, null=True)  # noqa: DJ001
+    student_tutor_subscriptions = models.ManyToManyField(
+        "self", blank=True,
+    )
 
     def __str__(self):
         return self.user.email
@@ -110,6 +114,7 @@ class Profile(models.Model):
                 "username": self.username,
             },
         )
+
     def get_create_discussion_url(self):
         return reverse(
             "profile_instructors:create_discussion_view",
@@ -121,11 +126,16 @@ class Profile(models.Model):
 
     def get_all_courses(self):
         return self.course_tutor.all()
+
     def get_all_courses_attendance(self):
         courses = self.get_all_courses()
-        return Attendance.objects.filter(course__in=courses).aggregate(
-            total=Sum("attendance_counter"),
-        )["total"] or 0
+        return (
+            Attendance.objects.filter(course__in=courses).aggregate(
+                total=Sum("attendance_counter"),
+            )["total"]
+            or 0
+        )
+
     def get_courses_with_attendance(self):
         courses = self.get_all_courses()
         return courses.annotate(attendance=Count("course_attendance")).order_by(
@@ -205,15 +215,19 @@ class Profile(models.Model):
             students=self,
         ).first():
             # Return the list of Course instances that the tutor is associated with
-            return len([
-                course_sub.course
-                for course_sub in CourseSubscription.objects.filter(
-                    subscription=tutor_subscription,
-                )
-            ])
+            return len(
+                [
+                    course_sub.course
+                    for course_sub in CourseSubscription.objects.filter(
+                        subscription=tutor_subscription,
+                    )
+                ]
+            )
         return 0
+
     def get_purchased_courses_by_student_per_tutor(self):
         return self.purchased_courses.filter(tutor=self).all()
+
     def get_profile_payouts(self):
         return self._profile_payouts().order_by("-id")[:10]
 
@@ -223,16 +237,13 @@ class Profile(models.Model):
             return Decimal("0.00")
         return Decimal(total_fee["total_fee"])
 
-
     def _profile_payouts(self):
         return self.profile_instructor_payouts.all()
 
 
-
-
 @receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance:User, created, **kwargs):
+def create_or_update_user_profile(sender, instance: User, created, **kwargs):
     if created:
         profile = Profile.objects.create(user=instance)
-        profile.username =  instance.email[: instance.email.index("@")]
+        profile.username = instance.email[: instance.email.index("@")]
         profile.save()

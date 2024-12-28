@@ -41,6 +41,24 @@ class ReviewForm(forms.ModelForm):
             "rating",
             "content",
         ]
+        widgets = {
+            "rating": forms.NumberInput(
+                attrs={
+                    "placeholder": "Rate the course (1-5)",
+                    "class": "prompt srch_explore form-control",
+                    "max_length":1,
+                    "min": 1,
+                    "max": 5,
+                },
+            ),
+            "content": forms.Textarea(
+                attrs={
+                    "placeholder": "Enter your review",
+                    "class": "form-control",
+                    "rows": 3,
+                },
+            ),
+        }
     def __init__(self, *args, **kwargs):
         self.profile = kwargs.pop("profile", None)
         super().__init__(*args, **kwargs)
@@ -62,4 +80,3 @@ class EnrollmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.profile = kwargs.pop("profile", None)
         super().__init__(*args, **kwargs)
-

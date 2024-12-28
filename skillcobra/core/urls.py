@@ -86,8 +86,7 @@ urlpatterns = [
     ),
     path(
         "ai-tools/",
-        views.ArtificialIntelligenceToolsView.as_view(),
-        name="ai_tools_view",
+       include("skillcobra.core.tools.urls", namespace="tools"),
     ),
     path(
         "distant-learning/",

@@ -19,6 +19,11 @@ urlpatterns = [
         name="purchased-courses",
     ),
     path(
+        "purchased-courses/<course_pk>/<course_slug>/",
+        views.StudentPurchasedCourseDetailView.as_view(),
+        name="purchased_course_detail_view",
+    ),
+    path(
         "messages/",
         views.StudentMessagesView.as_view(),
         name="messages",

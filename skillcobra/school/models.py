@@ -235,6 +235,8 @@ class Course(models.Model):
         return self._object_url("courses:remove_course_from_cart")
     def get_random_rating(self):
         return round(random.uniform(3,5), 1)  # noqa: S311
+    def get_purchased_course_url(self):
+        return self._object_url("students:purchased_course_detail_view")
 
 
 class CourseCurriculum(models.Model):

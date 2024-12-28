@@ -1,0 +1,73 @@
+<div
+  class="modal fade"
+  id="review_tutor"
+  tabindex="-1"
+  aria-labelledby="reviewTutorModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <form
+      action="{{request.path}}"
+      method="post"
+      class="reviewTutorModalLabel"
+      id="reviewTutorModalLabel"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="form_name" value="review_tutor" />
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reviewTutorModalLabel">
+            Review:
+            <strong>{{instructor.title}}. {{instructor.full_name}}</strong>
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="new-section-block">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="new-section">
+                  <div class="form_group d-flex flex-column">
+                    <label
+                      class="label25"
+                      for="{{review_form.rating.id_for_label}}"
+                      >{{review_form.rating.label}}* (1-5)
+                    </label>
+                    {{review_form.rating}}
+                  </div>
+                  <div class="form_group d-flex flex-column py-2">
+                    <label
+                      class="label25"
+                      for="{{review_form.content.id_for_label}}"
+                      >{{review_form.content.label}}*
+                    </label>
+                    {{review_form.content}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="subscribe-btn btn500">
+            <span class="spinner" style="display: none"></span>
+            <span class="btn-text">Submit Review</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+  });
+</script>

@@ -71,7 +71,7 @@ class Review(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     parent = GenericForeignKey("content_type", "object_id")
-    rating = models.PositiveIntegerField()
+    rating = models.PositiveIntegerField(default=3)
     content = models.TextField()
     alert_message = models.CharField(max_length=355, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)

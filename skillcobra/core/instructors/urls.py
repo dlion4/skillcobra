@@ -2,6 +2,7 @@ from django.urls import path
 
 from .actions import create_discussion
 from .actions import delete_discussion
+from .actions import review_tutor_view
 from .actions import subscribe_to_tutor
 from .views import InstructorProfileView
 
@@ -11,6 +12,11 @@ urlpatterns = [
         "<pk>/<username>/",
         InstructorProfileView.as_view(),
         name="instructor_view",
+    ),
+    path(
+        "<pk>/<username>/tutor-review/create/",
+        review_tutor_view,
+        name="review_tutor_view",
     ),
     path(
         "<tutor_pk>/<tutor__user_username>/create_discussion",

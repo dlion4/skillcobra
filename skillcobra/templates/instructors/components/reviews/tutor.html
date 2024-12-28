@@ -1,0 +1,34 @@
+{% load static %}
+<!-- <div class="review_item_course_title">
+<a href="#">Course Title Here</a>
+</div> -->
+
+<div class="review_item">
+  <div class="review_usr_dt">
+    <img
+      src="{% if review.profile.avatar %}{{review.profile.avatar.url}}{% else %}{% static 'images/left-imgs/img-1.jpg' %}{% endif %}"
+      alt="{{review.profile.username}}"
+    />
+    <div class="rv1458">
+      <h4 class="tutor_name1">
+        {{review.profile.full_name|default:review.profile.username}}
+      </h4>
+      <span class="time_145">{{review.timestamp|timesince}} ago</span>
+    </div>
+  </div>
+
+  review_ratting_range
+  <div class="rating-box mt-20">
+    {% for i in review_ratting_range %}
+    <!--  -->
+    {% if i <= review.rating %}
+    <span class="rating-star full-star"></span>
+    {% else %}
+    <span class="rating-star empty-star"></span>
+    {% endif %}
+    <!--  -->
+    {% endfor %}
+  </div>
+
+  <p class="rvds10">{{review.content|safe|truncatewords:30}}</p>
+</div>
